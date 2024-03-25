@@ -1,97 +1,62 @@
 import React, { useState } from 'react'
-import BackButton from './BackButton'
-import { Form, Input, Button } from 'antd';
-import { MdOutlineAddPhotoAlternate } from "react-icons/md";
-import Swal from 'sweetalert2';
+import BackButton from "../../Components/BackButton"
+import { Button, Form, Input } from 'antd'
 
-const Profile = () => {
-    const [image, setImage] = useState("https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg");
-    const [imgURL, setImgURL] = useState(image);
-    const handleSubmit=(values)=>{
+const ChangePassword = () => {
+    const [newPassError, setNewPassError] = useState("");
+    const [conPassError, setConPassError] = useState("");
+    const [curPassError, setCurPassError] = useState("");
+
+    const handleChangePassword=(values)=>{
         console.log(values)
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Updated Successfully",
-            showConfirmButton: false,
-            timer: 1500
-        });
+        if(values?.current_password === values.new_password){
+            setNewPassError("The New password is semilar with old Password");
+        }else{
+            setNewPassError("")
+        }
+          
+        if(values?.new_password !== values.confirm_password){
+            setConPassError("New Password and Confirm Password Doesn't Matched");
+        }else{
+            setConPassError("")
+        }
     }
+
     const handleReset=()=>{
         window.location.reload()
     }
-    const onChange = (e) => {
-        const file= e.target.files[0];
-        const imgUrl = URL.createObjectURL(file);
-        setImgURL(imgUrl);
-        setImage(file)
-    };
-    const initialFormValues = {
-        fullName: "Nadir Hossain",
-        email: "nadirhossain336@gmail.com",
-        mobile_number: "01756953936"
-    };
 
     return (
         <div>
             <div style={{margin: "30px 0"}}>
                 <BackButton link="/" />
             </div>
-
-            <div style={{display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "38px"}}>
-                <input onChange={onChange} type="file" name="" id="img" style={{display: "none"}} />
-                <label  
-                    htmlFor="img" 
-                    style={{
-                        width: "130px", 
-                        cursor: "pointer", 
-                        height: "130px", 
-                        borderRadius: "18px", 
-                        border: "1px dashed #4C535F", 
-                        background: "white",
-                        backgroundImage: `url(${imgURL})`, 
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        
-                    }}
-                >
-                    <div 
-                        style={{
-                            background: "rgba(0, 0, 0, 0.4)",
-                            width: "100%", 
-                            height: "100%", 
-                            borderRadius: "18px",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems:"center",
-                            justifyContent: "center",
-                            
-                        }}
-                    >
-                        <MdOutlineAddPhotoAlternate size={36} color='white' />
-                        <p style={{color:'white', marginTop: "12px"}}>Upload Photo</p>
-                    </div>
-                </label>
-            </div>
-
             <div style={{display: "flex",  alignItems: "center", justifyContent: "center"}}>
                 <Form
                     name="normal_login"
                     className="login-form"
-                    initialValues={initialFormValues}
+                    initialValues={{
+                        remember: true,
+                    }}
                     style={{width: "543px", height: "fit-content"}}
-                    onFinish={handleSubmit}
+                    onFinish={handleChangePassword}
                 >
 
                     <div style={{marginBottom: "20px"}}>
-                        <label style={{display: "block", marginBottom: "5px" }}>Full Name</label>
+                        <label style={{display: "block", marginBottom: "5px" }}>Current Password</label>
                         <Form.Item
                             style={{marginBottom: 0}}
-                            name="fullName"
+                            name="current_password"
+                            rules={[
+                                {
+                                required: true,
+                                message: "Please input your current password!",
+                                },
+                            ]}
                         >
-                            <Input
-                                placeholder="Enter Your Full Name"
-                                type="text"
+                            <Input.Password
+                                placeholder="Enter Password"
+                                type="password"
                                 style={{
                                 border: "1px solid #E0E4EC",
                                 height: "52px",
@@ -101,17 +66,24 @@ const Profile = () => {
                                 }}
                             />
                         </Form.Item>
+                        { curPassError && <label style={{display: "block", color: "red"}} htmlFor="error">{curPassError}</label>}
                     </div>
     
                     <div style={{marginBottom: "20px"}}>
-                        <label style={{display: "block", marginBottom: "5px" }} htmlFor="">Email</label>
+                        <label style={{display: "block", marginBottom: "5px" }} htmlFor="">New Password</label>
                         <Form.Item
-                            name="email"
+                            name="new_password"
+                            rules={[
+                                {
+                                required: true,
+                                message: "Please input your new Password!",
+                                },
+                            ]}
                             style={{marginBottom: 0}}
                         >
-                            <Input
-                                type="text"
-                                placeholder="Enter Email"
+                            <Input.Password
+                                type="password"
+                                placeholder="Enter password"
                                 style={{
                                 border: "1px solid #E0E4EC",
                                 height: "52px",
@@ -121,17 +93,24 @@ const Profile = () => {
                                 }}
                             />
                         </Form.Item>
+                        { newPassError && <label style={{display: "block", color: "red"}} htmlFor="error">{newPassError}</label>}
                     </div>
     
                     <div style={{marginBottom: "40px"}}>
-                        <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Phone Number</label>
+                        <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Re-Type Password</label>
                         <Form.Item
                             style={{marginBottom: 0}}
-                            name="mobile_number"
+                            name="confirm_password"
+                            rules={[
+                                {
+                                required: true,
+                                message: "Please input your Re-type Password!",
+                                },
+                            ]}
                         >
-                            <Input
-                                type="text"
-                                placeholder="Enter Phone Number"
+                            <Input.Password
+                                type="password"
+                                placeholder="Enter password"
                                 style={{
                                 border: "1px solid #E0E4EC",
                                 height: "52px",
@@ -141,6 +120,7 @@ const Profile = () => {
                                 }}
                             />
                         </Form.Item>
+                        { conPassError && <label style={{display: "block", color: "red"}} htmlFor="error">{conPassError}</label>}
                     </div>
 
                     <div style={{width: "100%", display: "flex", gap: "16px", alignItems: "center"}}>
@@ -188,4 +168,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default ChangePassword

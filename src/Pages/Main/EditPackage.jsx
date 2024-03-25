@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button, Input } from "antd"
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { useNavigate} from "react-router-dom"
-import BackButton from './BackButton';
+import BackButton from '../../Components/BackButton';
 import Swal from 'sweetalert2';
 const EditPackage = () => {
     const navigate = useNavigate();

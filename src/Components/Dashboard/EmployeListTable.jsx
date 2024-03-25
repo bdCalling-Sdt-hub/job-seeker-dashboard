@@ -71,25 +71,15 @@ const EmployeListTable = () =>{
         title: "Location",
         dataIndex: "location",
         key: "location",
-      },
-      {
-        title: "ACTION",
-        dataIndex: "printView",
-        key: "printView",
-        render: (_,record) => (
-          <Link to="/">
-            <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/visible--v1.png" alt="visible--v1" style={{ cursor: "pointer" }}/>
-          </Link>
-        ),
-      },
+      }
   ];
 
   return(
     <div className="h-fit rounded-[8px] bg-white p-6" >
-      <div style={{display: "flex", alignItems: "center", marginBottom: "15px", justifyContent: "space-between"}}>
-        <h1 style={{fontSize: "20px", fontWeight: 600, color: "#2F2F2F"}}>All Employer List</h1>
+      <div className="flex items-center justify-between mb-[15px]">
+        <h1 className="text-[20px] font-semibold text-[#2f2f2f]">All Employer List</h1>
         <Link to="/seller-list">
-          <p style={{color: "#2FD5C7", fontSize:"12px", textDecoration: "underline"}}>VIEW ALL</p>
+          <p className="text-[#3C64A4] text-[12px] underline">VIEW ALL</p>
         </Link>
       </div>
       <Table 

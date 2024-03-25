@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import BackButton from "../Dashboard/BackButton";
+import BackButton from "../../Components/BackButton";
 import { MdOutlineFilterList } from 'react-icons/md';
 import { FiEye, FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';

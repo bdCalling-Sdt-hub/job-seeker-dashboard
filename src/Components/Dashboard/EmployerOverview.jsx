@@ -81,7 +81,7 @@ const data = [
 ];
 
 
-export default function DailyRentChart() {
+export default function EmployerOverview() {
   const [year, setYear] = useState(2024)
 
   const items = [
@@ -105,38 +105,12 @@ export default function DailyRentChart() {
   const onClick = ({ key }) => {
     setYear(key)
   };
-
-  /* useEffect(() => {
-    if(year !== 2024){
-      window.history.pushState(null, "", `?year=${year}`);
-    }
-  }, [year]);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const yearParam = searchParams.get('year');
-    if (yearParam) {
-      const parsedYear = parseInt(yearParam, 10);
-      setYear(parsedYear);
-    } else {
-      window.location.reload();
-    }
-  }, []); */
-
-
     return (
       <div>
-        <div style={{display : "flex", alignItems: "center", justifyContent : "space-between"}}>
-          <p style={{marginTop:"0px", fontSize: "20px", fontWeight: 600, marginBottom:"10px", color: "black",}}>Employer Overview</p>
+        <div className='flex items-center justify-between'>
+          <p className='text-[20px] font-semibold mb-[10px] text-black'>Employer Overview</p>
           <Dropdown menu={{ items, onClick }} >
-            <p style={{
-              // width: "79px", 
-              cursor: "pointer", 
-              color:'#717171', 
-              border: "1px solid #E9E9E9",
-              borderRadius: "4px",
-              padding: "4px 12px"
-            }} onClick={(e) => e.preventDefault()}
+            <p  className="cursor-pointer text-[#717171] border border-[#E9E9E9] rounded-[4px] py-1 px-3" onClick={(e) => e.preventDefault()}
             >
               {year}
               <DownOutlined style={{paddingLeft: "18px"}} color='#717171' />
@@ -144,18 +118,18 @@ export default function DailyRentChart() {
           </Dropdown>
         </div>
 
-        <div style={{display: "flex", alignItems: "center", gap: "31px", marginBottom: "19px"}}>
-          <div style={{display:"flex"}}>
-            <p style={{fontSize: "12px", fontWeight: 400, color: "#808080",marginRight:"10px"}}>Overly Growth</p>
-            <h1 style={{fontSize: "14px", fontWeight: 700, color: "#2F2F2F"}}>38.38%</h1>
+        <div className='flex items-center gap-[31px] mb-5'>
+          <div className='flex gap-[10px]'>
+            <p className='text-xs font-normal text-[#808080]'>Overly Growth</p>
+            <h1 className='text-sm font-bold text-[#2f2f2f]'>38.38%</h1>
           </div>
-          <div  style={{display:"flex"}}>
-            <p style={{fontSize: "12px", fontWeight: 400, color: "#808080",marginRight:"10px"}}>Monthly</p>
-            <h1 style={{fontSize: "14px", fontWeight: 700, color: "#2F2F2F"}}>15.5%</h1>
+          <div className='flex gap-[10px]'>
+            <p className='text-xs font-normal text-[#808080]'>Monthly</p>
+            <h1 className='text-sm font-bold text-[#2f2f2f]'>15.5%</h1>
           </div>
-          <div  style={{display:"flex"}}>
-            <p style={{fontSize: "12px", fontWeight: 400, color: "#808080",marginRight:"10px"}}>Daily</p>
-            <h1 style={{fontSize: "14px", fontWeight: 700, color: "#2F2F2F"}}>58.50%</h1>
+          <div className='flex gap-[10px]'>
+            <p className='text-xs font-normal text-[#808080]'>Daily</p>
+            <h1 className='text-sm font-bold text-[#2f2f2f]'>58.50%</h1>
           </div>
         </div>
 

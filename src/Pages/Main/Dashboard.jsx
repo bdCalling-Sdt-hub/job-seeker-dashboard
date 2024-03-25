@@ -269,7 +269,6 @@ const Dashboard = () => {
 
             
           </li>
-////////////////////////////
           <li
             style={{
               width: "100%",
@@ -305,7 +304,7 @@ const Dashboard = () => {
             paddingLeft: "270px"
           }}
         >
-          <div
+          <div className="w-[512px] "
             style={{
               width: "512px",
               height: "42px",
@@ -325,38 +324,19 @@ const Dashboard = () => {
             />
           </div>
 
-          <div
-            style={{
-              width: "280px",
-              display: "flex", 
-              alignItems: "center",
-              // gap: "16px",
-              justifyContent: "space-between"
-            }}
-          >
-            <Badge color="#23A095" count={5}>
+          <div className="w-[280px] flex items-center justify-between">
+            <Badge color="#FBA51A" count={5}>
               <Link to="/emails" >
                 <RiChat1Line color="#6A6A6A" size={24} />
               </Link>
             </Badge>
 
-            <Badge color="#C30303" count={5}>
+            <Badge color="#FBA51A" count={5}>
               <Link to="/notification" >
                 <RiNotification2Line color="#6A6A6A" size={24} />
               </Link>
             </Badge>
-            <div
-              style={{
-                width: "170px",
-                height:"42px",
-                background: "#FFFFFF",
-                borderRadius: "5px",
-                display: "flex", 
-                alignItems: "center",
-                gap: "20px",
-                padding: "10px"
-              }}
-            >
+            <div className="w-[171px] h-[42px] bg-[#ffffff] rounded-[5px] flex items-center gap-5 p-[10px]">
               <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLotvhr2isTRMEzzT30Cj0ly77jFThGXr0ng&usqp=CAU" style={{width: "30px", height: "30px", borderRadius: "100%"}} alt="" />
               <h2 style={{color: "black", fontSize: "10px"}}>DR. Jim ahhmed</h2>
             </div>

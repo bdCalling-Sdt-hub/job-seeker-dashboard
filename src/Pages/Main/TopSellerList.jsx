@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import BackButton from './BackButton'
+import BackButton from '../../Components/BackButton'
 import { Table } from 'antd'
 import Swal from 'sweetalert2';
 import { CiMenuKebab } from 'react-icons/ci';

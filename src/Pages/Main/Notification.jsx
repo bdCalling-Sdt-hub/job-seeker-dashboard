@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import React, { useState } from 'react'
 import { RiDeleteBin6Line } from "react-icons/ri";
-import BackButton from './BackButton';
+import BackButton from '../../Components/BackButton';
 
 const data = [
     {

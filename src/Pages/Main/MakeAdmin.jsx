@@ -1,7 +1,7 @@
 import { Form, Input, Modal, Table, Button } from 'antd';
 import React, { useState } from 'react'
 import { MdOutlineDelete } from 'react-icons/md';
-import BackButton from './BackButton';
+import BackButton from '../../Components/BackButton';
 
 
 const data = [

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import BackButton from './BackButton';
+import BackButton from '../../Components/BackButton';
 import { AiOutlineStock } from "react-icons/ai";
 import { Dropdown } from 'antd';
 import { DownOutlined } from "@ant-design/icons";

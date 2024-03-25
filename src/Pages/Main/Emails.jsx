@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import BackButton from './BackButton';
+import BackButton from '../../Components/BackButton';
 import { HiOutlineMail } from "react-icons/hi";
 import { Input, Pagination } from 'antd';
 import { FiSearch } from 'react-icons/fi';

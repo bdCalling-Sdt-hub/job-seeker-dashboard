@@ -1,24 +1,24 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import Dashboard from "./Pages/Dashboard/Dashboard";
-import DashboardHome from "./Pages/Dashboard/DashboardHome/DashboardHome";
-import Notification from "./Pages/Dashboard/Notification";
+import Dashboard from "./Pages/Main/Dashboard";
+import DashboardHome from "./Pages/Main/DashboardHome";
+import Notification from "./Pages/Main/Notification";
 import Otp from "./Pages/Auth/Otp";
 import Login from "./Pages/Auth/Login";
 import UpdatePassword from "./Pages/Auth/UpdatePassword";
 import NotFound from "./404";
 import PrivateRoute from "./routes/PrivateRoute";
-import Package from "./Pages/Dashboard/Package";
-import EditPackage from "./Pages/Dashboard/EditPackage";
-import MakeAdmin from "./Pages/Dashboard/MakeAdmin";
-import ChangePassword from "./Pages/Dashboard/ChangePassword";
-import Profile from "./Pages/Dashboard/Profile";
+import Package from "./Pages/Main/Package";
+import EditPackage from "./Pages/Main/EditPackage";
+import MakeAdmin from "./Pages/Main/MakeAdmin";
+import ChangePassword from "./Pages/Main/ChangePassword";
+import Profile from "./Pages/Main/Profile";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
-import SellerDetails from "./Pages/Dashboard/SellerDetails";
-import Emails from "./Pages/Dashboard/Emails";
-import SellerProductList from "./Pages/Dashboard/SellerProductList";
-import TotalSellerList from "./Pages/Dashboard/TotalSellerList";
-import TopSellerList from "./Pages/Dashboard/TopSellerList";
+import SellerDetails from "./Pages/Main/SellerDetails";
+import Emails from "./Pages/Main/Emails";
+import SellerProductList from "./Pages/Main/SellerProductList";
+import TotalSellerList from "./Pages/Main/TotalSellerList";
+import TopSellerList from "./Pages/Main/TopSellerList";
 
 function App() {
   return (
