@@ -21,6 +21,7 @@ import Emails from "./Pages/Main/Emails";
 import SellerProductList from "./Pages/Main/SellerProductList";
 import TotalSellerList from "./Pages/Main/TotalSellerList";
 import TopSellerList from "./Pages/Main/TopSellerList";
+import Settings from "./Pages/Main/Settings";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
             <Route exact path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute> }>
               <Route path="/" element={<DashboardHome />} />
               <Route path="/notification" element={<Notification />} />
-              <Route path="/package" element={<Package />} />
+              <Route path="/subscription" element={<Package />} />
               <Route path="/edit-package" element={<EditPackage />} />
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/setting-change-password" element={<ChangePassword />} />
@@ -41,6 +42,7 @@ function App() {
               <Route path="/seller-product-list" element={<SellerProductList />} />
               <Route path="/emails" element={<Emails />} />
               <Route path="/top-seller-list" element={<TopSellerList />} />
+              <Route path="/settings" element={<Settings />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

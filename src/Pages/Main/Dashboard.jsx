@@ -14,6 +14,7 @@ const { Header, Sider, Content } = Layout;
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { AiOutlineDollarCircle } from "react-icons/ai";
 
 
 const Dashboard = () => {
@@ -39,14 +40,29 @@ const Dashboard = () => {
       icon: <LuUser size={24} />,
     },
     {
+      title: "Subscription",
+      path: "/subscription",
+      icon: <RiCopperDiamondLine size={24} />,
+    },
+    {
+      title: "Accounts",
+      path: "/accounts",
+      icon: <AiOutlineDollarCircle size={24} />,
+    },
+    {
+      title: "Contacts",
+      path: "/emails",
+      icon: <HiOutlineMail size={24} />,
+    },
+    {
       title: "Make Admin",
       path: "/make-admin",
       icon: <TbUserPlus size={24} />,
     },
     {
-      title: "Email",
-      path: "/emails",
-      icon: <HiOutlineMail size={24} />,
+      title: "Settings",
+      path: "/settings",
+      icon: <IoSettingsOutline size={24} />,
     },
    
   ];
@@ -100,44 +116,53 @@ const Dashboard = () => {
           }} 
         >
           {linkItems.map((item, index) => (
-            <li
-                key={index}
-                style={{
-                  width: "100%",
-                  height: "34px",
-                  position: "relative",
-                  paddingLeft: "44px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                {
-                  item.path === pathname
-                  ?
-                  <div style={{backgroundColor: "#4365b6", position: "absolute", left:0, top: 0, width: "8px", height: "35px", borderRadius: "0 10px 10px 0"}}></div>
-                  :
-                  null
-
-                }
-                <Link 
-                  to={item.path} 
+            <Link to={item.path}>
+              <li
+                  key={index}
                   style={{
+                    width: "100%",
+                    height: "34px",
+                    position: "relative",
+                    paddingLeft: "44px",
                     display: "flex",
-                    color: item.path === pathname ? "#4365b6" : "#6A6D7C", 
                     alignItems: "center",
-                    margin: "auto  0 auto 0",
-                    gap: "14px"
                   }}
                 >
-                  <div style={{height: "24px",}}>{item.icon}</div>
-                  <div style={{fontSize: "14px", textAlign: "center", height: "fit-content"}}>{item.title}</div>
-                </Link>
-            </li>
+                  {
+                    item.path === pathname
+                    ?
+                    <div style={{backgroundColor: "#4365b6", position: "absolute", left:0, top: 0, width: "8px", height: "35px", borderRadius: "0 10px 10px 0"}}></div>
+                    :
+                    null
+
+                  }
+                  <div
+                    style={{
+                      display: "flex",
+                      color: item.path === pathname ? "#4365b6" : "#6A6D7C", 
+                      alignItems: "center",
+                      margin: "auto  0 auto 0",
+                      gap: "14px"
+                    }}
+                  >
+                    <div style={{height: "24px",}}>{item.icon}</div>
+                    <div style={{fontSize: "14px", textAlign: "center", height: "fit-content"}}>{item.title}</div>
+                    {
+                      item.path === "/emails" ? <div className="w-[30px] h-5 flex items-center justify-center border border-[#565656] rounded-[4px] text-[11px]">40+</div> : null
+                    }
+                    
+                    {
+                      item.path === "/subscription" ? <MdKeyboardArrowRight size={24} /> : null
+                    }
+                    
+                  </div>
+              </li>
+            </Link>
             
           ))}
         {/* start */}
 
-          <li
+          {/* <li
             style={{
               width: "100%",
               marginTop: 0,
@@ -194,11 +219,11 @@ const Dashboard = () => {
             }
 
             
-          </li>
+          </li> */}
 
          {/* end */}
 
-          <li
+          {/* <li
             style={{
               width: "100%",
               marginTop: 0,
@@ -268,7 +293,9 @@ const Dashboard = () => {
             }
 
             
-          </li>
+          </li> */}
+
+
           <li
             style={{
               width: "100%",
@@ -297,7 +324,7 @@ const Dashboard = () => {
             height: "80px",
             zIndex: 1,
             padding: 0,
-            background: "#EAFBF9",
+            background: "#ECF1F8",
             display: "flex",
             justifyContent: "space-between",
             paddingRight: "60px",
@@ -349,7 +376,7 @@ const Dashboard = () => {
             marginBottom: "20px",
             marginLeft: "255px",
             marginRight: "40px",
-            background: "#EAFBF9",
+            background: "#ECF1F8",
             overflow: "auto",
             padding: "20px"
           }}
