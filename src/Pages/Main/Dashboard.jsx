@@ -51,7 +51,7 @@ const Dashboard = () => {
     },
     {
       title: "Contacts",
-      path: "/emails",
+      path: "/contacts",
       icon: <HiOutlineMail size={24} />,
     },
     {
@@ -148,7 +148,7 @@ const Dashboard = () => {
                     <div style={{height: "24px",}}>{item.icon}</div>
                     <div style={{fontSize: "14px", textAlign: "center", height: "fit-content"}}>{item.title}</div>
                     {
-                      item.path === "/emails" ? <div className="w-[30px] h-5 flex items-center justify-center border border-[#565656] rounded-[4px] text-[11px]">40+</div> : null
+                      item.path === "/contacts" ? <div className="w-[30px] h-5 flex items-center justify-center border border-[#565656] rounded-[4px] text-[11px]">40+</div> : null
                     }
                     
                     {
@@ -353,7 +353,7 @@ const Dashboard = () => {
 
           <div className="w-[280px] flex items-center justify-between">
             <Badge color="#FBA51A" count={5}>
-              <Link to="/emails" >
+              <Link to="/contacts" >
                 <RiChat1Line color="#6A6A6A" size={24} />
               </Link>
             </Badge>

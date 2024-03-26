@@ -10,7 +10,7 @@ import { LuSend } from "react-icons/lu";
 import { TfiLink } from "react-icons/tfi";
 import { FaFileImage } from "react-icons/fa";
 
-const Emails = () => {
+const Contacts = () => {
     const [tab, setTab] = useState(new URLSearchParams(window.location.search).get('tab') || "inbox");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const [search, setSearch] = useState("");
@@ -42,52 +42,28 @@ const Emails = () => {
             </div>
 
             {/* sidebar */}
-            <div
-                style={{
-                    height: "81vh",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px"
-                }}
-            >
-                <div 
-                    style={{
-                        width: "290px",
-                        height: "100%",
-                        border: "1px solid #F5F5F5",
-                        padding: "24px",
-                        background: "white",
-                        borderRadius: "8px"
-                    }}
-                >
+            <div className='h-[81vh] flex items-center gap-4'>
+                <div  className='w-[290px] h-full border border-[#F5F5F5] p-4 bg-white rounded-lg'>
                     <button
                         onClick={()=>handleTab("compose")}
-                        style={{
-                            width: "100%", 
-                            height: "42px", 
-                            background: "#2FD5C7", 
-                            color: "white", 
-                            borderRadius: "8px",
-                            border: "none",
-                            outline: "none",
-                            marginBottom: "24px",
-                            cursor: "pointer"
-                        }}
-                    >+ Compose</button>
+                        className='w-full h-[42px] bg-[#436FB6] text-white rounded-lg border-none outline-none mb-4 cursor-pointer'
+                    >
+                        + Compose
+                    </button>
 
-                    <p style={{fontSize: "16px", fontWeight: 400, color: "#494949"}}>My Emails</p>
+                    <p className='text-base font-normal text-[#494949]'>My Emails</p>
                     <div
                         onClick={()=>handleTab("inbox")}
                         style={{
                             width: "100%", 
                             height: "42px", 
-                            background: "#E3F9F7", 
+                            background: "#C5D2E8", 
                             borderRadius: "8px",
                             marginTop: "14px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            color: "#2FD5C7",
+                            color: "#325389",
                             padding: "0 16px",
                             cursor: "pointer"
                         }}
@@ -97,7 +73,7 @@ const Emails = () => {
                                 display: "flex",
                                 alignItems: "center",
                                 gap: "8px",
-                                color: "#2FD5C7"
+                                color: "#325389"
                             }}
                         >
                             <HiOutlineMail size={17} />
@@ -122,42 +98,27 @@ const Emails = () => {
                         tab === "inbox"
                         && 
                         <div>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    padding: "24px 24px 10px 24px",
-                                }}
-                            >
-                                <div
+                            <div style={{ padding: "24px 24px 10px 24px" }}>
+                                <Input
+                                    onChange={(e)=>setSearch(e.target.value)}
+                                    placeholder="Search..."
+                                    prefix={<FiSearch size={14} color="#868FA0"/>}
+                                    suffix={<IoClose onClick={()=>setSearch("")} style={{cursor: "pointer"}} size={14} color="#2B2A2A" />}
                                     style={{
-                                    width: "512px",
-                                    height: "42px",
-                                    borderRadius: "8px"
+                                        width: "502px",
+                                        height: "100%",
+                                        fontSize: "14px",
+                                        height: "48px",
                                     }}
-                                >
-                                    <Input
-                                        onChange={(e)=>setSearch(e.target.value)}
-                                        placeholder="Search..."
-                                        prefix={<FiSearch size={14} color="#868FA0"/>}
-                                        suffix={<IoClose onClick={()=>setSearch("")} style={{cursor: "pointer"}} size={14} color="#2B2A2A" />}
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            fontSize: "14px"
-                                        }}
-                                        value={search}
-                                        size="middle"
-                                    />
-                                </div>
-                                <MdDelete  style={{cursor: "pointer"}} size={25} />
+                                    value={search}
+                                    size="middle"
+                                />
                             </div>
                             
                             {/* email list */}
                             <div>
                                 {
-                                    [...Array(10).keys()].map((item, index)=>
+                                    [...Array(9).keys()].map((item, index)=>
                                         <div key={index}
                                             style={{
                                                 borderBottom: "1px solid #E0E0E0"
@@ -173,7 +134,10 @@ const Emails = () => {
                                             >
                                                 <p>Jullu Jalal</p>
                                                 <p>Our Bachelor of Commerce program is ACBSP-accredited.</p>
-                                                <p>8:38 AM</p>
+                                                <div className='flex items-center gap-[70px]'>
+                                                    <p>8:38 AM</p>
+                                                    <MdDelete  style={{cursor: "pointer"}} size={25} />
+                                                </div>
                                             </div>
                                         </div>
                                     
@@ -186,7 +150,7 @@ const Emails = () => {
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: 'center',
-                                marginTop: "25px"
+                                marginTop: "24px"
                             }}>
                                 <Pagination 
                                     defaultCurrent={parseInt(page)} 
@@ -237,7 +201,7 @@ const Emails = () => {
                                 {/* email form and to  */}
                                 <div style={{padding: "0 0 30px 24px"}}>
                                     <div style={{display: "flex", alignItems: "center", gap: "15px", marginBottom: "24px"}}>
-                                        <label htmlFor="">From:</label>
+                                        <label htmlFor="">To:</label>
                                         <Input
                                             label="Form"
                                             onChange={(e)=>setFrom(e.target.value)}
@@ -245,14 +209,18 @@ const Emails = () => {
                                             style={{
                                                 width: "400px",
                                                 height: "42px",
-                                                fontSize: "14px"
+                                                fontSize: "14px",
+                                                border: "none",
+                                                outline: "none",
+                                                background:"#F1F4F9",
+                                                marginLeft: "35px"
                                             }}
                                             value={from}
                                             size="middle"
                                         />
                                     </div>
                                     <div style={{display: "flex", alignItems: "center", gap: "15px"}}>
-                                        <label htmlFor="">To:</label>
+                                        <label htmlFor="">Subject:</label>
                                         <Input
                                             label="Form"
                                             placeholder="Search..."
@@ -261,7 +229,9 @@ const Emails = () => {
                                                 width: "400px",
                                                 height: "42px",
                                                 fontSize: "14px",
-                                                marginLeft: "17px"
+                                                background:"#F1F4F9",
+                                                border: "none",
+                                                outline: "none",
                                             }}
                                             value={to}
                                             size="middle"
@@ -283,6 +253,9 @@ const Emails = () => {
                                             height: "365px",
                                             fontSize: "14px",
                                             resize: 'none',
+                                            background:"#F1F4F9",
+                                            border: "none",
+                                            outline: "none",
                                         }}
                                     />
                                 </div>
@@ -321,7 +294,7 @@ const Emails = () => {
                                                 width: "120px",
                                                 height:"38px",
                                                 borderRadius: "8px",
-                                                background: "#2FD5C7",
+                                                background: "#436FB6",
                                                 color: "white",
                                                 display: "flex",
                                                 alignItems: "center",
@@ -346,4 +319,4 @@ const Emails = () => {
     )
 }
 
-export default Emails; 
+export default Contacts; 

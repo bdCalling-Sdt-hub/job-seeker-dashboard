@@ -17,7 +17,7 @@ import ChangePassword from "./Pages/Main/ChangePassword";
 import Profile from "./Pages/Main/Profile";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import SellerDetails from "./Pages/Main/SellerDetails";
-import Emails from "./Pages/Main/Emails";
+import Contacts from "./Pages/Main/Contacts";
 import SellerProductList from "./Pages/Main/SellerProductList";
 import EmployerList from "./Pages/Main/EmployerList";
 import TopSellerList from "./Pages/Main/TopSellerList";
@@ -40,7 +40,7 @@ function App() {
               <Route path="/employer-list" element={<EmployerList  />} />
               <Route path="/seller-details/:id" element={<SellerDetails />} />
               <Route path="/seller-product-list" element={<SellerProductList />} />
-              <Route path="/emails" element={<Emails />} />
+              <Route path="/contacts" element={<Contacts />} />
               <Route path="/top-seller-list" element={<TopSellerList />} />
               <Route path="/settings" element={<Settings />} />
             </Route>
