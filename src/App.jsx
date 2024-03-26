@@ -6,6 +6,7 @@ import DashboardHome from "./Pages/Main/DashboardHome";
 import Notification from "./Pages/Main/Notification";
 import Otp from "./Pages/Auth/Otp";
 import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
 import UpdatePassword from "./Pages/Auth/UpdatePassword";
 import NotFound from "./404";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -46,6 +47,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/otp" element={<Otp />} />
             <Route path="/update-password" element={<UpdatePassword />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

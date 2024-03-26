@@ -17,6 +17,7 @@ const UpdatePassword = () => {
       showDenyButton: false,
       showCancelButton: false,
       confirmButtonText: "Confirm",
+      confirmButtonColor:"#436FB6"
     }).then((result) => {
       if (result.isConfirmed) {
         navigate("/")
@@ -25,23 +26,14 @@ const UpdatePassword = () => {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        background: "#BFF2EE",
-        height: "100vh",
-        display:"flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
-    >
+    <div className="w-full bg-[#FCFCFC] h-screen flex items-center justify-center">
       <Form
         name="normal_login"
-        className="login-form"
+        className="w-[630px] bg-white rounded-xl py-[90px] px-[57px] relative"
+        style={{boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"}}
         initialValues={{
           remember: true,
         }}
-        style={{width: "630px", background: "white", borderRadius: "12px", padding: "90px 57px"}}
         onFinish={onFinish}
       >
         <h1 style={{fontSize: "32px", color: "#6A6D7C", marginBottom: "13px", textAlign: "center"}}>Set a new password</h1>
@@ -51,7 +43,7 @@ const UpdatePassword = () => {
         </p>
     
         <div style={{margin: "45px 0 20px 0"}}>
-            <label style={{display: "block", color:"#6A6D7C", marginBottom: "5px" }} htmlFor="">New Password</label>
+            <label style={{display: "block", color:"#6A6D7C", marginBottom: "13px" }} htmlFor="">New Password</label>
             <Form.Item
                 name="new_password"
                 rules={[
@@ -63,22 +55,23 @@ const UpdatePassword = () => {
                 style={{marginBottom: 0}}
             >
                 <Input.Password
-                    type="password"
-                    placeholder="Enter New password"
-                    style={{
-                    border: "1px solid #E0E4EC",
-                    height: "52px",
-                    background: "white",
-                    borderRadius: "8px",
-                    outline: "none",
-                    }}
+                  type="password"
+                  placeholder="Enter New password"
+                  style={{
+                    border: "none",
+                    height: "48px",
+                    background: "#F1F4F9",
+                    borderRadius: "90px",
+                    padding: "0 16px",
+                    outline: "none"
+                  }}
                 />
             </Form.Item>
             { newPassError && <label style={{display: "block", color: "red"}} htmlFor="error">{newPassError}</label>}
         </div>
     
         <div style={{marginBottom: "40px"}}>
-            <label style={{display: "block", color:"#6A6D7C", marginBottom: "5px" }} htmlFor="email">Confirm Password</label>
+            <label style={{display: "block", color:"#6A6D7C", marginBottom: "13px" }} htmlFor="email">Confirm Password</label>
             <Form.Item
                 style={{marginBottom: 0}}
                 name="confirm_password"
@@ -93,11 +86,12 @@ const UpdatePassword = () => {
                     type="password"
                     placeholder="Enter Confirm password"
                     style={{
-                    border: "1px solid #E0E4EC",
-                    height: "52px",
-                    background: "white",
-                    borderRadius: "8px",
-                    outline: "none",
+                      border: "none",
+                      height: "48px",
+                      background: "#F1F4F9",
+                      borderRadius: "90px",
+                      padding: "0 16px",
+                      outline: "none"
                     }}
                 />
             </Form.Item>
@@ -111,15 +105,15 @@ const UpdatePassword = () => {
             block
             style={{
               border: "none",
-              height: "51px",
-              background: "#2FD5C7",
+              height: "48px",
+              background: "#436FB6",
               color: "white",
-              borderRadius: "8px",
-              outline: "none",
-              marginTop: ""
+              borderRadius: "90px",
+              padding: "0 16px",
+              outline: "none"
             }}
           >
-            UPDATE
+            UPDATE PASSWORD
           </Button>
         </Form.Item>
       </Form>

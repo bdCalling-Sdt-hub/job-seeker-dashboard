@@ -2,6 +2,7 @@ import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
 import React from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 const Login = () => {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -120,7 +121,10 @@ const Login = () => {
             </Button>
           </Form.Item>
 
-          <p className="text-center text-[16px] font-normal text-[#202224]">Don’t have an account? <span className="text-[18px] font-normal text-[#436FB6] underline">Create Account</span></p>
+          <p className="text-center text-[16px] font-normal text-[#202224]">
+            Don’t have an account?   {"  "}
+            <Link to="/register" className="text-[18px] font-normal text-[#436FB6] underline">Create Account</Link>
+          </p>
         </Form>
     </div>
   );
