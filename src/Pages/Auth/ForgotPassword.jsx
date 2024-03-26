@@ -2,6 +2,7 @@ import { Button, Form, Input, Typography } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Navigate from "../../Components/Navigate";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -19,30 +20,21 @@ const ForgotPassword = () => {
     });
   };
   return (
-    <div
-      style={{
-        width: "100%",
-        background: "#BFF2EE",
-        height: "100vh",
-        display:"flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
-    >
+    <div className="w-full bg-[#FCFCFC] h-screen flex items-center justify-center">
       <Form 
         name="normal_login"
-        className="password-form"
+        className="w-[630px] bg-white rounded-xl py-[90px] px-[57px] relative"
+        style={{boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"}}
         initialValues={{
           remember: true,
-        }}
-        style={{width: "630px", background: "white", borderRadius: "12px", padding: "90px 57px"}}
-        
+        }}        
         onFinish={onFinish}
       >
-        <h1 style={{fontSize: "32px", marginBottom: "54px", color: "#494949", textAlign: "center"}}>Forgot Password</h1>
+        <Navigate link="/login" />
+        <h1 className="text-[32px] font-semibold text-[#494949] mb-[54px] text-center">Forgot Password</h1>
 
-          <div style={{marginBottom: "24px"}}>
-            <label htmlFor="email" style={{display: "block", marginBottom: "5px" }}> Email Address</label>
+          <div>
+            <label htmlFor="email" style={{display: "block", color:"#6A6D7C", fontWeight: 400, marginBottom: "13px" }}> Email Address</label>
             <Form.Item
               style={{marginBottom: 0}}
               name="email"
@@ -58,11 +50,15 @@ const ForgotPassword = () => {
                 placeholder="Enter your email address"
                 type="email"
                 style={{
-                  border: "1px solid #E0E4EC",
-                  height: "52px",
-                  background: "white",
-                  borderRadius: "8px",
-                  outline: "none",
+                  border: "none",
+                  height: "48px",
+                  background: "#F1F4F9",
+                  borderRadius: "90px",
+                  padding: "0 16px",
+                  color: "#A6A6A6",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  outline: "none"
                 }}
 
               />
@@ -76,13 +72,12 @@ const ForgotPassword = () => {
               className="login-form-button"
               block
               style={{
-                height: "45px",
+                height: "48px",
                 fontWeight: "400px",
                 fontSize: "18px",
-                background: "#2FD5C7",
-                color: "white",
-                alignSelf: "bottom",
-                marginTop: "30px",
+                background: "#436FB6",
+                borderRadius: "90px",
+                marginTop: "40px",
               }}
             >
               Send a Code
