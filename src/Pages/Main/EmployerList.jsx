@@ -3,12 +3,12 @@ import BackButton from "../../Components/BackButton";
 import { MdOutlineFilterList } from 'react-icons/md';
 import { FiEye, FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
-import { Calendar, Dropdown, Input, Slider, Table } from 'antd';
+import { Calendar, Dropdown, Input, Pagination, Slider, Table } from 'antd';
 import { DownOutlined } from "@ant-design/icons";
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { CiMenuKebab } from 'react-icons/ci';
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const data = [
   {
@@ -16,7 +16,7 @@ const data = [
     companyname: "spark tech",
     category: "IT",
     location: "Banasree",
-    status: "Active",
+    status: "Pending",
   },
   {
     key: "2",
@@ -30,7 +30,7 @@ const data = [
     companyname: "spark tech",
     category: "IT",
     location: "Banasree",
-    status: "Active",
+    status: "Inactive",
   },
   {
     key: "4",
@@ -44,21 +44,21 @@ const data = [
     companyname: "spark tech",
     category: "IT",
     location: "Banasree",
-    status: "Active",
+    status: "Pending",
   },
   {
     key: "6",
     companyname: "spark tech",
     category: "IT",
     location: "Banasree",
-    status: "Active",
+    status: "Inactive",
   },
   {
     key: "7",
     companyname: "spark tech",
     category: "IT",
     location: "Banasree",
-    status: "Active",
+    status: "Pending",
   },
   {
     key: "8",
@@ -83,15 +83,11 @@ const data = [
   },
 ];
 
-const TotalSellerList = () => {
-  const [value, setValue] = useState(new URLSearchParams(window.location.search).get('date') || new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }));
+const EmployerList = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState(new URLSearchParams(window.location.search).get('category') || "All")
   const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
-  const [open, setOpen] = useState();
-  const [filter, setFilter] = useState(false);
-  const [date, setDate] = useState(false);
-  const dropdownRef = useRef();
+
   const items = [
     {
       label: "All",
@@ -133,83 +129,6 @@ const TotalSellerList = () => {
     });
   }
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDate(false)
-        setOpen("");
-        setFilter(false);
-      }
-    };
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
-
-  const columns = [
-    {
-      title: "S.No",
-      dataIndex: "key",
-      key: "key",
-    },
-    {
-      title: "Company Name",
-      dataIndex: "companyname",
-      key: "company",
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
-    },
-
-    {
-      title: "Location",
-      dataIndex: "location",
-      key: "location",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (_, record) => (
-        <p
-          style={{
-            width: "88px",
-            height: "31px",
-            borderRadius: "100px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: record?.status === "Active" ? "#E0F9F7" : "#FFC3C3",
-            color: record?.status === "Active" ? "#2FD5C7" : "#9C0101"
-          }}
-        >
-          {record?.status}
-        </p>
-      )
-    },
-
-
-    {
-      title: "ACTION",
-      dataIndex: "printView",
-      key: "printView",
-      render: (_, record) => (
-        <div style={{ position: "relative" }}>
-          <Link to="/">
-            <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/visible--v1.png" alt="visible--v1" style={{ cursor: "pointer" }} />
-          </Link>
-
-
-
-        </div>
-      ),
-    },
-  ];
-
   const handlePageChange = (page) => {
     setPage(page);
     const params = new URLSearchParams(window.location.search);
@@ -224,40 +143,18 @@ const TotalSellerList = () => {
     window.history.pushState(null, "", `?${params.toString()}`);
   };
 
-
-
-  const onSelect = (newValue) => {
-    const date = newValue.format('MMM-DD-YYYY')
-    setValue(date);
-    const params = new URLSearchParams(window.location.search);
-    params.set('date', date);
-    window.history.pushState(null, "", `?${params.toString()}`);
-  };
-
   return (
     <div>
       <div style={{ marginBottom: "16px" }}>
         <BackButton link="/" />
       </div>
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "12px"
-        }}
-      >
-        <h1 style={{ fontSize: "20px", fontWeight: 600, color: "#2F2F2F" }}>Total Employer List</h1>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "16px 0" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+      <div className='bg-white p-5 rounded-xl'>
+        <h1 className='text-[20px] font-semibold text-[#2F2F2F]'>Total Employer List</h1>
 
 
-            <div
-              style={{
-                width: "304px",
-                height: "30px",
-                borderRadius: "8px"
-              }}
-            >
+
+        <div className='flex items-center justify-between my-4'>
+          <div className='w-[450px] h-[40px] rounded-lg'>
               <Input
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search Company"
@@ -272,23 +169,10 @@ const TotalSellerList = () => {
                 value={search}
               />
             </div>
-          </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", position: "relative" }}>
+          <div className='flex items-center gap-4 relative'>
 
-            <div
-              style={{
-
-                height: "30px",
-                borderRadius: "8px",
-                border: "1px solid #E9E9E9",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "5px 8px",
-                color: "#8B8B8B"
-              }}
-            >
+            <div className='h-[40px] rounded-[8px] border border-[#E9E9E9] flex items-center justify-between px-2 py-[5px] text-[#8B8B8B]'>
 
               <Dropdown menu={{ items, onClick }} >
                 <p
@@ -307,16 +191,73 @@ const TotalSellerList = () => {
 
           </div>
         </div>
-
+        
+        {/* employee table list */}
         <div>
-          <Table
-            columns={columns}
-            dataSource={data}
-            pagination={{
-              pageSize: 10,
-              defaultCurrent: parseInt(page),
-              onChange: handlePageChange
-            }}
+          <table className="w-full rounded-[5px] rounded-table">
+            <tr className="text-left w-full bg-[#FEE3B8] " style={{borderRadius: "8px"}}>
+              {
+                ["Serial No", "Company Name", "Category", "Location", "Status", "Action"].map((item, index)=>
+                  <th
+                    style={{
+                      borderTopLeftRadius: item === "Serial No" ? "8px" : 0,
+                      borderBottomLeftRadius: item === "Serial No" ? "8px" : 0,
+                      borderTopRightRadius: item === "Action" ? "8px" : 0,
+                      borderBottomRightRadius: item === "Action" ? "8px" : 0,
+                    }} 
+                    key={index} 
+                    className="py-[10px] px-10"
+                  >
+                    {item}
+                  </th>
+                )
+              }
+            </tr>
+
+            
+            {
+              (data?.slice(0, 8))?.map((item, index)=>
+              <>
+                <div key={index} style={{marginTop: '8px'}}></div>
+                <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
+                  <td className="py-[10px] pl-10">{item.key}</td>
+                  <td className="py-[10px] pl-10">{item.companyname}</td>
+                  <td className="py-[10px] pl-10">{item.category}</td>
+                  <td className="py-[10px] pl-10">{item.location}</td>
+                  <td className="py-[10px] pl-10">
+                    <p style={{
+                      width: "88px",
+                      height: "31px",
+                      borderRadius: "100px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // background: item?.status === "Active" ? "#B0ECB2" : "#F8B5B0",
+                      // color: item?.status === "Active" ? "#009B06" : "#BA0E00"
+                    }} 
+                      className={`
+                        ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
+                        ${item?.status === "Inactive" && "bg-[#F8B5B0] text-[#BA0E00]"}
+                        ${item?.status === "Pending" && "bg-[#C5D2E8] text-[#365992]"}
+                      `}
+                    >
+                      {item?.status}
+                    </p>
+                  </td>
+                  <td className="py-[10px] pl-10 cursor-pointer"><MdOutlineRemoveRedEye color='#6F6F6F' size={24} /></td>
+                </tr>
+              </>
+              )
+            }
+          </table>
+        </div>
+
+        {/* pagination */}
+        <div className='mt-6 flex items-center justify-center'>
+          <Pagination 
+            defaultCurrent={page} 
+            total={50} 
+            onChange={handlePageChange}
           />
         </div>
       </div>
@@ -324,4 +265,4 @@ const TotalSellerList = () => {
   )
 }
 
-export default TotalSellerList
+export default EmployerList

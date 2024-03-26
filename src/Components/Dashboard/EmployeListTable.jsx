@@ -47,7 +47,7 @@ const EmployeListTable = () =>{
     <div className="h-fit rounded-[8px] bg-white p-6" >
       <div className="flex items-center justify-between mb-[15px]">
         <h1 className="text-[20px] font-semibold text-[#2f2f2f]">All Employer List</h1>
-        <Link to="/seller-list">
+        <Link to="/employer-list">
           <p className="text-[#3C64A4] text-[12px] underline">VIEW ALL</p>
         </Link>
       </div>
@@ -87,6 +87,8 @@ const EmployeListTable = () =>{
           )
         }
       </table>
+
+      
     </div>
   )
 

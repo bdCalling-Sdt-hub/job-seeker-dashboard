@@ -36,7 +36,7 @@ const Dashboard = () => {
     },
     {
       title: "Employer",
-      path: "/seller-list",
+      path: "/employer-list",
       icon: <LuUser size={24} />,
     },
     {

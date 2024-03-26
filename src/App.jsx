@@ -19,7 +19,7 @@ import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import SellerDetails from "./Pages/Main/SellerDetails";
 import Emails from "./Pages/Main/Emails";
 import SellerProductList from "./Pages/Main/SellerProductList";
-import TotalSellerList from "./Pages/Main/TotalSellerList";
+import EmployerList from "./Pages/Main/EmployerList";
 import TopSellerList from "./Pages/Main/TopSellerList";
 import Settings from "./Pages/Main/Settings";
 
@@ -37,7 +37,7 @@ function App() {
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/setting-change-password" element={<ChangePassword />} />
               <Route path="/settings-profile" element={<Profile />} />
-              <Route path="/seller-list" element={<TotalSellerList  />} />
+              <Route path="/employer-list" element={<EmployerList  />} />
               <Route path="/seller-details/:id" element={<SellerDetails />} />
               <Route path="/seller-product-list" element={<SellerProductList />} />
               <Route path="/emails" element={<Emails />} />
