@@ -73,3 +73,16 @@
   width: 100% !important;
   height: 190px !important;
 }
+
+.ant-table-wrapper .ant-table-container table>thead>tr:first-child >*:first-child{
+  border-bottom-left-radius: 8px !important;
+}
+
+.ant-table-wrapper .ant-table-container table>thead>tr:last-child >*:last-child{
+  border-bottom-right-radius: 8px !important;
+}
+
+.ant-table-row .ant-table-row-level-0::before{
+  content: "" ;
+  margin-top: 8px !important;
+}

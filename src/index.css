@@ -35,7 +35,8 @@ ul , li {
   display: none !important;
 }
 .ant-table-wrapper .ant-table-tbody >tr >td{
-  border-bottom: none !important;
+  padding-top: 10px !important;
+  /* border-bottom: none !important; */
 }
 .ant-table-wrapper .ant-table-thead>tr>th{
   padding: 10px 16px !important;
@@ -76,14 +77,12 @@ ul , li {
 .ant-table-row-level-0{
   background: #F2F8FE !important;
 }
+.custom-table-row td:first-child{
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
 
-.custom-confirm-button-class{
-  width: 100% !important;
-  background-color: red !important;
-  color: white;
-  
-  border: none !important;
-  outline: none !important;
-  padding: 10px 20px;
-  border-radius: 5px;
+.custom-table-row td:last-child{
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
 }

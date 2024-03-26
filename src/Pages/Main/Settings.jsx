@@ -1,6 +1,7 @@
 import React from 'react'
 import BackButton from '../../Components/BackButton';
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
     const settingsItem = [
@@ -32,6 +33,8 @@ const Settings = () => {
         },
         
     ];
+
+    const navigate = useNavigate();
     return (
         <div>
             <div style={{marginBottom: "24px"}}>
@@ -56,8 +59,9 @@ const Settings = () => {
                                 justify-between 
                                 cursor-pointer 
                                 hover:bg-[#e6f1fc] 
-                                hover:text-black"
-                            // onClick={() => handleNavigate(setting.path)}
+                                hover:text-black
+                            "
+                            onClick={() => navigate(`/settings/${setting.path}`)}
                         >
                             <h2>{setting.title}</h2>
                             <MdKeyboardArrowRight color='#4365b6' size={24} />

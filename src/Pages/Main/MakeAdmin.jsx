@@ -122,36 +122,71 @@ const MakeAdmin = () => {
     return (
         <div >
             <div style={{margin: "24px 0"}}>
-                <div style={{display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%"}} >
+                <div className='flex items-center justify-between w-full'>
                     <BackButton link="/" />
-                    <button 
+                    <button className='w-[164px] h-[36px] rounded-[90px] text-white bg-[#436FB6] border-none outline-none'
                         onClick={()=>setOpenAddModel(true)}
-                        style={{
-                            width: "164px",
-                            height: "36px",
-                            borderRadius:"8px",
-                            color:"white",
-                            backgroundColor:"#2FD5C7",
-                            border:"none",
-                            outline: "none",
-                            cursor: "pointer"
-                        }}
                     >
                         Make Admin
                     </button>
                 </div>
             </div>
-            <Table columns={columns} dataSource={data} pagination={false} />
+
+            {/* admin table list */}
+            <div className='bg-white px-3 rounded-md py-4 w-full'>
+                <table className="w-full rounded-[5px]">
+                    <tr className="text-left w-full bg-[#FEE3B8]" style={{borderRadius: "8px"}}>
+                    {
+                        ["Full Name", "Email", "User Type", "Action"].map((item, index)=>
+                        <th
+                            style={{
+                                borderTopLeftRadius: item === "Full Name" ? "8px" : 0,
+                                borderBottomLeftRadius: item === "Full Name" ? "8px" : 0,
+                                borderTopRightRadius: item === "Action" ? "8px" : 0,
+                                borderBottomRightRadius: item === "Action" ? "8px" : 0,
+                            }} 
+                            key={index} 
+                            className="py-[10px] px-10"
+                        >
+                            {item}
+                        </th>
+                        )
+                    }
+                    </tr>
+
+                    
+                    {
+                        (data?.slice(0, 4))?.map((item, index)=>
+                            <>
+                                <div key={index} style={{marginTop: '8px'}}></div>
+                                    <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
+                                    <td className="py-[10px] pl-10">{item.fullName}</td>
+                                    <td className="py-[10px] pl-10">{item.email}</td>
+                                    <td className="py-[10px] pl-10">{item.userType}</td>
+                                    <td className="py-[10px] pl-10">
+                                        <MdOutlineDelete 
+                                            onClick={()=>handleDelete(record)} 
+                                            className='cursor-pointer' 
+                                            size={25} 
+                                            color='red'
+                                        />
+                                    </td>
+                                </tr>
+                            </>
+                        )
+                    }
+                </table>
+            </div>
 
             <Modal
+                title="Make Admin"
                 centered
                 open={openAddModel}
                 onCancel={() => setOpenAddModel(false)}
                 width={500}
                 footer={false}
             >
-                <div>
-                    <h1 style={{marginBottom: "12px"}}>Make Admin</h1>
+                <div className='mt-5'>
                     <Form
                         name="normal_login"
                         initialValues={{
@@ -174,11 +209,15 @@ const MakeAdmin = () => {
                                     placeholder="Enter Full Name"
                                     type="text"
                                     style={{
-                                    border: "1px solid #E0E4EC",
-                                    height: "52px",
-                                    background: "white",
-                                    borderRadius: "8px",
-                                    outline: "none",
+                                        border: "none",
+                                        padding:"0 16px",
+                                        height: "48px",
+                                        background: "#F1F4F9",
+                                        borderRadius: "90px",
+                                        outline: "none",
+                                        fontSize: "16px",
+                                        fontWeight: 400,
+                                        color: "#D1D2D6"
                                     }}
                                 />
                             </Form.Item>
@@ -200,11 +239,15 @@ const MakeAdmin = () => {
                                     type="text"
                                     placeholder="Enter User Email"
                                     style={{
-                                    border: "1px solid #E0E4EC",
-                                    height: "52px",
-                                    background: "white",
-                                    borderRadius: "8px",
-                                    outline: "none",
+                                        border: "none",
+                                        padding:"0 16px",
+                                        height: "48px",
+                                        background: "#F1F4F9",
+                                        borderRadius: "90px",
+                                        outline: "none",
+                                        fontSize: "16px",
+                                        fontWeight: 400,
+                                        color: "#D1D2D6"
                                     }}
                                 />
                             </Form.Item>
@@ -226,11 +269,15 @@ const MakeAdmin = () => {
                                     type="password"
                                     placeholder="Enter User password"
                                     style={{
-                                    border: "1px solid #E0E4EC",
-                                    height: "52px",
-                                    background: "white",
-                                    borderRadius: "8px",
-                                    outline: "none",
+                                        border: "none",
+                                        padding:"0 16px",
+                                        height: "48px",
+                                        background: "#F1F4F9",
+                                        borderRadius: "90px",
+                                        outline: "none",
+                                        fontSize: "16px",
+                                        fontWeight: 400,
+                                        color: "#D1D2D6"
                                     }}
                                 />
                             </Form.Item>
@@ -246,11 +293,14 @@ const MakeAdmin = () => {
                                     type="Text"
                                     placeholder="Enter User password"
                                     style={{
-                                        border: "1px solid #E0E4EC",
-                                        height: "52px",
-                                        background: "white",
-                                        borderRadius: "8px",
+                                        border: "none",
+                                        padding:"0 16px",
+                                        height: "48px",
+                                        background: "#F1F4F9",
+                                        borderRadius: "90px",
                                         outline: "none",
+                                        fontSize: "16px",
+                                        fontWeight: 400,
                                     }}
                                     defaultValue="ADMIN"
                                     readOnly
@@ -265,10 +315,10 @@ const MakeAdmin = () => {
                                 block
                                 style={{
                                     border: "none",
-                                    height: "52px",
-                                    background: "#2FD5C7",
+                                    height: "48px",
+                                    background: "#436FB6",
                                     color: "white",
-                                    borderRadius: "8px",
+                                    borderRadius: "90px",
                                     outline: "none",
                                 }}
                             >
