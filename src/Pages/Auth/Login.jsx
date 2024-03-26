@@ -10,28 +10,21 @@ const Login = () => {
   const navigate = useNavigate();
 
   return (
-    <div 
-      style={{
-        width: "100%",
-        background: "#BFF2EE",
-        height: "100vh",
-        display:"flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
-    >
+    <div className="w-full bg-[#FCFCFC] h-screen flex items-center justify-center" >
         <Form
           name="normal_login"
-          className="login-form"
+          className="w-[630px] bg-white rounded-xl py-[90px] px-[57px]"
+          style={{boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"}}
           initialValues={{
             remember: true,
           }}
-          style={{width: "630px", background: "white", borderRadius: "12px", padding: "90px 57px"}}
           onFinish={onFinish}
         >
-          <h1 style={{fontSize: "32px", color: "#6A6D7C", textAlign: "center"}}>Login in to Account</h1>
-          <div style={{marginBottom: "24px"}}>
-            <label htmlFor="email" style={{display: "block", marginBottom: "5px" }}> Email </label>
+          <h1 className="text-[32px] text-[#6A6D7C] text-center">Login in to Account</h1>
+          <p className="text-lg text-[#6A6D7C] text-center font-normal mt-[11px] mb-[34px]">Please enter your email and password to continue</p>
+
+          <div style={{marginBottom: "48px"}}>
+            <label htmlFor="email" style={{display: "block", marginBottom: "13px" }}> Email </label>
             <Form.Item
               style={{marginBottom: 0}}
               name="email"
@@ -47,19 +40,23 @@ const Login = () => {
                 placeholder="Enter your email address"
                 type="email"
                 style={{
-                  border: "1px solid #E0E4EC",
-                  height: "52px",
-                  background: "white",
-                  borderRadius: "8px",
-                  outline: "none",
+                  border: "none",
+                  height: "48px",
+                  background: "#F1F4F9",
+                  borderRadius: "90px",
+                  padding: "0 16px",
+                  color: "#A6A6A6",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  outline: "none"
                 }}
 
               />
             </Form.Item>
           </div>
 
-          <div style={{marginBottom: "24px"}}>
-            <label style={{display: "block", marginBottom: "5px" }} htmlFor="password">Password</label>
+          <div style={{marginBottom: "32px"}}>
+            <label style={{display: "block", marginBottom: "13px" }} htmlFor="password">Password</label>
             <Form.Item
               style={{marginBottom: 0}}
               name="password"
@@ -74,24 +71,28 @@ const Login = () => {
                 type="password"
                 placeholder="Enter your password"
                 style={{
-                  border: "1px solid #E0E4EC",
-                  height: "52px",
-                  background: "white",
-                  borderRadius: "8px",
-                  outline: "none",
+                  border: "none",
+                  height: "48px",
+                  background: "#F1F4F9",
+                  borderRadius: "90px",
+                  padding: "0 16px",
+                  color: "#A6A6A6",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  outline: "none"
                 }}
               />
             </Form.Item>
           </div>
 
 
-          <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+          <div className="flex items-center justify-between">
             <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox style={{color: "#6A6D7C"}}>Remember me</Checkbox>
+              <Checkbox style={{color: "#6F6F6F"}}>Remember me</Checkbox>
             </Form.Item>
             <a
               className="login-form-forgot"
-              style={{ color: "#6A6D7C" }}
+              style={{ color: "#FBA51A" }}
               href="/forgot-password"
             >
               Forgot password
@@ -107,16 +108,19 @@ const Login = () => {
               className="login-form-button"
               block
               style={{
-                height: "52px",
+                height: "48px",
                 fontWeight: "400px",
                 fontSize: "18px",
-                background: "#2FD5C7",
-                marginTop: "56px",
+                background: "#436FB6",
+                borderRadius: "90px",
+                margin: "40px 0",
               }}
             >
               Sign In
             </Button>
           </Form.Item>
+
+          <p className="text-center text-[16px] font-normal text-[#202224]">Don’t have an account? <span className="text-[18px] font-normal text-[#436FB6] underline">Create Account</span></p>
         </Form>
     </div>
   );
