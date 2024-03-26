@@ -1,49 +1,49 @@
-import { Button, Form, Input } from "antd";
+import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import OTPInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Navigate from "../../Components/Navigate"
 
 const Otp = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [err, setErr] = useState("");
+  const [open, setOpen] = useState(false)
 
   const handleResendEmail = () => {
     const email = JSON.parse(localStorage.getItem("email"));
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Send OTP ",
+      showConfirmButton: false,
+      timer: 1500
+    });
 
   };
   const handleVerifyOtp=()=>{
-    Swal.fire({
-      title: "Password Reset",
-      text: "Your password has been successfully reset. click confirm to set a new password",
-      showDenyButton: false,
-      showCancelButton: false,
-      confirmButtonText: "Confirm",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("/update-password")
-      }
-    });
+    setOpen(true)
+  }
+
+  const handleClose=()=>{
+    setOpen(false)
   }
 
   return (
-    <div
-      style={{
-        width: "100%",
-        background: "#BFF2EE",
-        height: "100vh",
-        display:"flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
-    >
-      <div style={{width: "630px",  background: "white", borderRadius: "12px", padding: "90px 57px"}}>
-        <h1 style={{fontSize: "32px", color: "#6A6D7C", marginBottom: "13px", textAlign: "center"}}>Check your email</h1>
+    <div className="w-full bg-[#FCFCFC] h-screen flex items-center justify-center">
+      <div 
+        className="w-[630px] bg-white rounded-xl py-[90px] px-[57px] relative"
+        style={{boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"}}
+      >
+
+        <h1 className="text-[32px] text-[#6A6D7C] mb-[13px] text-center">Check your email</h1>
         <p style={{width: "380px", color: "#B8B8B8",  margin: "0 auto 0 auto"}}>
           We sent a reset link to <span style={{color: "#545454"}}> contact@dscode...com </span>
           enter 6 digit code that mentioned in the email
         </p>
+
+
         <div style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "30px",}}>
           <OTPInput
             value={otp}
@@ -56,35 +56,52 @@ const Otp = () => {
               marginRight: "16px",
               fontSize: "20px",
               border: "1px solid #A9A9A9",
-              color: "#2B2A2A",
+              color: "#6B6B6B",
               outline: "none"
             }}
             renderInput={(props) => <input {...props} />}
           />
         </div>
+
+
         <Button
           onClick={handleVerifyOtp}
               block
               htmlType="submit"
               style={{
-                height: "52px",
+                height: "48px",
                 fontWeight: "400px",
                 fontSize: "18px",
-                color: "white",
-                background: "#2FD5C7",
-                marginTop: "30px",
-                border: "none",
-                outline: "none",
-                marginBottom: "20px"
+                background: "#436FB6",
+                borderRadius: "90px",
+                margin: "40px 0",
+                color: "white"
               }}
             >
               Verify
         </Button>
-        <p style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
-          Didn’t receive code?
-          <p onClick={handleResendEmail} style={{color: "#2FD5C7", textDecoration: "underline", cursor: "pointer"}}>Resend </p>
+        <p className="text-center text-[#6A6D7C]">
+          Didn’t receive code? {" "}
+          <span onClick={handleResendEmail} className="text-[#436FB6] underline cursor-pointer">Resend </span>
         </p>
       </div>
+
+      {
+        open &&
+        <Modal
+          centered 
+          open={open}
+          onCancel={false}
+          closeIcon={handleClose}
+          footer={false}
+        >
+          <h1 className="text-[32px] text-[#6A6D7C] mb-[13px] text-center">Password reset</h1>
+          <p style={{width: "320px", color: "#6A6D7C",  margin: "0 auto 0 auto"}}>
+            Your password has been successfully reset. click confirm to set a new password
+          </p>
+          <button onClick={()=>navigate("/update-password")} className="w-full mt-10 h-[48px] text-white bg-[#436FB6] rounded-[90px]">Confirm</button>
+        </Modal>
+      }
     </div>
   );
 };

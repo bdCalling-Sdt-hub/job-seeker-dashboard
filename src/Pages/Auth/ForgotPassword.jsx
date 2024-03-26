@@ -30,7 +30,6 @@ const ForgotPassword = () => {
         }}        
         onFinish={onFinish}
       >
-        <Navigate link="/login" />
         <h1 className="text-[32px] font-semibold text-[#494949] mb-[54px] text-center">Forgot Password</h1>
 
           <div>
