@@ -1,11 +1,6 @@
-import { Button, Table, } from "antd";
-import React, { useEffect, useRef, useState } from "react";
-import { FiEye, } from "react-icons/fi";
+import { Table } from "antd";
+import React from "react";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { CiMenuKebab } from "react-icons/ci";
-
 
 const data = [
   {
@@ -47,7 +42,6 @@ const data = [
 ];
 
 const EmployeListTable = () =>{
-  const [open, setOpen] = useState();
   
 
   const columns = [
@@ -86,6 +80,7 @@ const EmployeListTable = () =>{
         columns={columns} 
         dataSource={data?.slice(0, 4)} 
         pagination={false}
+        className="employee-table"
       />
     </div>
   )

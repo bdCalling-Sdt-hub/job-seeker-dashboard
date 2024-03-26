@@ -1,5 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
+import 'antd/dist/reset.css';
 import Dashboard from "./Pages/Main/Dashboard";
 import DashboardHome from "./Pages/Main/DashboardHome";
 import Notification from "./Pages/Main/Notification";

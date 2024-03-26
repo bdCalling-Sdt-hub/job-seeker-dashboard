@@ -80,3 +80,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm{
 .ant-table-thead tr th{
   background-color: #fee3b8!important;
 }
+
+.ant-table-row-level-0{
+  background: #F2F8FE !important;
+}
