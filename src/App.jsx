@@ -34,7 +34,7 @@ function App() {
               <Route path="/" element={<DashboardHome />} />
               <Route path="/notification" element={<Notification />} />
               <Route path="/subscription" element={<Subscription />} />
-              <Route path="/edit-package" element={<EditSubscription />} />
+              <Route path="/edit-subscription/:name" element={<EditSubscription />} />
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/setting-change-password" element={<ChangePassword />} />
               <Route path="/settings-profile" element={<Profile />} />

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate} from "react-router-dom"
+import { useNavigate, useParams} from "react-router-dom"
 import BackButton from '../../Components/BackButton';
 import { Form, Input, Button } from 'antd';
 import {  PlusOutlined } from '@ant-design/icons';
 
 const EditSubscription = () => {
-    const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || "Basic");
+    const { name } = useParams();
+    console.log(name)
+    const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || name);
     const navigate = useNavigate();
 
     const handleChangeEditPage=(value)=>{
