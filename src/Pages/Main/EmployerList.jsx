@@ -195,19 +195,10 @@ const EmployerList = () => {
         {/* employee table list */}
         <div>
           <table className="w-full rounded-[5px] rounded-table">
-            <tr className="text-left w-full bg-[#FEE3B8] " style={{borderRadius: "8px"}}>
+            <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
               {
                 ["Serial No", "Company Name", "Category", "Location", "Status", "Action"].map((item, index)=>
-                  <th
-                    style={{
-                      borderTopLeftRadius: item === "Serial No" ? "8px" : 0,
-                      borderBottomLeftRadius: item === "Serial No" ? "8px" : 0,
-                      borderTopRightRadius: item === "Action" ? "8px" : 0,
-                      borderBottomRightRadius: item === "Action" ? "8px" : 0,
-                    }} 
-                    key={index} 
-                    className="py-[10px] px-10"
-                  >
+                  <th key={index}>
                     {item}
                   </th>
                 )
@@ -220,22 +211,13 @@ const EmployerList = () => {
               <>
                 <div key={index} style={{marginTop: '8px'}}></div>
                 <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
-                  <td className="py-[10px] pl-10">{item.key}</td>
-                  <td className="py-[10px] pl-10">{item.companyname}</td>
-                  <td className="py-[10px] pl-10">{item.category}</td>
-                  <td className="py-[10px] pl-10">{item.location}</td>
-                  <td className="py-[10px] pl-10">
-                    <p style={{
-                      width: "88px",
-                      height: "31px",
-                      borderRadius: "100px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      // background: item?.status === "Active" ? "#B0ECB2" : "#F8B5B0",
-                      // color: item?.status === "Active" ? "#009B06" : "#BA0E00"
-                    }} 
-                      className={`
+                  <td>{item.key}</td>
+                  <td>{item.companyname}</td>
+                  <td>{item.category}</td>
+                  <td>{item.location}</td>
+                  <td>
+                    <p 
+                      className={` w-[88px] h-[31px] rounded-[100px] flex items-center justify-center
                         ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
                         ${item?.status === "Inactive" && "bg-[#F8B5B0] text-[#BA0E00]"}
                         ${item?.status === "Pending" && "bg-[#C5D2E8] text-[#365992]"}

@@ -10,8 +10,8 @@ import Register from "./Pages/Auth/Register";
 import UpdatePassword from "./Pages/Auth/UpdatePassword";
 import NotFound from "./404";
 import PrivateRoute from "./routes/PrivateRoute";
-import Package from "./Pages/Main/Package";
-import EditPackage from "./Pages/Main/EditPackage";
+import Subscription from "./Pages/Main/Subscription";
+import EditSubscription from "./Pages/Main/EditSubscription";
 import MakeAdmin from "./Pages/Main/MakeAdmin";
 import ChangePassword from "./Pages/Main/ChangePassword";
 import Profile from "./Pages/Main/Profile";
@@ -22,7 +22,7 @@ import SellerProductList from "./Pages/Main/SellerProductList";
 import EmployerList from "./Pages/Main/EmployerList";
 import TopSellerList from "./Pages/Main/TopSellerList";
 import Settings from "./Pages/Main/Settings";
-import Accounts from "./Pages/Main/Accounts";
+import Subscribers from "./Pages/Main/Subscribers";
 
 function App() {
   return (
@@ -33,8 +33,8 @@ function App() {
             <Route exact path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute> }>
               <Route path="/" element={<DashboardHome />} />
               <Route path="/notification" element={<Notification />} />
-              <Route path="/subscription" element={<Package />} />
-              <Route path="/edit-package" element={<EditPackage />} />
+              <Route path="/subscription" element={<Subscription />} />
+              <Route path="/edit-package" element={<EditSubscription />} />
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/setting-change-password" element={<ChangePassword />} />
               <Route path="/settings-profile" element={<Profile />} />
@@ -44,7 +44,7 @@ function App() {
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/top-seller-list" element={<TopSellerList />} />
               <Route path="/settings" element={<Settings />} />
-              <Route path="/accounts" element={<Accounts/>} />
+              <Route path="/subscribers" element={<Subscribers/>} />
             </Route>
 
             <Route path="/login" element={<Login />} />

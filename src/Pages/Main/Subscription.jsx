@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate} from "react-router-dom"
 import BackButton from '../../Components/BackButton';
 
-const Package = () => {
+const Subscription = () => {
     const navigate = useNavigate();
     const handleChangeEditPage=(value)=>{
         localStorage.setItem("package", JSON.stringify(value))
@@ -137,4 +137,4 @@ const Package = () => {
     )
 }
 
-export default Package
+export default Subscription

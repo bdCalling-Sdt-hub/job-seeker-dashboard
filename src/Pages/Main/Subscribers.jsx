@@ -13,73 +13,74 @@ const data = [
         package: "Basic",
         date: "Dec 30, 2024 5:18",
         price: "800",
+        status:"Active",
     },
     {
         key: "2",
         companyname: "spark tech",
         package: "Essential",
         date: "Dec 30, 2024 5:18",
-        price: "550",
+        status:"Complete",
     },
     {
         key: "3",
         companyname: "spark tech",
         package: "Essential Pro",
         date: "Dec 30, 2024 5:18",
-        price: "650",
+        status:"Complete",
     },
     {
         key: "4",
         companyname: "spark tech",
         package: "Basic",
         date: "Dec 30, 2024 5:18",
-        price: "600",
+        status:"Active",
     },
     {
         key: "5",
         companyname: "spark tech",
         package: "Essential",
         date: "Dec 30, 2024 5:18",
-        price: "750",
+        status:"Active",
     },
     {
         key: "6",
         companyname: "spark tech",
         package: "Basic",
         date: "Dec 30, 2024 5:18",
-        price: "900",
+        status:"Complete",
     },
     {
         key: "7",
         companyname: "spark tech",
         package: "Essential Pro",
         date: "Dec 30, 2024 5:18",
-        price: "300",
+        status:"Active",
     },
     {
         key: "8",
         companyname: "spark tech",
         package: "Basic",
         date: "Dec 30, 2024 5:18",
-        price: "500",
+        status:"Active",
     },
     {
         key: "9",
         companyname: "spark tech",
         package: "Essential Pro",
         date: "Dec 30, 2024 5:18",
-        price: "600",
+        status:"Active",
     },
     {
         key: "10",
         companyname: "spark tech",
         package: "Basic",
         date: "Dec 30, 2024 5:18",
-        price: "700",
+        status:"Active",
     },
 ];
 
-const Accounts = () => {
+const Subscribers = () => {
     const [account, setAccount] = useState(new URLSearchParams(window.location.search).get('account') || "Daily");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const [search, setSearch] = useState("");
@@ -177,10 +178,10 @@ const Accounts = () => {
                 {/* employee table list */}
                 <div>
                     <table className="w-full rounded-[5px] rounded-table">
-                        <tr className="text-left w-full bg-[#FEE3B8] custom-table-row" style={{borderRadius: "8px"}}>
+                        <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
                             {
-                                ["Serial No", "Company Name", "Package", "Date Form", "Package Price"].map((item, index)=>
-                                    <th key={index}  className="py-[10px] px-10">
+                                ["Serial No", "Company Name", "Package", "Package Price", "Date Form", "Status", "Visit Profile"].map((item, index)=>
+                                    <th key={index}>
                                         {item}
                                     </th>
                                 )
@@ -189,15 +190,26 @@ const Accounts = () => {
 
                         
                         {
-                            data?.map((item, index)=>
+                            (data.slice(0, 9))?.map((item, index)=>
                                 <>
                                     <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row" >
-                                        <td className="py-[10px] pl-10">{item.key}</td>
-                                        <td className="py-[10px] pl-10">{item.companyname}</td>
-                                        <td className="py-[10px] pl-10">{item.package}</td>
-                                        <td className="py-[10px] pl-10">{item.date}</td>
-                                        <td className="py-[10px] pl-10">$ {item.price}</td>
+                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
+                                        <td>{item.key}</td>
+                                        <td>{item.companyname}</td>
+                                        <td>{item.package}</td>
+                                        <td>$ {item.price}</td>
+                                        <td>{item.date}</td>
+                                        <td>
+                                            <p 
+                                                className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
+                                                    ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.status === "Complete" && "bg-[#FEE3B8] text-[#C98415]"}
+                                                `}
+                                            >
+                                                {item?.status}
+                                            </p>
+                                        </td>
+                                        <td>Visit</td>
                                     </tr>
                                 </>
                             )
@@ -210,7 +222,7 @@ const Accounts = () => {
 
                 {/* pagination for data */}
 
-                <div className='mt-6 flex items-center justify-center'>
+                <div className='mt-5 flex items-center justify-center'>
                     <Pagination 
                         defaultCurrent={page} 
                         total={data?.length} 
@@ -223,4 +235,4 @@ const Accounts = () => {
     )
 }
 
-export default Accounts
+export default Subscribers

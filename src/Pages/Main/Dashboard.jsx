@@ -45,8 +45,8 @@ const Dashboard = () => {
       icon: <RiCopperDiamondLine size={24} />,
     },
     {
-      title: "Accounts",
-      path: "/accounts",
+      title: "Subscribers",
+      path: "/subscribers",
       icon: <AiOutlineDollarCircle size={24} />,
     },
     {
@@ -149,12 +149,7 @@ const Dashboard = () => {
                     <div style={{fontSize: "14px", textAlign: "center", height: "fit-content"}}>{item.title}</div>
                     {
                       item.path === "/contacts" ? <div className="w-[30px] h-5 flex items-center justify-center border border-[#565656] rounded-[4px] text-[11px]">40+</div> : null
-                    }
-                    
-                    {
-                      item.path === "/subscription" ? <MdKeyboardArrowRight size={24} /> : null
-                    }
-                    
+                    }  
                   </div>
               </li>
             </Link>

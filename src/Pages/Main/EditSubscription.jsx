@@ -4,7 +4,9 @@ import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { useNavigate} from "react-router-dom"
 import BackButton from '../../Components/BackButton';
 import Swal from 'sweetalert2';
-const EditPackage = () => {
+
+
+const EditSubscription = () => {
     const navigate = useNavigate();
     const data = JSON.parse(localStorage.getItem("package"))
     console.log(data);
@@ -236,4 +238,4 @@ const EditPackage = () => {
     )
 }
 
-export default EditPackage;
+export default EditSubscription;

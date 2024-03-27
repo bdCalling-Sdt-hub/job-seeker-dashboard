@@ -62,13 +62,17 @@ ul , li {
 
 }
 
-/* ant design  custom styles start*/
+/* ant design  table custom styles start*/
 .ant-table-thead tr th{
   background-color: #fee3b8!important;
 }
 
 .ant-table-row-level-0{
   background: #F2F8FE !important;
+}
+
+.custom-table-row th, td{
+  padding: 10px 10px 10px 40px;
 }
 
 /* for table heading */
