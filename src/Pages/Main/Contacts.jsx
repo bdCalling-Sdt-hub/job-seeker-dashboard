@@ -106,7 +106,6 @@ const Contacts = () => {
                                     suffix={<IoClose onClick={()=>setSearch("")} style={{cursor: "pointer"}} size={14} color="#2B2A2A" />}
                                     style={{
                                         width: "502px",
-                                        height: "100%",
                                         fontSize: "14px",
                                         height: "48px",
                                     }}

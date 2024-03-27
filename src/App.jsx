@@ -22,6 +22,7 @@ import SellerProductList from "./Pages/Main/SellerProductList";
 import EmployerList from "./Pages/Main/EmployerList";
 import TopSellerList from "./Pages/Main/TopSellerList";
 import Settings from "./Pages/Main/Settings";
+import Accounts from "./Pages/Main/Accounts";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/top-seller-list" element={<TopSellerList />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/accounts" element={<Accounts/>} />
             </Route>
 
             <Route path="/login" element={<Login />} />

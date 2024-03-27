@@ -62,6 +62,7 @@ ul , li {
 
 }
 
+/* ant design  custom styles start*/
 .ant-table-thead tr th{
   background-color: #fee3b8!important;
 }
@@ -69,6 +70,19 @@ ul , li {
 .ant-table-row-level-0{
   background: #F2F8FE !important;
 }
+
+/* for table heading */
+.custom-table-row th:first-child{
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
+
+.custom-table-row th:last-child{
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+
+/* for table details */
 .custom-table-row td:first-child{
   border-top-left-radius: 5px !important;
   border-bottom-left-radius: 5px !important;
@@ -78,6 +92,11 @@ ul , li {
   border-top-right-radius: 5px !important;
   border-bottom-right-radius: 5px !important;
 }
+/* ant design  custom styles end*/
+
+
+
+
 
 /* ant design pagination custom style */
 .ant-pagination .ant-pagination-item{
@@ -91,4 +110,17 @@ ul , li {
   background-color: #ECF1F8 !important;
   color: #949494 !important;
   border-radius: 50% !important;
+}
+
+/* ant design dropdown custom style */
+
+.ant-dropdown-trigger{
+  width: 200px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.ant-dropdown-trigger .anticon .anticon-down{
+  padding: 0 !important;
 }
