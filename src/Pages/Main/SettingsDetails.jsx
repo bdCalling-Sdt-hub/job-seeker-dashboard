@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import BackButton from '../../Components/BackButton';
 import AboutUs from '../../Components/Settings/AboutUs';
 import PrivacyPolicy from '../../Components/Settings/PrivacyPolicy';
+import TermsConditions from '../../Components/Settings/TermsConditions';
 
 const SettingsDetails = () => {
     const { settingType } = useParams();
@@ -20,6 +21,7 @@ const SettingsDetails = () => {
                 <div className='mt-[25px]'>
                     { settingType === "about-us"  && <AboutUs/> }
                     { settingType === "privacy-policy"  && <PrivacyPolicy /> }
+                    { settingType === "term-&-conditions"  && <TermsConditions /> }
                 </div>
             </div>
         </>

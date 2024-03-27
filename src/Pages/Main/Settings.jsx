@@ -21,7 +21,7 @@ const Settings = () => {
         
         {
             title: "Terms & Conditions",
-            path: "term-&-Conditions",
+            path: "term-&-conditions",
         },
         {
             title: "Privacy policy",
