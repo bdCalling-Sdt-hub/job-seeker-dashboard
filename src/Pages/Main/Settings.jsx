@@ -20,8 +20,8 @@ const Settings = () => {
         },
         
         {
-            title: "Terms of service",
-            path: "term-of-service",
+            title: "Terms & Conditions",
+            path: "term-&-Conditions",
         },
         {
             title: "Privacy policy",
