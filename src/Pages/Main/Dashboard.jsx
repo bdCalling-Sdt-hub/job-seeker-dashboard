@@ -116,7 +116,7 @@ const Dashboard = () => {
           }} 
         >
           {linkItems.map((item, index) => (
-            <Link to={item.path}>
+            <Link key={index} to={item.path}>
               <li
                   key={index}
                   style={{
@@ -316,36 +316,17 @@ const Dashboard = () => {
           style={{
             position: "fixed",
             width: "100vw",
-            height: "80px",
+            height: "70px",
             zIndex: 1,
             padding: 0,
             background: "#ECF1F8",
             display: "flex",
-            justifyContent: "space-between",
+            alignItems: "center",
+            justifyContent: "flex-end",
             paddingRight: "60px",
-            paddingLeft: "270px"
+            paddingLeft: "270px",
           }}
         >
-          <div className="w-[512px] "
-            style={{
-              width: "512px",
-              height: "42px",
-              borderRadius: "8px"
-            }}
-          >
-            <Input
-              placeholder="Search..."
-              prefix={<FiSearch size={14} color="#868FA0"/>}
-              suffix={<IoClose size={14} color="#2B2A2A" />}
-              style={{
-                width: "100%",
-                height: "100%",
-                fontSize: "14px"
-              }}
-              size="middle"
-            />
-          </div>
-
           <div className="w-[280px] flex items-center justify-between">
             <Badge color="#FBA51A" count={5}>
               <Link to="/contacts" >
