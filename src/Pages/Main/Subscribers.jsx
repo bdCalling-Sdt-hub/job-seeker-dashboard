@@ -21,6 +21,7 @@ const data = [
         companyname: "spark tech",
         package: "Essential",
         date: "Dec 30, 2024 5:18",
+        price: "800",
         status:"Complete",
     },
     {
@@ -28,6 +29,7 @@ const data = [
         companyname: "spark tech",
         package: "Essential Pro",
         date: "Dec 30, 2024 5:18",
+        price: "800",
         status:"Complete",
     },
     {
@@ -35,6 +37,7 @@ const data = [
         companyname: "spark tech",
         package: "Basic",
         date: "Dec 30, 2024 5:18",
+        price: "800",
         status:"Active",
     },
     {
@@ -42,6 +45,7 @@ const data = [
         companyname: "spark tech",
         package: "Essential",
         date: "Dec 30, 2024 5:18",
+        price: "800",
         status:"Active",
     },
     {
@@ -49,6 +53,7 @@ const data = [
         companyname: "spark tech",
         package: "Basic",
         date: "Dec 30, 2024 5:18",
+        price: "800",
         status:"Complete",
     },
     {
@@ -56,6 +61,7 @@ const data = [
         companyname: "spark tech",
         package: "Essential Pro",
         date: "Dec 30, 2024 5:18",
+        price: "800",
         status:"Active",
     },
     {
@@ -64,6 +70,7 @@ const data = [
         package: "Basic",
         date: "Dec 30, 2024 5:18",
         status:"Active",
+        price: "800",
     },
     {
         key: "9",
@@ -71,6 +78,7 @@ const data = [
         package: "Essential Pro",
         date: "Dec 30, 2024 5:18",
         status:"Active",
+        price: "800",
     },
     {
         key: "10",
@@ -78,6 +86,7 @@ const data = [
         package: "Basic",
         date: "Dec 30, 2024 5:18",
         status:"Active",
+        price: "800",
     },
 ];
 
@@ -191,7 +200,7 @@ const Subscribers = () => {
 
                         
                         {
-                            (data.slice(0, 9))?.map((item, index)=>
+                            (data.slice(0, 10))?.map((item, index)=>
                                 <>
                                     <div key={index} style={{marginTop: '8px'}}></div>
                                     <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
@@ -211,7 +220,7 @@ const Subscribers = () => {
                                             </p>
                                         </td>
                                         <td>
-                                            <Link to={"/subscription-details"}>
+                                            <Link to={"/subscriber-details"}>
                                                 <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                                             </Link>
                                         </td>
@@ -220,9 +229,6 @@ const Subscribers = () => {
                             )
                         }
                     </table>
-                    <div className="text-right bg-[#FEE3B8] rounded-lg py-[10px] px-10 mt-2 text-base font-bold text-[#436FB6]" >
-                        <p>Total:- $2500</p>
-                    </div>
                 </div>
 
                 {/* pagination for data */}

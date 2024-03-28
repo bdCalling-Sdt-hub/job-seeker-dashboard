@@ -49,6 +49,12 @@ const Dashboard = () => {
       path: "/subscribers",
       icon: <AiOutlineDollarCircle size={24} />,
     },
+
+    {
+      title: "Job Post",
+      path: "/job-post",
+      icon: <AiOutlineDollarCircle size={24} />,
+    },
     {
       title: "Contacts",
       path: "/contacts",

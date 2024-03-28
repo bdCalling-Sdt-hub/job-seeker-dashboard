@@ -26,6 +26,8 @@ import SettingsDetails from "./Pages/Main/SettingsDetails";
 import EmployerDetails from "./Pages/Main/EmployerDetails";
 import CompanyDetails from "./Pages/Main/CompanyDetails";
 import SubscriptionDetails from "./Pages/Main/SubscriptionDetails";
+import SubscriberDetails from "./Pages/Main/SubscriberDetails";
+import JobPost from "./Pages/Main/JobPost";
 
 function App() {
   return (
@@ -51,6 +53,8 @@ function App() {
               <Route path="/subscribers" element={<Subscribers/>} />
               <Route path="/company-details" element={<CompanyDetails/>} />
               <Route path="/subscription-details" element={<SubscriptionDetails/>} />
+              <Route path="/subscriber-details" element={<SubscriberDetails/>} />
+              <Route path="/job-post" element={<JobPost/>} />
             </Route>
 
             <Route path="/login" element={<Login />} />
