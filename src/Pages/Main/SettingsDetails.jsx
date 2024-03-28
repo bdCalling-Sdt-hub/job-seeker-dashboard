@@ -4,6 +4,7 @@ import BackButton from '../../Components/BackButton';
 import AboutUs from '../../Components/Settings/AboutUs';
 import PrivacyPolicy from '../../Components/Settings/PrivacyPolicy';
 import TermsConditions from '../../Components/Settings/TermsConditions';
+import Notifications from '../../Components/Settings/Notifications';
 
 const SettingsDetails = () => {
     const { settingType } = useParams();
@@ -22,6 +23,7 @@ const SettingsDetails = () => {
                     { settingType === "about-us"  && <AboutUs/> }
                     { settingType === "privacy-policy"  && <PrivacyPolicy /> }
                     { settingType === "term-&-conditions"  && <TermsConditions /> }
+                    { settingType === "notifications"  && <Notifications /> }
                 </div>
             </div>
         </>

@@ -7,7 +7,7 @@ const Settings = () => {
     const settingsItem = [
         {
             title: "Notification",
-            path: "notification",
+            path: "notifications",
         },
         {
             title: "Profile",
