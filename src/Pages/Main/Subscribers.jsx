@@ -5,6 +5,7 @@ import { DownOutlined } from "@ant-design/icons";
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const data = [
     {
@@ -209,7 +210,11 @@ const Subscribers = () => {
                                                 {item?.status}
                                             </p>
                                         </td>
-                                        <td>Visit</td>
+                                        <td>
+                                            <Link to={"/employer-details"}>
+                                                <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
+                                            </Link>
+                                        </td>
                                     </tr>
                                 </>
                             )

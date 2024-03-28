@@ -23,6 +23,7 @@ import TopSellerList from "./Pages/Main/TopSellerList";
 import Settings from "./Pages/Main/Settings";
 import Subscribers from "./Pages/Main/Subscribers";
 import SettingsDetails from "./Pages/Main/SettingsDetails";
+import EmployerDetails from "./Pages/Main/EmployerDetails";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/settings-profile" element={<Profile />} />
               <Route path="/employer-list" element={<EmployerList  />} />
+              <Route path="/employer-details" element={<EmployerDetails  />} />
               <Route path="/seller-details/:id" element={<SellerDetails />} />
               <Route path="/seller-product-list" element={<SellerProductList />} />
               <Route path="/contacts" element={<Contacts />} />
