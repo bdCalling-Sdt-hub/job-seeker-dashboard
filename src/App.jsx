@@ -25,6 +25,7 @@ import Subscribers from "./Pages/Main/Subscribers";
 import SettingsDetails from "./Pages/Main/SettingsDetails";
 import EmployerDetails from "./Pages/Main/EmployerDetails";
 import CompanyDetails from "./Pages/Main/CompanyDetails";
+import SubscriptionDetails from "./Pages/Main/SubscriptionDetails";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
               <Route path="/settings/:settingType" element={<SettingsDetails />} />
               <Route path="/subscribers" element={<Subscribers/>} />
               <Route path="/company-details" element={<CompanyDetails/>} />
+              <Route path="/subscription-details" element={<SubscriptionDetails/>} />
             </Route>
 
             <Route path="/login" element={<Login />} />

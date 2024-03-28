@@ -211,7 +211,7 @@ const Subscribers = () => {
                                             </p>
                                         </td>
                                         <td>
-                                            <Link to={"/employer-details"}>
+                                            <Link to={"/subscription-details"}>
                                                 <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                                             </Link>
                                         </td>

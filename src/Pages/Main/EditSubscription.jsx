@@ -81,7 +81,7 @@ const EditSubscription = () => {
         <div className='bg-white p-6'>
             {/* headers */}
             <div style={{marginBottom : "30px"}}>
-                <BackButton link="/" />
+                <BackButton link="/subscription" />
             </div>
 
 
