@@ -128,7 +128,7 @@ const EmployerDetails = () => {
     return (
         <>
             <div style={{marginBottom : "20px"}}>
-                <BackButton link="/" />
+                <BackButton link="/employer-list" />
             </div>
             <div className='bg-white p-6 rounded-lg mb-[28px]'>
                 <h1 className='text-[20px] text-[#172740] font-medium'>About Employer</h1>
@@ -188,7 +188,7 @@ const EmployerDetails = () => {
                         </div>
 
                         <div className='absolute bottom-6 right-6'>
-                            <Link to={"/company-details"}>
+                            <Link to={`/company-details`}>
                                 <button 
                                     className='
                                     w-[157px] 

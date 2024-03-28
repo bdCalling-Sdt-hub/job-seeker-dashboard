@@ -24,6 +24,7 @@ import Settings from "./Pages/Main/Settings";
 import Subscribers from "./Pages/Main/Subscribers";
 import SettingsDetails from "./Pages/Main/SettingsDetails";
 import EmployerDetails from "./Pages/Main/EmployerDetails";
+import CompanyDetails from "./Pages/Main/CompanyDetails";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/settings/:settingType" element={<SettingsDetails />} />
               <Route path="/subscribers" element={<Subscribers/>} />
+              <Route path="/company-details" element={<CompanyDetails/>} />
             </Route>
 
             <Route path="/login" element={<Login />} />
