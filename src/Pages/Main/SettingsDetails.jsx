@@ -5,6 +5,7 @@ import AboutUs from '../../Components/Settings/AboutUs';
 import PrivacyPolicy from '../../Components/Settings/PrivacyPolicy';
 import TermsConditions from '../../Components/Settings/TermsConditions';
 import Notifications from '../../Components/Settings/Notifications';
+import ChangePassword from '../../Components/Settings/ChangePassword';
 
 const SettingsDetails = () => {
     const { settingType } = useParams();
@@ -24,6 +25,7 @@ const SettingsDetails = () => {
                     { settingType === "privacy-policy"  && <PrivacyPolicy /> }
                     { settingType === "term-&-conditions"  && <TermsConditions /> }
                     { settingType === "notifications"  && <Notifications /> }
+                    { settingType === "change-password"  && <ChangePassword /> }
                 </div>
             </div>
         </>
