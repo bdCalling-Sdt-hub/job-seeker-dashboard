@@ -155,141 +155,6 @@ const Dashboard = () => {
             </Link>
             
           ))}
-        {/* start */}
-
-          {/* <li
-            style={{
-              width: "100%",
-              marginTop: 0,
-              height: "38px",
-              display: "flex", 
-              alignItems: "center", 
-              paddingLeft: "42px",
-              position: "relative",
-              gap: "14px",
-              color: "#6A6D7C",
-              cursor: "pointer",
-              marginBottom:"30px"
-            }}
-          >
-            {
-              pathname === "/package" || pathname === "/settings-profile"
-              ?
-              <div style={{backgroundColor: "#4365b6", position: "absolute", left:0, top: 0, width: "8px", height: "38px", borderRadius: "0 10px 10px 0"}}></div>
-              :
-              null
-
-            }
-             <RiCopperDiamondLine size={24} />
-            <p onClick={()=>setSubscriptionDropDown(!subscriptionDropDown)} style={{fontSize: "15px", textAlign: "center"}}>Subscription</p>
-            {
-              subscriptionDropDown
-              ?
-              <MdKeyboardArrowDown size={24} />
-              :
-              <MdKeyboardArrowRight size={24} />
-            }
-            {
-              subscriptionDropDown
-              &&
-              <div 
-                style={{
-                  position: "absolute", 
-                  left: "80px", 
-                  top: "40px", 
-                  width: "150px", 
-                  height: "50px", 
-                  borderRadius: "0 10px 10px 0"
-                
-
-                }}
-              >
-                  <Link to="/settings-profile" style={{color: pathname === "/settings-profile" ? "#2FD5C7" : '#6A6D7C'}}>
-                    <p style={{marginBottom: '8px'}}>Subscribers</p>
-                  </Link>
-                  <Link to="/package" style={{color: pathname === "/setting-change-password" ? "#2FD5C7" : '#6A6D7C'}}>
-                    <p style={{marginBottom: '18px'}}>Subscriptoins</p>
-                  </Link>
-              </div>
-            }
-
-            
-          </li> */}
-
-         {/* end */}
-
-          {/* <li
-            style={{
-              width: "100%",
-              marginTop: 0,
-              height: "38px",
-              display: "flex", 
-              alignItems: "center", 
-              paddingLeft: "42px",
-              position: "relative",
-              gap: "14px",
-              color: "#6A6D7C",
-              cursor: "pointer"
-            }}
-          >
-            {
-               pathname === "/terms" || pathname === "/privacy" ||  pathname === "/setting-change-password" || pathname === "/settings-profile" || pathname === "/notification"
-              ?
-              <div style={{backgroundColor: "#4365b6", position: "absolute", left:0, top: 0, width: "8px", height: "38px", borderRadius: "0 10px 10px 0"}}></div>
-              :
-              null
-
-            }
-            <IoSettingsOutline size={24} />
-            <p onClick={()=>setSettingDropDown(!settingDropDown)} style={{fontSize: "15px", textAlign: "center"}}>Settings</p>
-            {
-              settingDropDown
-              ?
-              <MdKeyboardArrowDown size={24} />
-              :
-              <MdKeyboardArrowRight size={24} />
-            }
-            {
-              settingDropDown
-              &&
-              <div 
-                style={{
-                  position: "absolute", 
-                  left: "80px", 
-                  top: "40px", 
-                  width: "150px", 
-                  height: "50px", 
-                  borderRadius: "0 10px 10px 0"
-                }}
-              >
-                  
-                  <Link to="/terms" style={{color: pathname === "/settings-profile" ? "#2FD5C7" : '#6A6D7C'}}>
-                    <p style={{marginBottom: '8px'}}>Terms & Condition</p>
-                  </Link>
-
-                  <Link to="/privacy" style={{color: pathname === "/settings-profile" ? "#2FD5C7" : '#6A6D7C'}}>
-                    <p style={{marginBottom: '8px'}}>Privacy Policy</p>
-                  </Link>
-
-                  
-                  <Link to="/settings-profile" style={{color: pathname === "/settings-profile" ? "#2FD5C7" : '#6A6D7C'}}>
-                    <p style={{marginBottom: '8px'}}>Profile</p>
-                  </Link>
-
-
-                  <Link to="/setting-change-password" style={{color: pathname === "/setting-change-password" ? "#2FD5C7" : '#6A6D7C'}}>
-                    <p style={{marginBottom: '8px'}}>Change Password</p>
-                  </Link>
-
-                  <Link to="/notification" style={{color: pathname === "/setting-change-password" ? "#2FD5C7" : '#6A6D7C'}}>
-                    <p>Notification</p>
-                  </Link>
-              </div>
-            }
-
-            
-          </li> */}
-
 
           <li
             style={{
@@ -339,10 +204,13 @@ const Dashboard = () => {
                 <RiNotification2Line color="#6A6A6A" size={24} />
               </Link>
             </Badge>
-            <div className="w-[171px] h-[42px] bg-[#ffffff] rounded-[5px] flex items-center gap-5 p-[10px]">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLotvhr2isTRMEzzT30Cj0ly77jFThGXr0ng&usqp=CAU" style={{width: "30px", height: "30px", borderRadius: "100%"}} alt="" />
-              <h2 style={{color: "black", fontSize: "10px"}}>DR. Jim ahhmed</h2>
-            </div>
+
+            <Link to={"/settings/profile"}>
+              <div className="w-[171px] h-[42px] bg-[#ffffff] rounded-[5px] flex items-center gap-5 p-[10px]">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLotvhr2isTRMEzzT30Cj0ly77jFThGXr0ng&usqp=CAU" style={{width: "30px", height: "30px", borderRadius: "100%"}} alt="" />
+                <h2 style={{color: "black", fontSize: "10px"}}>DR. Jim ahhmed</h2>
+              </div>
+            </Link>
           </div>
         </Header>
 

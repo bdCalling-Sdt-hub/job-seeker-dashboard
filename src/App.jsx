@@ -13,7 +13,6 @@ import PrivateRoute from "./routes/PrivateRoute";
 import Subscription from "./Pages/Main/Subscription";
 import EditSubscription from "./Pages/Main/EditSubscription";
 import MakeAdmin from "./Pages/Main/MakeAdmin";
-import ChangePassword from "./Pages/Main/ChangePassword";
 import Profile from "./Pages/Main/Profile";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import SellerDetails from "./Pages/Main/SellerDetails";
@@ -37,7 +36,6 @@ function App() {
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/edit-subscription/:name" element={<EditSubscription />} />
               <Route path="/make-admin" element={<MakeAdmin />} />
-              <Route path="/setting-change-password" element={<ChangePassword />} />
               <Route path="/settings-profile" element={<Profile />} />
               <Route path="/employer-list" element={<EmployerList  />} />
               <Route path="/seller-details/:id" element={<SellerDetails />} />
