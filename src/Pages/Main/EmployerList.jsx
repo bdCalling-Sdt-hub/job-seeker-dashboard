@@ -230,7 +230,7 @@ const EmployerList = () => {
                     <Link to={"/employer-details"}>
                       <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                     </Link>
-                    </td>
+                  </td>
                 </tr>
               </>
               )
