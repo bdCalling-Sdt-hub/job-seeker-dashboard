@@ -106,6 +106,7 @@ const JobPost = () => {
             <div style={{ marginBottom: "16px" }}>
                 <BackButton link="/" />
             </div>
+            
             <div className='bg-white p-6 rounded-lg'>
                 <h1 className='mb-4 text-[20px] font-medium text-[#172740]'>All Job Post</h1>
 

@@ -4,7 +4,7 @@ import BackButton from '../../Components/BackButton';
 import { Form, Input, Button } from 'antd';
 import {  PlusOutlined } from '@ant-design/icons';
 
-const EditSubscription = () => {
+const EditPackage = () => {
     const { name } = useParams();
     console.log(name)
     const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || name);
@@ -81,7 +81,7 @@ const EditSubscription = () => {
         <div className='bg-white p-6'>
             {/* headers */}
             <div style={{marginBottom : "30px"}}>
-                <BackButton link="/subscription" />
+                <BackButton link="/package" />
             </div>
 
 
@@ -131,20 +131,6 @@ const EditSubscription = () => {
                 <div className='grid grid-cols-3 gap-6 mt-[53px]'>
                     <div className='bg-[#ECF1F8] rounded-[5px] p-6 h-[400px]'>
                         <h1 className='text-[#565656]'>Primary Data:</h1>
-
-                        {/* <div className='flex items-center mb-5'>
-                            <label style={{display: "block", width: "50%"}} htmlFor="">Package Type</label>
-                            <div className='w-[10%]'>:</div>
-                            <Input
-                                placeholder=''
-                                value={"Payment Type"}
-                                readOnly
-                                style={{
-                                    width: "100%"
-                                }}
-                            />
-                            
-                        </div> */}
                         <div className='grid grid-cols-1 gap-4 mt-4'>
                             <div>
                                 <label style={{display: "block", marginBottom: "8px" }} htmlFor="">Package Type</label>
@@ -302,7 +288,8 @@ const EditSubscription = () => {
                                 style={{
                                     width: "100%",
                                     height: "310px",
-                                    color: "#949494"
+                                    color: "#949494",
+                                    resize: "none"
                                 }}
                             />
                         </Form.Item>
@@ -335,4 +322,4 @@ const EditSubscription = () => {
     )
 }
 
-export default EditSubscription;
+export default EditPackage;

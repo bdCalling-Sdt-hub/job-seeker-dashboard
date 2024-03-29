@@ -47,7 +47,7 @@ const data = [
 
 ]
 
-const Subscription = () => {
+const Package = () => {
     const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || "Basic");
     const navigate = useNavigate();
     const filterData = data.find((item) => item.name === selectedPackage);
@@ -158,7 +158,7 @@ const Subscription = () => {
                 </div>
 
                 <div style={{display: "flex", alignItems: "flex-end", justifyContent: "flex-end"}}>
-                    <Link to={`/edit-subscription/${selectedPackage}`}>
+                    <Link to={`/edit-package/${selectedPackage}`}>
                         <Button
                             style={{
                                 width: "100px",
@@ -179,4 +179,4 @@ const Subscription = () => {
     )
 }
 
-export default Subscription
+export default Package

@@ -1,5 +1,7 @@
 import React from 'react'
-import BackButton from '../../Components/BackButton'
+import BackButton from '../../Components/BackButton';
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { TiSocialLinkedinCircular } from "react-icons/ti";  
 
 const CompanyDetails = () => {
     return (
@@ -26,6 +28,13 @@ const CompanyDetails = () => {
                                 quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at 
                                 ex Sed nisi tincidunt lacus elit leo. faucibus quis Sed consectetur nulla, libero, ipsum at, elit dui massa amet, ipsum vehicula, at, Vestibulum odio tincidunt diam amet, dolor adipiscing Nullam laoreet nec sit elementum sodales. nibh id  
                             </p>
+
+                            <div className='flex items-center gap-4 mt-10'>
+                                <TiSocialLinkedinCircular size={38} color='#0A66C2' />
+                                <FaInstagram size={24} color='#0A66C2' />
+                                <FaFacebook size={24} color='#0A66C2' />
+                            </div>
+
                         </div>
                     </div>
 

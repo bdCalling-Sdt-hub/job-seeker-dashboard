@@ -10,8 +10,8 @@ import Register from "./Pages/Auth/Register";
 import UpdatePassword from "./Pages/Auth/UpdatePassword";
 import NotFound from "./404";
 import PrivateRoute from "./routes/PrivateRoute";
-import Subscription from "./Pages/Main/Subscription";
-import EditSubscription from "./Pages/Main/EditSubscription";
+import Package from "./Pages/Main/Package";
+import EditPackage from "./Pages/Main/EditPackage";
 import MakeAdmin from "./Pages/Main/MakeAdmin";
 import Profile from "./Pages/Main/Profile";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
@@ -28,6 +28,7 @@ import CompanyDetails from "./Pages/Main/CompanyDetails";
 import SubscriptionDetails from "./Pages/Main/SubscriptionDetails";
 import SubscriberDetails from "./Pages/Main/SubscriberDetails";
 import JobPost from "./Pages/Main/JobPost";
+import JobDetails from "./Pages/Main/JobDetails";
 
 function App() {
   return (
@@ -38,8 +39,8 @@ function App() {
             <Route exact path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute> }>
               <Route path="/" element={<DashboardHome />} />
               <Route path="/notification" element={<Notification />} />
-              <Route path="/subscription" element={<Subscription />} />
-              <Route path="/edit-subscription/:name" element={<EditSubscription />} />
+              <Route path="/package" element={<Package />} />
+              <Route path="/edit-package/:name" element={<EditPackage />} />
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/settings-profile" element={<Profile />} />
               <Route path="/employer-list" element={<EmployerList  />} />
@@ -55,6 +56,7 @@ function App() {
               <Route path="/subscription-details" element={<SubscriptionDetails/>} />
               <Route path="/subscriber-details" element={<SubscriberDetails/>} />
               <Route path="/job-post" element={<JobPost/>} />
+              <Route path="/job-details" element={<JobDetails/>} />
             </Route>
 
             <Route path="/login" element={<Login />} />

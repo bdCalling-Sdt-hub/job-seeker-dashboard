@@ -1,25 +1,20 @@
-import { Input, Layout,  Badge, } from "antd";
-import React, { useEffect, useState } from "react";
+import { Layout,  Badge, } from "antd";
+import React  from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo.png";
-import LogoText from "../../assets/logo-text.jpg";
 import { HiLogout, HiOutlineMail } from "react-icons/hi";
 import { LuUser } from "react-icons/lu";
 import { TbUserPlus } from "react-icons/tb";
 import { MdDashboard } from "react-icons/md";
-import { FiSearch } from "react-icons/fi";
-import { IoClose } from "react-icons/io5";
-import { RiNotification2Line, RiChat1Line, RiCopperDiamondLine } from "react-icons/ri";
-const { Header, Sider, Content } = Layout;
+import { RiNotification2Line, RiChat1Line } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { MdKeyboardArrowDown } from "react-icons/md";
 import { AiOutlineDollarCircle } from "react-icons/ai";
+import { RiFlag2Fill } from "react-icons/ri";
+import { TbCrown } from "react-icons/tb";
+const { Header, Sider, Content } = Layout;
 
 
 const Dashboard = () => {
-  const [settingDropDown, setSettingDropDown] = useState(false)
-  const [subscriptionDropDown, setSubscriptionDropDown] = useState(false)
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -40,9 +35,9 @@ const Dashboard = () => {
       icon: <LuUser size={24} />,
     },
     {
-      title: "Subscription",
-      path: "/subscription",
-      icon: <RiCopperDiamondLine size={24} />,
+      title: "Package",
+      path: "/package",
+      icon: <TbCrown size={24} />,
     },
     {
       title: "Subscribers",
@@ -53,7 +48,7 @@ const Dashboard = () => {
     {
       title: "Job Post",
       path: "/job-post",
-      icon: <AiOutlineDollarCircle size={24} />,
+      icon: <RiFlag2Fill size={24} />,
     },
     {
       title: "Contacts",
@@ -95,7 +90,7 @@ const Dashboard = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "20px",
+            marginTop: "70px",
             marginBottom:"50px"
             
           }}
@@ -104,7 +99,7 @@ const Dashboard = () => {
             <img
               src={Logo}
               height="40px"
-              width="200px"
+              width="180px"
             />
           </Link>
         </div>
