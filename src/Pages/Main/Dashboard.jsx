@@ -11,12 +11,14 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { RiFlag2Fill } from "react-icons/ri";
 import { TbCrown } from "react-icons/tb";
+import { FiUser } from "react-icons/fi";
+import { IconCalendarStats } from '@tabler/icons-react';
 const { Header, Sider, Content } = Layout;
-
 
 const Dashboard = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const userType = "User"
 
   const handleLogOut=()=>{
     navigate('/login');
@@ -56,6 +58,11 @@ const Dashboard = () => {
       icon: <HiOutlineMail size={24} />,
     },
     {
+      title: "Job & Interviews",
+      path: "/job-interviews",
+      icon: <IconCalendarStats size={24} />,
+    },
+    {
       title: "Make Admin",
       path: "/make-admin",
       icon: <TbUserPlus size={24} />,
@@ -63,7 +70,12 @@ const Dashboard = () => {
     {
       title: "Settings",
       path: "/settings",
-      icon: <IoSettingsOutline size={24} />,
+      icon: <IoSettingsOutline  size={24} />,
+    },
+    {
+      title: "My Profile",
+      path: "/profile",
+      icon: <FiUser size={24} />,
     },
    
   ];
@@ -106,7 +118,7 @@ const Dashboard = () => {
 
       
 
-
+        {/* style={{display: userType === "Admin" ? "none": "block"}} */}
         <ul 
           style={{
             display: "flex",
@@ -117,7 +129,18 @@ const Dashboard = () => {
           }} 
         >
           {linkItems.map((item, index) => (
-            <Link key={index} to={item.path}>
+            <Link 
+              key={index} 
+              to={item.path}
+              className={`
+                ${ userType === "Admin" && item.path === "/profile" ? "none" : "block" }
+                ${ userType === "Admin" && item.path === "/job-interviews" ? "none" : "block" }
+                ${ userType === "User" && item.path === "/settings" ? "none" : "block" }
+                ${ userType === "User" && item.path === "/make-admin" ? "none" : "block" }
+                ${ userType === "User" && item.path === "/employer-list" ? "none" : "block" }
+                ${ userType === "User" && item.path === "/subscribers" ? "none" : "block" }
+              `}
+            >
               <li
                   key={index}
                   style={{

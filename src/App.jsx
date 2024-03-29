@@ -29,6 +29,7 @@ import SubscriptionDetails from "./Pages/Main/SubscriptionDetails";
 import SubscriberDetails from "./Pages/Main/SubscriberDetails";
 import JobPost from "./Pages/Main/JobPost";
 import JobDetails from "./Pages/Main/JobDetails";
+import Interview from "./Pages/Main/Interview";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
               <Route path="/subscriber-details" element={<SubscriberDetails/>} />
               <Route path="/job-post" element={<JobPost/>} />
               <Route path="/job-details" element={<JobDetails/>} />
+              <Route path="/job-interviews" element={<Interview/>} />
             </Route>
 
             <Route path="/login" element={<Login />} />

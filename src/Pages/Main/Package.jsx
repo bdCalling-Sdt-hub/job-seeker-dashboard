@@ -49,7 +49,7 @@ const data = [
 
 const Package = () => {
     const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || "Basic");
-    const navigate = useNavigate();
+    const userType = "Admin"
     const filterData = data.find((item) => item.name === selectedPackage);
 
     const handlePackageChange = (value) => {
@@ -158,11 +158,29 @@ const Package = () => {
                 </div>
 
                 <div style={{display: "flex", alignItems: "flex-end", justifyContent: "flex-end"}}>
-                    <Link to={`/edit-package/${selectedPackage}`}>
+                    {
+                        userType === "Admin" 
+                        ?
+                        <Link to={`/edit-package/${selectedPackage}`}>
+                            <Button
+                                style={{
+                                    width: "100px",
+                                    height: "30px",
+                                    background: "#436FB6",
+                                    borderRadius: "90px",
+                                    border: "none",
+                                    outline: "none",
+                                    color: "#FDFDFD",
+                                }}
+                            >
+                                Edit
+                            </Button>
+                        </Link>
+                        :
                         <Button
                             style={{
-                                width: "100px",
-                                height: "30px",
+                                width: "130px",
+                                height: "40px",
                                 background: "#436FB6",
                                 borderRadius: "90px",
                                 border: "none",
@@ -170,9 +188,9 @@ const Package = () => {
                                 color: "#FDFDFD",
                             }}
                         >
-                            Edit
+                            Buy Package
                         </Button>
-                    </Link>
+                    }
                 </div>
             </div>
         </>

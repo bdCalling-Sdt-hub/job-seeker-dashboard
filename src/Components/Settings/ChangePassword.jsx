@@ -5,6 +5,7 @@ const ChangePassword = () => {
     const [newPassError, setNewPassError] = useState("");
     const [conPassError, setConPassError] = useState("");
     const [curPassError, setCurPassError] = useState("");
+    const [checked, setChecked] = useState("");
 
     const handleChangePassword=(values)=>{
 
@@ -113,8 +114,8 @@ const ChangePassword = () => {
                     { conPassError && <label style={{display: "block", color: "red"}} htmlFor="error">{conPassError}</label>}
                 </div>
     
-                <Form.Item name="remember" valuePropName="checked" noStyle style={{marginBottom: 0}}>
-                    <Checkbox style={{color: "#6F6F6F"}}>I agree with terms of service and privacy policy</Checkbox>
+                <Form.Item name="remember"  noStyle style={{marginBottom: 0}}>
+                    <Checkbox onChange={(e)=>setChecked(e.target.checked)} style={{color: "#6F6F6F"}}>I agree with terms of service and privacy policy</Checkbox>
                 </Form.Item>
 
                 <Form.Item>
@@ -122,6 +123,7 @@ const ChangePassword = () => {
                         type="primary"
                         htmlType="submit"
                         block
+                        disabled={!checked}
                         style={{
                             border: "none",
                             height: "48px",
