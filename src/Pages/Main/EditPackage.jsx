@@ -78,7 +78,7 @@ const EditPackage = () => {
         conditions: filterData?.features
     }
     return (
-        <div className='bg-white p-6'>
+        <div className='bg-white p-6 rounded-lg'>
             {/* headers */}
             <div style={{marginBottom : "30px"}}>
                 <BackButton link="/package" />

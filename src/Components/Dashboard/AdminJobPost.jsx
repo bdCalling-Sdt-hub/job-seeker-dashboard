@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import BackButton from '../../Components/BackButton';
 import { Input, Pagination } from 'antd';
+import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { LuListFilter } from 'react-icons/lu';
-import { Link } from 'react-router-dom';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const data = [
     {
@@ -24,7 +23,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Khoaya Apple",
-        status:"Selected",
+        status:"Complete",
     },
     {
         key: "3",
@@ -33,7 +32,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Chota Apple",
-        status:"Rejected",
+        status:"Pending",
     },
     {
         key: "4",
@@ -42,7 +41,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Pocha Apple",
-        status:"Recruited",
+        status:"Active",
     },
     {
         key: "5",
@@ -60,7 +59,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Khoaya Apple",
-        status:"Recruited",
+        status:"Complete",
     },
     {
         key: "7",
@@ -78,7 +77,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Pocha Apple",
-        status:"Selected",
+        status:"Active",
     }
     ,
     {
@@ -88,10 +87,11 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Chota Apple",
-        status:"Recruited",
+        status:"Pending",
     }
 ];
-const Interview = () => {
+
+const AdminJobPost = () => {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const handlePageChange = (page) => {
@@ -102,12 +102,8 @@ const Interview = () => {
     }
     return (
         <>
-            <div style={{marginBottom: "20px"}}>
-                <BackButton link="/" />
-            </div>
-
-            <div className="bg-white p-6 rounded-lg">
-                <h1 className='mb-4 text-[20px] font-medium text-[#172740]'>Job Candidate list</h1>
+            <div className='bg-white p-6 rounded-lg'>
+                <h1 className='mb-4 text-[20px] font-medium text-[#172740]'>All Job Post</h1>
 
                 {/* search and filter section */}
                 <div className='flex items-center justify-between mb-[14px]'>
@@ -147,7 +143,7 @@ const Interview = () => {
                         Filter <LuListFilter />
                     </div>
                 </div>
-                
+
                 {/* subscription table list */}
                 <div>
                     <table className="w-full rounded-[5px] rounded-table">
@@ -164,13 +160,7 @@ const Interview = () => {
                             data?.map((item, index)=>
                                 <>
                                     <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr 
-                                        key={index} 
-                                        className={` hover:bg-[#FFF6E8]
-                                            ${item?.status === "Recruited" ? "bg-[#B0ECB2]" :  "bg-[#ECF1F8]"}
-                                             text-[#949494] custom-table-row
-                                        `}
-                                    >
+                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
                                         <td>{item.key}</td>
                                         <td>{item.designation}</td>
                                         <td>{item.vacancy}</td>
@@ -180,10 +170,9 @@ const Interview = () => {
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                                    ${item?.status === "Selected" && "bg-[#B0ECB2] text-[#009B06]"}
-                                                    ${item?.status === "Rejected" && "bg-[#F8B5B0] text-[#BA0E00]"}
+                                                    ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.status === "Complete" && "bg-[#FEE3B8] text-[#C98415]"}
                                                     ${item?.status === "Pending" && "bg-[#C5D2E8] text-[#365992]"}
-                                                    ${item?.status === "Recruited" && "bg-[#436FB6] text-white"}
                                                 `}
                                             >
                                                 {item?.status}
@@ -209,10 +198,9 @@ const Interview = () => {
                         onChange={handlePageChange}
                     />
                 </div>
-
             </div>
         </>
     )
 }
 
-export default Interview;
+export default AdminJobPost;
