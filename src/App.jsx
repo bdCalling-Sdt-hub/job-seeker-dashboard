@@ -36,6 +36,7 @@ import NewApplicantList from "./Components/Dashboard/Employer/NewApplicantList";
 import NewApplicantTable from "./Pages/Main/Employer/NewApplicantTable";
 import EmployerProfile from "./Pages/Main/Employer/EmployerProfile";
 import EmployerChangePassword from "./Pages/Main/Employer/EmployerChangePassword";
+import CandidateProfile from "./Pages/Main/CandidateProfile";
 
 function App() {
   return (
@@ -69,6 +70,7 @@ function App() {
               <Route path="/create-job" element={<CreateJob/>} />
               <Route path="/applied-job" element={<AppliedJobTable/>} />
               <Route path="/new-applicant" element={<NewApplicantTable />} />
+              <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
             </Route>
 
             <Route path="/login" element={<Login />} />
