@@ -130,3 +130,32 @@ ul , li {
 .ant-dropdown-trigger .anticon .anticon-down{
   padding: 0 !important;
 }
+
+
+/* custom button for sweat alert */
+.custom-send-button {
+  background-color: #436FB6 !important; /* Green */
+  border: none;
+  outline: none;
+  width: 200px;
+  height: 48px;
+  border-radius: 90px !important;
+  color: white;
+  box-shadow: none !important;
+}
+
+.custom-close-button {
+  color: #6F6F6F !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 30px !important;
+  margin: 10px 10px 0 0 !important;
+  cursor: pointer;
+}
+
+.custom-modal-popup {
+  border-radius: 24px !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
+}

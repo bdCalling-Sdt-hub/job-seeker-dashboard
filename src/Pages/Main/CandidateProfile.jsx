@@ -5,7 +5,7 @@ const CandidateProfile = () => {
     return (
         <>
             <div style={{marginBottom : "20px"}}>
-                <BackButton link="/employer-details" />
+                <BackButton link="/candidate-short-profile/2" />
             </div>
 
             <div className='bg-white p-6 rounded-lg border'>
