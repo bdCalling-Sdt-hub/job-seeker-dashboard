@@ -18,7 +18,7 @@ const { Header, Sider, Content } = Layout;
 const Dashboard = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const userType = "User"
+  const userType = "Employer"
 
   const handleLogOut=()=>{
     navigate('/login');
@@ -74,7 +74,7 @@ const Dashboard = () => {
     },
     {
       title: "My Profile",
-      path: "/profile",
+      path: "/employer-profile",
       icon: <FiUser size={24} />,
     },
    
@@ -133,12 +133,12 @@ const Dashboard = () => {
               key={index} 
               to={item.path}
               className={`
-                ${ userType === "Admin" && item.path === "/profile" ? "none" : "block" }
+                ${ userType === "Admin" && item.path === "/employer-profile" ? "none" : "block" }
                 ${ userType === "Admin" && item.path === "/job-interviews" ? "none" : "block" }
-                ${ userType === "User" && item.path === "/settings" ? "none" : "block" }
-                ${ userType === "User" && item.path === "/make-admin" ? "none" : "block" }
-                ${ userType === "User" && item.path === "/employer-list" ? "none" : "block" }
-                ${ userType === "User" && item.path === "/subscribers" ? "none" : "block" }
+                ${ userType === "Employer" && item.path === "/settings" ? "none" : "block" }
+                ${ userType === "Employer" && item.path === "/make-admin" ? "none" : "block" }
+                ${ userType === "Employer" && item.path === "/employer-list" ? "none" : "block" }
+                ${ userType === "Employer" && item.path === "/subscribers" ? "none" : "block" }
               `}
             >
               <li
@@ -229,7 +229,10 @@ const Dashboard = () => {
               </Link>
             </Badge>
 
-            <Link to={"/settings/profile"}>
+
+
+
+            <Link to={`${userType === "User" ? "/employer-profile" : "/settings/profile"}`}>
               <div className="w-[171px] h-[42px] bg-[#ffffff] rounded-[5px] flex items-center gap-5 p-[10px]">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLotvhr2isTRMEzzT30Cj0ly77jFThGXr0ng&usqp=CAU" style={{width: "30px", height: "30px", borderRadius: "100%"}} alt="" />
                 <h2 style={{color: "black", fontSize: "10px"}}>DR. Jim ahhmed</h2>
@@ -246,7 +249,7 @@ const Dashboard = () => {
             marginRight: "40px",
             background: "#ECF1F8",
             overflow: "auto",
-            padding: "20px"
+            paddingTop: "20px",
           }}
         >
           <Outlet />

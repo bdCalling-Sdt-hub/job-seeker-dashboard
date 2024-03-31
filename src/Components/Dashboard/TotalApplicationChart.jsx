@@ -93,7 +93,7 @@ const TotalApplicationChart = () => {
     },
   ];
 
-  const [year, setYear] = useState(2024)
+  const [year, setYear] = useState(2024);
 
   const items = [
     {

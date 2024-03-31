@@ -5,7 +5,7 @@ import AdminJobPost from '../../Components/Dashboard/AdminJobPost';
 
 const JobPost = () => {
     const user = {
-        userType:"User"
+        userType:"Employer"
     }
     return (
         <>

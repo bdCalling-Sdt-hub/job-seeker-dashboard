@@ -23,7 +23,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Khoaya Apple",
-        status:"Complete",
+        status:"Expired",
     },
     {
         key: "3",
@@ -41,7 +41,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Pocha Apple",
-        status:"Active",
+        status:"Published",
     },
     {
         key: "5",
@@ -59,7 +59,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Khoaya Apple",
-        status:"Complete",
+        status:"Expired",
     },
     {
         key: "7",
@@ -77,7 +77,7 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Pocha Apple",
-        status:"Active",
+        status:"Published",
     }
     ,
     {
@@ -170,8 +170,8 @@ const AdminJobPost = () => {
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                                    ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
-                                                    ${item?.status === "Complete" && "bg-[#FEE3B8] text-[#C98415]"}
+                                                    ${item?.status === "Published" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.status === "Expired" && "bg-[#F8B5B0] text-[#E81100]"}
                                                     ${item?.status === "Pending" && "bg-[#C5D2E8] text-[#365992]"}
                                                 `}
                                             >

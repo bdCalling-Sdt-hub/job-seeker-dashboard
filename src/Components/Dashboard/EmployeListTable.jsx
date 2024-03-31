@@ -79,7 +79,7 @@ const data = [
 const EmployeListTable = () =>{
 
   return(
-    <div className="h-fit rounded-[8px] bg-white p-6" >
+    <div className="h-fit rounded-[8px] bg-white p-5" >
       <div className="flex items-center justify-between mb-[15px]">
         <h1 className="text-[20px] font-semibold text-[#2f2f2f]">All Employer List</h1>
         <Link to="/employer-list">

@@ -14,7 +14,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Bara Apple",
-        status:"Active",
+        total_day: "3 days",
+        status:"Pending",
     },
     {
         key: "2",
@@ -23,7 +24,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Khoaya Apple",
-        status:"Complete",
+        total_day: "20 days",
+        status:"Pending",
     },
     {
         key: "3",
@@ -32,7 +34,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Chota Apple",
-        status:"Active",
+        total_day: "10 days",
+        status:"Published",
     },
     {
         key: "4",
@@ -41,7 +44,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Pocha Apple",
-        status:"Complete",
+        total_day: "9 days",
+        status:"Expired",
     },
     {
         key: "5",
@@ -50,7 +54,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Bara Apple",
-        status:"Active",
+        total_day: "7 days",
+        status:"Published",
     },
     {
         key: "6",
@@ -59,7 +64,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Khoaya Apple",
-        status:"Complete",
+        total_day: "6 days",
+        status:"Expired",
     },
     {
         key: "7",
@@ -68,7 +74,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Chota Apple",
-        status:"Active",
+        total_day: "5 days",
+        status:"Expired",
     },
     {
         key: "8",
@@ -77,7 +84,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Pocha Apple",
-        status:"Complete",
+        total_day: "30 days",
+        status:"Pending",
     }
     ,
     {
@@ -87,7 +95,8 @@ const data = [
         start_date: "Dec 30, 2024 5:18",
         end_date: "Dec 30, 2024 5:18",
         company_name: "Chota Apple",
-        status:"Active",
+        total_day: "13 days",
+        status:"Pending",
     }
 ];
 
@@ -176,8 +185,9 @@ const EmployerJobPost = () => {
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                                    ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
-                                                    ${item?.status === "Complete" && "bg-[#FEE3B8] text-[#C98415]"}
+                                                    ${item?.status === "Published" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.status === "Expired" && "bg-[#F8B5B0] text-[#E81100]"}
+                                                    ${item?.status === "Pending" && "bg-[#C5D2E8] text-[#365992]"}
                                                 `}
                                             >
                                                 {item?.status}

@@ -4,6 +4,9 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { TiSocialLinkedinCircular } from "react-icons/ti";
 
 const JobDetails = () => {
+    const user = {
+        userType:"Employer"
+    }
     return (
         <>
             <div style={{ marginBottom: "16px" }}>
@@ -35,16 +38,34 @@ const JobDetails = () => {
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Status</p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%] text-[#6F6F6F]'>
+                                <p className='w-[50%] text-[#6F6F6F] flex'>
                                     <p 
                                         className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
                                             ${"bg-[#B0ECB2] text-[#009B06]"}
                                             
                                         `}
                                     >
-                                        Active
+                                        Published
                                     </p>
+
+                                    <span 
+                                        className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
+                                            ${"bg-[#C5D2E8] text-[#365992]"}
+                                            
+                                        `}
+                                    >
+                                        Pending
+                                    </span>
+                                    
+                                    <span 
+                                        className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
+                                            ${"bg-[#F8B5B0] text-[#E81100]"} 
+                                        `}
+                                    >
+                                        Expired
+                                    </span>
                                 </p>
+
                                 {/* ${"bg-[#FEE3B8] text-[#C98415]"}
                                 ${"bg-[#C5D2E8] text-[#365992]"} */}
                             </div>
@@ -119,7 +140,7 @@ const JobDetails = () => {
                             </div>
                         </div>
 
-                        <div className='flex justify-between'>
+                        <div className='flex justify-between mb-4'>
                             <p className='w-[40%] font-medium text-[#6F6F6F]'>Skills & Expertise</p>
                             <div className='w-[10%]'>:</div>
                             <div className='w-[50%] h-full flex items-center flex-wrap gap-2'>
@@ -145,6 +166,20 @@ const JobDetails = () => {
                                 }
                             </div>
                         </div>
+
+                        <div className='flex justify-between mb-4'>
+                            <p className='w-[40%] font-medium text-[#6F6F6F]'>Vacancy</p>
+                            <div className='w-[10%]'>:</div>
+                            <div className='w-[50%] h-full'>3</div>
+                        </div> 
+                        
+                        <div className='flex justify-between'>
+                            <p className='w-[40%] font-medium text-[#6F6F6F]'>Area</p>
+                            <div className='w-[10%]'>:</div>
+                            <div className='w-[50%] h-full'>Banasree</div>
+                        </div>
+
+
                     </div>
                 </div>
 
@@ -281,6 +316,20 @@ const JobDetails = () => {
                         </div>
                     </div>
                 </div>
+                
+                {
+                    user.userType === "Admin"
+                    ?
+                    <div className='bg-[#ECF1F8] w-full  h-[96px] p-6 rounded-lg flex items-center justify-between mt-6'>
+                        <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
+                        <div className='flex items-center gap-6'>
+                            <button  className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
+                            <button className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] '>Published</button>
+                        </div>
+                    </div>
+                    :
+                    null
+                }
             </div>
         </>
     )

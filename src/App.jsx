@@ -13,7 +13,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import Package from "./Pages/Main/Package";
 import EditPackage from "./Pages/Main/EditPackage";
 import MakeAdmin from "./Pages/Main/MakeAdmin";
-import Profile from "./Pages/Main/Profile";
+// import Profile from "./Pages/Main/Profile";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import SellerDetails from "./Pages/Main/SellerDetails";
 import Contacts from "./Pages/Main/Contacts";
@@ -31,6 +31,11 @@ import JobPost from "./Pages/Main/JobPost";
 import JobDetails from "./Pages/Main/JobDetails";
 import Interview from "./Pages/Main/Interview";
 import CreateJob from "./Pages/Main/CreateJob";
+import AppliedJobTable from "./Pages/Main/Employer/AppliedJobTable";
+import NewApplicantList from "./Components/Dashboard/Employer/NewApplicantList";
+import NewApplicantTable from "./Pages/Main/Employer/NewApplicantTable";
+import EmployerProfile from "./Pages/Main/Employer/EmployerProfile";
+import EmployerChangePassword from "./Pages/Main/Employer/EmployerChangePassword";
 
 function App() {
   return (
@@ -44,7 +49,8 @@ function App() {
               <Route path="/package" element={<Package />} />
               <Route path="/edit-package/:name" element={<EditPackage />} />
               <Route path="/make-admin" element={<MakeAdmin />} />
-              <Route path="/settings-profile" element={<Profile />} />
+              <Route path="/change-password" element={<EmployerChangePassword />} />
+              <Route path="/employer-profile" element={< EmployerProfile />} />
               <Route path="/employer-list" element={<EmployerList  />} />
               <Route path="/employer-details" element={<EmployerDetails  />} />
               <Route path="/seller-details/:id" element={<SellerDetails />} />
@@ -61,6 +67,8 @@ function App() {
               <Route path="/job-details" element={<JobDetails/>} />
               <Route path="/job-interviews" element={<Interview/>} />
               <Route path="/create-job" element={<CreateJob/>} />
+              <Route path="/applied-job" element={<AppliedJobTable/>} />
+              <Route path="/new-applicant" element={<NewApplicantTable />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

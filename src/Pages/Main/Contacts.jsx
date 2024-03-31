@@ -9,7 +9,7 @@ import { MdClose } from "react-icons/md";
 import { LuSend } from "react-icons/lu";
 import { TfiLink } from "react-icons/tfi";
 import { FaFileImage } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { IconMailForward } from '@tabler/icons-react';
 import Swal from 'sweetalert2';
 
 const Contacts = () => {
@@ -79,6 +79,7 @@ const Contacts = () => {
                     </button>
 
                     <p className='text-base font-normal text-[#494949]'>My Emails</p>
+
                     <div
                         onClick={()=>handleTab("inbox")}
                         style={{
@@ -90,7 +91,7 @@ const Contacts = () => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            color: "#325389",
+                            color: tab === "inbox" ? "#436FB6" : "#6F6F6F",
                             padding: "0 16px",
                             cursor: "pointer"
                         }}
@@ -100,14 +101,47 @@ const Contacts = () => {
                                 display: "flex",
                                 alignItems: "center",
                                 gap: "8px",
-                                color: "#325389"
+                                color: tab === "inbox" ? "#436FB6" : "#6F6F6F",
                             }}
                         >
                             <HiOutlineMail size={17} />
-                            <p>message</p>
+                            <p>Inbox</p>
                         </div>
                         1253
                     </div>
+
+
+                    <div
+                        onClick={()=>handleTab("send")}
+                        style={{
+                            width: "100%", 
+                            height: "42px", 
+                            background: "#C5D2E8" , 
+                            borderRadius: "8px",
+                            marginTop: "14px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            color: tab === "send" ? "#436FB6" : "#6F6F6F",
+                            padding: "0 16px",
+                            cursor: "pointer"
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                color: tab === "send" ? "#436FB6" : "#6F6F6F"
+                            }}
+                        >
+                            <IconMailForward size={17} />
+                            <p>Send</p>
+                        </div>
+                        1253
+                    </div>
+
+                    
                 </div>
                 
                 {/* content */}
@@ -189,15 +223,80 @@ const Contacts = () => {
                         </div> 
                     }
 
+                    { 
+                        tab === "send"
+                        && 
+                        <div>
+
+                            {/* search section */}
+                            <div style={{ padding: "24px 24px 10px 24px" }}>
+                                <Input
+                                    onChange={(e)=>setSearch(e.target.value)}
+                                    placeholder="Search..."
+                                    prefix={<FiSearch size={14} color="#868FA0"/>}
+                                    suffix={<IoClose onClick={()=>setSearch("")} style={{cursor: "pointer"}} size={14} color="#2B2A2A" />}
+                                    style={{
+                                        width: "502px",
+                                        fontSize: "14px",
+                                        height: "48px",
+                                    }}
+                                    value={search}
+                                    size="middle"
+                                />
+                            </div>
+                            
+                            {/* email list */}
+                            <div>
+                                {
+                                    [...Array(9).keys()].map((item, index)=>
+                                        <div key={index}
+                                            style={{
+                                                borderBottom: "1px solid #E0E0E0",
+                                                cursor: "pointer"
+                                            }}
+                                            onClick={()=>handleTab("details")}
+                                        >
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: 'space-between',
+                                                    padding: "18px",
+                                                }}
+                                            >
+                                                <p>Jullu Jalal</p>
+                                                <p>Our Bachelor of Commerce program is ACBSP-accredited.....</p>
+                                                <div className='flex items-center gap-[70px]'>
+                                                    <p>8:38 AM</p>
+                                                    <MdDelete onClick={(e) => handleDeleteClick(e, 1)} style={{cursor: "pointer"}} size={25} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            </div>
+
+                            {/* pagination */}
+                            <div style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: 'center',
+                                marginTop: "24px"
+                            }}>
+                                <Pagination 
+                                    defaultCurrent={parseInt(page)} 
+                                    total={10} 
+                                    onChange={handlePageChange} 
+                                />
+                            </div>
+                        </div> 
+                    }
+
                     {
                         tab === "compose" 
                         &&
                         <div>
-                            <div 
-                                style={{
-
-                                }}
-                            >   
+                            <div >   
                                 {/* reset button */}
                                 <div
                                     style={{
@@ -268,10 +367,11 @@ const Contacts = () => {
                                 </div>
 
                                 {/* divider */}
-                                <div style={{width: "100%", height: "1px", background: "#E0E0E0", margin: "0 0 30px 0"}}/>
+                                <div style={{width: "100%", height: "1px", background: "#E0E0E0", margin: "0"}}/>
 
                                 {/* message section */}
-                                <div style={{boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",  borderRadius: "8px", margin: "24px", padding: "24px"}}>
+                                <div style={{padding: "24px"}}>
+                                    <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Message :</label>
                                     <Input.TextArea
                                         placeholder="Write Message..."
                                         onChange={(e)=>setMessage(e.target.value)}
@@ -280,6 +380,7 @@ const Contacts = () => {
                                             width: "100%",
                                             height: "365px",
                                             fontSize: "14px",
+                                            padding: "10px",
                                             resize: 'none',
                                             background:"#F1F4F9",
                                             border: "none",
@@ -330,7 +431,8 @@ const Contacts = () => {
                                                 gap: "17px",
                                                 border: "none",
                                                 outline: "none",
-                                                cursor: "pointer"
+                                                cursor: "pointer",
+                                                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"
                                             }}
                                         >
                                             Send <LuSend color='white' /> 

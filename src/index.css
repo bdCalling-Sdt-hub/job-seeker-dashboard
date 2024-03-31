@@ -117,9 +117,11 @@ ul , li {
 }
 
 /* ant design dropdown custom style */
+.year .ant-dropdown-trigger{
+  width: 100px !important;
+}
 
 .ant-dropdown-trigger{
-  width: 200px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
