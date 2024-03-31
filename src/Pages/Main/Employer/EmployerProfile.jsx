@@ -83,7 +83,7 @@ const EmployerProfile = () => {
                         </label>
                     </div>
                     
-                    <Link to="/change-password">
+                    <Link to="/change-password" className='text-[#436FB6] hover:text-[#436FB6] font-bold'>
                         <p>Change Password</p>
                     </Link>
                 </div>

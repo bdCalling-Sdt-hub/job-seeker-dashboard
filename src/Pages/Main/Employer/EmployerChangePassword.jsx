@@ -27,7 +27,7 @@ const EmployerChangePassword = () => {
         <>
             {/* heading */}
             <div style={{marginBottom: "15px"}}>
-                <BackButton link='/' />
+                <BackButton link='/employer-profile' />
             </div>
 
             <div className='bg-white p-6 rounded-lg'>

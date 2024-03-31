@@ -2,6 +2,9 @@ import React from 'react'
 import BackButton from '../../Components/BackButton'
 
 const CandidateProfile = () => {
+    const user = {
+        status: "recruited"
+    }
     return (
         <>
             <div style={{marginBottom : "20px"}}>
@@ -11,7 +14,7 @@ const CandidateProfile = () => {
             <div className='bg-white p-6 rounded-lg border'>
                 <h1 className='text-[20px] text-[#172740] font-medium mb-6'>Candidate Profile</h1>
 
-                <div className=' bg-[#ECF1F8] w-full flex p-6 rounded-lg mb-6'>
+                <div className={`${user.status === "recruited" ? "bg-[#E6F9E6]" : "bg-[#ECF1F8] "}  w-full flex p-6 rounded-lg mb-6`}>
                     <div className='w-[20%]'>
                         <img 
                             style={{
@@ -28,14 +31,17 @@ const CandidateProfile = () => {
                         <div className='grid grid-cols-1 gap-4'>
                             <div className='flex text-[#436FB6] items-center justify-between'>
                                 <p className='w-[20%]'>Name</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[75%] text-[#6F6F6F]'>User Hossain</p>
+                                <div className='text-[#436FB6] w-[5%]'>:</div>
+                                <p className='w-[75%] text-[#436FB6] flex items-center justify-between'>
+                                    User Hossain  
+                                    { user.status === "recruited" && <span className='text-[#E81100]'>You have already hired this candidate</span> }
+                                </p>
                             </div>
                             
                             <div className='flex text-[#436FB6] items-center justify-between'>
                                 <p className='w-[20%]'>Email</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[75%] text-[#6F6F6F]'>user@gmail.com</p>
+                                <div className='w-[5%] text-[#436FB6]'>:</div>
+                                <p className='w-[75%] text-[#436FB6]'>user@gmail.com</p>
                             </div>
                             
                             <div className='flex items-center justify-between'>
@@ -74,7 +80,7 @@ const CandidateProfile = () => {
 
                 <div className="grid grid-cols-12 gap-6">
 
-                    <div className=' bg-[#ECF1F8] col-span-6 p-6 rounded-lg'>
+                    <div className={`${user.status === "recruited" ? "bg-[#E6F9E6]" : "bg-[#ECF1F8] "}  col-span-6 p-6 rounded-lg`}>
                         <p className='text-[20px] text-[#565656] font-normal mb-6'>Educational</p>
 
                         <div className='grid grid-cols-1 gap-4'>
@@ -215,7 +221,7 @@ const CandidateProfile = () => {
                         </div>
                     </div>
                     
-                    <div className=' bg-[#ECF1F8] col-span-6 p-6 rounded-lg'>
+                    <div className={`${user.status === "recruited" ? "bg-[#E6F9E6]" : "bg-[#ECF1F8] "}  col-span-6 p-6 rounded-lg`}>
                         <p className='text-[20px] text-[#565656] font-normal mb-6'>Skills/ Activities</p>
 
                         <div className='grid grid-cols-1 gap-4'>

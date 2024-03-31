@@ -11,11 +11,12 @@ import Profile from '../../Components/Settings/Profile';
 const SettingsDetails = () => {
     const { settingType } = useParams();
     const title = settingType?.split("-").join(" ");
+    const userType = "Employer"
     return (
         <>
             {/* heading */}
             <div style={{marginBottom: "15px"}}>
-                <BackButton link='/settings' />
+                <BackButton link='/' />
             </div>
 
             <div className='bg-white p-6 rounded-lg'>
