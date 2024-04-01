@@ -38,6 +38,7 @@ import EmployerProfile from "./Pages/Main/Employer/EmployerProfile";
 import EmployerChangePassword from "./Pages/Main/Employer/EmployerChangePassword";
 import CandidateProfile from "./Pages/Main/CandidateProfile";
 import CandidateShortProfile from "./Pages/Main/CandidateShortProfile";
+import UploadedCVViewer from "./Pages/Main/UploadedCVViewer";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
               <Route path="/new-applicant" element={<NewApplicantTable />} />
               <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
               <Route path="/candidate-short-profile/:id" element={<CandidateShortProfile />} />
+              <Route path="/uploaded-cv" element={<UploadedCVViewer />} />
             </Route>
 
             <Route path="/login" element={<Login />} />
