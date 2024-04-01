@@ -5,6 +5,7 @@ import { IoClose } from "react-icons/io5";
 import { LuListFilter } from "react-icons/lu";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import BackButton from "../../../Components/BackButton";
+import { Link } from "react-router-dom";
 
 const data = [
     {
@@ -200,7 +201,11 @@ const NewApplicantTable = () => {
                                             {item?.status}
                                         </p>
                                     </td>
-                                    <td className="py-[10px] pl-10 cursor-pointer"><MdOutlineRemoveRedEye color='#6F6F6F' size={24} /></td>
+                                    <td className="py-[10px] pl-10 cursor-pointer">
+                                        <Link to={"/candidate-short-profile/2"}>
+                                            <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
+                                        </Link>
+                                    </td>
                                 </tr>
                             </>
                         )

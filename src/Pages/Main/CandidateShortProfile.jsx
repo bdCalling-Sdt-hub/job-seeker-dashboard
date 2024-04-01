@@ -56,7 +56,7 @@ const CandidateShortProfile = () => {
     return (
         <>
             <div style={{marginBottom : "20px"}}>
-                <BackButton link="/employer-details" />
+                <BackButton link="/" />
             </div>
 
             <div className='bg-white p-6 rounded-lg border'>
@@ -153,8 +153,12 @@ const CandidateShortProfile = () => {
                 <div className='grid grid-cols-12 gap-6 mb-6'>
                     <div className='col-span-4 bg-[#ECF1F8] rounded-lg '>
                         <div className='w-full h-[96px] gap-6 flex items-center justify-center'>
-                            <button className='w-fit px-4 py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]  flex items-center gap-2'><CiEdit size={16} />  Job Seeker CV</button>
-                            <button className='w-fit px-4 py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]  flex items-center gap-2'><MdOutlineUpload size={16} />  Uploaded CV</button>
+                            <Link to={"/job-seeker-cv/2"}>
+                                <button className='w-fit px-4 py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]  flex items-center gap-2'><CiEdit size={16} />  Job Seeker CV</button>
+                            </Link>
+                            <Link to={"/uploaded-cv/2"}>
+                                <button className='w-fit px-4 py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]  flex items-center gap-2'><MdOutlineUpload size={16} />  Uploaded CV</button>
+                            </Link>
                         </div>
                     </div>
                     <div className='col-span-8 bg-[#ECF1F8] w-full  h-[96px] p-6 rounded-lg '>

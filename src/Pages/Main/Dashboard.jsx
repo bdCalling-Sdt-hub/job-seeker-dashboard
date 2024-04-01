@@ -13,6 +13,7 @@ import { RiFlag2Fill } from "react-icons/ri";
 import { TbCrown } from "react-icons/tb";
 import { FiUser } from "react-icons/fi";
 import { IconCalendarStats } from '@tabler/icons-react';
+import { IconUsers } from '@tabler/icons-react';
 const { Header, Sider, Content } = Layout;
 
 const Dashboard = () => {
@@ -44,6 +45,11 @@ const Dashboard = () => {
     {
       title: "Subscribers",
       path: "/subscribers",
+      icon: <IconUsers size={24} />,
+    },
+    {
+      title: "Subscription",
+      path: "/subscription",
       icon: <AiOutlineDollarCircle size={24} />,
     },
 
@@ -139,6 +145,7 @@ const Dashboard = () => {
                 ${ userType === "Employer" && item.path === "/make-admin" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/employer-list" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/subscribers" ? "none" : "block" }
+                ${ userType === "Admin" && item.path === "/subscription" ? "none" : "block" }
               `}
             >
               <li

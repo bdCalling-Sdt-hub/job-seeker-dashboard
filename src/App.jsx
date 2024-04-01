@@ -39,6 +39,8 @@ import EmployerChangePassword from "./Pages/Main/Employer/EmployerChangePassword
 import CandidateProfile from "./Pages/Main/CandidateProfile";
 import CandidateShortProfile from "./Pages/Main/CandidateShortProfile";
 import UploadedCVViewer from "./Pages/Main/UploadedCVViewer";
+import JobSeekerCV from "./Pages/Main/JobSeekerCV";
+import Subscription from "./Pages/Main/Employer/Subscription";
 
 function App() {
   return (
@@ -63,6 +65,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/settings/:settingType" element={<SettingsDetails />} />
               <Route path="/subscribers" element={<Subscribers/>} />
+              <Route path="/subscription" element={<Subscription/>} />
               <Route path="/company-details" element={<CompanyDetails/>} />
               <Route path="/subscription-details" element={<SubscriptionDetails/>} />
               <Route path="/subscriber-details" element={<SubscriberDetails/>} />
@@ -72,9 +75,10 @@ function App() {
               <Route path="/create-job" element={<CreateJob/>} />
               <Route path="/applied-job" element={<AppliedJobTable/>} />
               <Route path="/new-applicant" element={<NewApplicantTable />} />
-              <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
               <Route path="/candidate-short-profile/:id" element={<CandidateShortProfile />} />
-              <Route path="/uploaded-cv" element={<UploadedCVViewer />} />
+              <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
+              <Route path="/uploaded-cv/:id" element={<UploadedCVViewer />} />
+              <Route path="/job-seeker-cv/:id" element={<JobSeekerCV />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

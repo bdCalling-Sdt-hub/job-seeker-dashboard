@@ -139,7 +139,11 @@ const NewApplicantList = () => {
                                         {item?.status}
                                     </p>
                                 </td>
-                                <td className="py-[10px] pl-10 cursor-pointer"><MdOutlineRemoveRedEye color='#6F6F6F' size={24} /></td>
+                                <td className="py-[10px] pl-10 cursor-pointer">
+                                    <Link to={"/candidate-short-profile/2"}>
+                                        <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
+                                    </Link>
+                                </td>
                             </tr>
                         </>
                     )
