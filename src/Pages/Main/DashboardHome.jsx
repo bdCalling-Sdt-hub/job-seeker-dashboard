@@ -2,17 +2,15 @@ import React from 'react'
 import DashboardHomeEmployer from '../../Components/Dashboard/Employer/DashboardHome';
 import DashboardHomeAdmin from '../../Components/Dashboard/Admin/DashboardHome';
 const DashboardHome = () => {
-    const user = {
-        userType : "Employer"
-    }
+    const { userType } = JSON.parse(localStorage.getItem("user"));
     return (
         <div>
             {
-                user.userType === "Employer"
+                userType === "ADMIN"
                 ?
-                <DashboardHomeEmployer/>
-                :
                 <DashboardHomeAdmin/>
+                :
+                <DashboardHomeEmployer/>
             }
         </div>
     )

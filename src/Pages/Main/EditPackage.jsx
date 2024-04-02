@@ -1,81 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams} from "react-router-dom"
 import BackButton from '../../Components/BackButton';
 import { Form, Input, Button } from 'antd';
 import {  PlusOutlined } from '@ant-design/icons';
+import baseURL from '../../../Config';
 
 const EditPackage = () => {
-    const { name } = useParams();
-    console.log(name)
-    const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || name);
+    const [packages, setPackages] = useState([]);
+    const selectedData  = JSON.parse(localStorage.getItem("package"));
+    const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || selectedData.id);
     const navigate = useNavigate();
 
-    const handleChangeEditPage=(value)=>{
-        localStorage.setItem("package", JSON.stringify(value))
-        navigate("/edit-package")
-    }
-
-    
-
-    const data = [
-        {
-            name: "Basic",
-            price: 20,
-            validity: 1,
-            PackageType: "Payment Package",
-            notice: "quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at ",
-            validation: "1 Month",
-            features: [
-                "Add 15 Products for your business",
-                "Edit Products details",
-                "Manage Orders",
-            ]
-        },
-        {
-            name: "Essential",
-            price: 50,
-            validity: 2,
-            PackageType: "Payment Package",
-            notice: "quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at ",
-            validation: "1 Months",
-            features: [
-                "Add 15 Products for your business",
-                "Edit Products details",
-                "Manage Orders",
-            ]
-        },
-        {
-            name: "Essential Pro",
-            price: 100,
-            validity: 3,
-            PackageType: "Payment Package",
-            notice: "quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at ",
-            validation: "1 Months",
-            features: [
-                "Add 15 Products for your business",
-                "Edit Products details",
-                "Manage Orders",
-            ]
+    useEffect(()=>{
+        async function getAPi(){
+          const response = await baseURL.get(`/show-package`,{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+          });
+          setPackages(response?.data?.data);
         }
+        getAPi();
+    }, []);
 
-    ]
-
-    const handlePackageChange = (value) => {
-        setSelectedPackage(value);
-        const params = new URLSearchParams(window.location.search);
-        params.set('package', value);
-        window.history.pushState(null, "", `?${params.toString()}`);
+    const handleSubmit=(values)=>{
+        console.log(values)
     }
-
-
-    const filterData = data.find((item) => item.name === selectedPackage);
 
     const initialFormValues={
-        name :  filterData?.name,
-        price : filterData?.price,
-        notice : filterData?.notice,
-        validation : filterData?.validation,
-        conditions: filterData?.features
+        package_name :   selectedData.package_name ,
+        amount : selectedData.amount,
+        notice : "quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at ",
+        duration : selectedData.duration,
+        feature: selectedData.feature
     }
     return (
         <div className='bg-white p-6 rounded-lg'>
@@ -88,20 +46,19 @@ const EditPackage = () => {
             <div className='flex items-center gap-6'>
 
                 {
-                    data?.map((item, index)=>(
+                    packages?.map((item, index)=>(
                         <div 
-                            key={index} 
-                            onClick={()=>(handlePackageChange(item.name),window.location.reload())} 
+                            key={index}
                             className={`
                                 w-[335px] h-[101px] 
                                 rounded-[20px] 
-                                p-6 cursor-pointer
-                                ${selectedPackage === item?.name ? "bg-[#436FB6]" : "bg-white"} 
+                                p-6
+                                ${selectedPackage == item?.id ? "bg-[#436FB6]" : "bg-white"} 
                                 flex  items-center justify-between
                             `}
                             style={{boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"}}
                         >
-                            <div style={{ color: selectedPackage === item?.name ? "#F1F1F1" : "#565656"}}>
+                            <div style={{ color: selectedPackage == item?.id ? "#F1F1F1" : "#565656"}}>
                                 <h3 
                                     className='
                                         text-base 
@@ -109,15 +66,15 @@ const EditPackage = () => {
                                         font-semibold
                                     '
                                 >
-                                    {item?.name}
+                                    {item?.package_name}
                                 </h3>
-                                <div className='text-[12px] font-normal'>{item.PackageType}</div>
+                                <div className='text-[12px] font-normal'>{"Payment Type"}</div>
                             </div>
                             <div
                                 style={{ color: selectedPackage === item?.name ? "#FBA51A" : "#436FB6"}} 
                                 className='text-2xl font-bold'
                             >
-                                $ {item.price}
+                                $ {item.amount}
                             </div>
                         </div>
 
@@ -127,7 +84,7 @@ const EditPackage = () => {
 
             {/* edit Package section */}
             
-            <Form initialValues={initialFormValues} >
+            <Form initialValues={initialFormValues} onFinish={handleSubmit}>
                 <div className='grid grid-cols-3 gap-6 mt-[53px]'>
                     <div className='bg-[#ECF1F8] rounded-[5px] p-6 h-[400px]'>
                         <h1 className='text-[#565656]'>Primary Data:</h1>
@@ -156,7 +113,7 @@ const EditPackage = () => {
 
                             <div>
                                 <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Package Name</label>
-                                <Form.Item name="name" style={{marginBottom: "0"}}>
+                                <Form.Item name="package_name" style={{marginBottom: "0"}}>
                                     <Input
                                         placeholder=''
                                         style={{
@@ -176,7 +133,7 @@ const EditPackage = () => {
 
                             <div>
                                 <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Package Price</label>
-                                <Form.Item name="price" style={{marginBottom: "0"}}>
+                                <Form.Item name="amount" style={{marginBottom: "0"}}>
                                     <Input
                                         placeholder=''
                                         style={{
@@ -196,7 +153,7 @@ const EditPackage = () => {
 
                             <div>
                                 <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Package Validation</label>
-                                <Form.Item name="validation" style={{marginBottom: "0"}}>
+                                <Form.Item name="duration" style={{marginBottom: "0"}}>
                                     <Input
                                         placeholder=''
                                         style={{
@@ -220,7 +177,7 @@ const EditPackage = () => {
                         <h1 className='text-[#565656] mb-4'>Conditions :</h1>
 
                         <div className="grid grid-cols-1 gap-4">
-                                    <Form.List name="conditions">
+                                    <Form.List name="feature">
                                         {
                                             (fields, { add, remove }) => (
                                                 <>

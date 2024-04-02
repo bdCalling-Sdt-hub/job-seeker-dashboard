@@ -1,56 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate} from "react-router-dom"
 import BackButton from '../../Components/BackButton';
 import { FaCircleCheck } from "react-icons/fa6"
 import { Button } from 'antd';
-
-const data = [
-    {
-        name: "Basic",
-        price: 20,
-        validity: 1,
-        PackageType: "Payment Package",
-        notice: "quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at ",
-        validation: "1 Month",
-        features: [
-            "Add 15 Products for your business",
-            "Edit Products details",
-            "Manage Orders",
-        ]
-    },
-    {
-        name: "Essential",
-        price: 50,
-        validity: 2,
-        PackageType: "Payment Package",
-        notice: "quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at ",
-        validation: "1 Months",
-        features: [
-            "Add 15 Products for your business",
-            "Edit Products details",
-            "Manage Orders",
-        ]
-    },
-    {
-        name: "Essential Pro",
-        price: 100,
-        validity: 3,
-        PackageType: "Payment Package",
-        notice: "quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at ",
-        validation: "1 Months",
-        features: [
-            "Add 15 Products for your business",
-            "Edit Products details",
-            "Manage Orders",
-        ]
-    }
-
-]
+import baseURL from "../../../Config"
 
 const Package = () => {
-    const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || "Basic");
-    const userType = "Admin"
-    const filterData = data.find((item) => item.name === selectedPackage);
+    const [packages, setPackages] = useState([]);
+    const { userType } = JSON.parse(localStorage.getItem("user"));
+    const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || packages[0]?.id);
+    const filterData = packages.find((item) => item?.id === selectedPackage || packages[0]?.id);
 
     const handlePackageChange = (value) => {
         setSelectedPackage(value);
@@ -58,6 +17,19 @@ const Package = () => {
         params.set('package', value);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+
+    useEffect(()=>{
+        async function getAPi(){
+          const response = await baseURL.get(`/show-package`,{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+          });
+          setPackages(response?.data?.data);
+        }
+        getAPi();
+    }, []);
 
     return (
         <>
@@ -70,20 +42,20 @@ const Package = () => {
                 <div className='flex items-center gap-6'>
 
                     {
-                        data?.map((item, index)=>(
+                        packages?.map((item, index)=>(
                             <div 
                                 key={index} 
-                                onClick={()=>handlePackageChange(item.name)} 
+                                onClick={()=>(( localStorage.setItem("package", JSON.stringify(item)) ,handlePackageChange(item.id)))} 
                                 className={`
                                     w-[335px] h-[101px] 
                                     rounded-[20px] 
                                     p-6 cursor-pointer
-                                    ${selectedPackage === item?.name ? "bg-[#436FB6]" : "bg-white"} 
+                                    ${selectedPackage == item?.id ? "bg-[#436FB6]" : "bg-white"} 
                                     flex  items-center justify-between
                                 `}
                                 style={{boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"}}
                             >
-                                <div style={{ color: selectedPackage === item?.name ? "#F1F1F1" : "#565656"}}>
+                                <div style={{ color: selectedPackage == item?.id ? "#F1F1F1" : "#565656"}}>
                                     <h3 
                                         className='
                                             text-base 
@@ -91,15 +63,15 @@ const Package = () => {
                                             font-semibold
                                         '
                                     >
-                                        {item?.name}
+                                        {item?.package_name}
                                     </h3>
-                                    <div className='text-[12px] font-normal'>{item.PackageType}</div>
+                                    <div className='text-[12px] font-normal'>{"Payment Type"}</div>
                                 </div>
                                 <div
-                                    style={{ color: selectedPackage === item?.name ? "#FBA51A" : "#436FB6"}} 
+                                    style={{ color: selectedPackage == item?.id ? "#FBA51A" : "#436FB6"}} 
                                     className='text-2xl font-bold'
                                 >
-                                    $ {item.price}
+                                    $ {item.amount}
                                 </div>
                             </div>
 
@@ -115,24 +87,24 @@ const Package = () => {
                         <div className='flex items-center mb-5'>
                             <label style={{display: "block", width: "50%"}} htmlFor="">Package Name</label>
                             <div className='w-[10%]'>:</div>
-                            <p>{filterData?.name}</p>
+                            <p>{filterData?.package_name}</p>
                         </div>
 
                         <div className='flex items-center mb-5'>
                             <label style={{display: "block", width: "50%"}} htmlFor="">Package Price</label>
                             <div className='w-[10%]'>:</div>
-                            <p>{filterData?.price}</p>
+                            <p>{filterData?.amount}</p>
                         </div>
                         <div className='flex items-center mb-5'>
                             <label style={{display: "block", width: "50%"}} htmlFor="">Package Validation</label>
                             <div className='w-[10%]'>:</div>
-                            <p>{filterData?.validation}</p>
+                            <p>{filterData?.duration} {parseInt(filterData?.duration) < 2 ? "Month" : "Months"}</p>
                         </div>
 
                         <div className='flex items-center mb-5'>
                             <label style={{display: "block", width: "50%"}} htmlFor="">Package Type</label>
                             <div className='w-[10%]'>:</div>
-                            <p>{filterData?.PackageType}</p>
+                            <p>{"Payment"}</p>
                         </div>
                     </div>
 
@@ -141,7 +113,7 @@ const Package = () => {
 
                         <div className='grid grid-cols-1 gap-4'>
                             {
-                                filterData?.features?.map((item, index)=>
+                                filterData?.feature?.map((item, index)=>
                                     <div key={index} className="flex items-center gap-[10px]">
                                         <FaCircleCheck size={16} color="#00C208"/>
                                         <p className="text-[#6F6F6F]">{item}</p>
@@ -153,13 +125,13 @@ const Package = () => {
 
                     <div className='bg-[#ECF1F8] rounded-[5px] p-6 mb-4 h-[235px]'>
                         <h1 className='text-[#565656] mb-4'>Package Notice :</h1>
-                        <p className="text-[#6F6F6F]">{filterData.notice}</p>
+                        <p className="text-[#6F6F6F]">{filterData?.notice}</p>
                     </div>
                 </div>
 
                 <div style={{display: "flex", alignItems: "flex-end", justifyContent: "flex-end"}}>
                     {
-                        userType === "Admin" 
+                        userType === "ADMIN" 
                         ?
                         <Link to={`/edit-package/${selectedPackage}`}>
                             <Button
