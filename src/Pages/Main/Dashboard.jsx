@@ -18,12 +18,13 @@ const { Header, Sider, Content } = Layout;
 
 const Dashboard = () => {
   const { pathname } = useLocation();
+  const { userType, fullName } = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  const userType = "Employer"
 
   const handleLogOut=()=>{
     navigate('/login');
-    window.location.reload();
+    localStorage.setItem("token", JSON.stringify(response.data.access_token));
+    localStorage.setItem("user", JSON.stringify(response.data.user));
   }
 
   const linkItems = [
@@ -139,13 +140,13 @@ const Dashboard = () => {
               key={index} 
               to={item.path}
               className={`
-                ${ userType === "Admin" && item.path === "/employer-profile" ? "none" : "block" }
-                ${ userType === "Admin" && item.path === "/job-interviews" ? "none" : "block" }
+                ${ userType === "ADMIN" && item.path === "/employer-profile" ? "none" : "block" }
+                ${ userType === "ADMIN" && item.path === "/job-interviews" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/settings" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/make-admin" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/employer-list" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/subscribers" ? "none" : "block" }
-                ${ userType === "Admin" && item.path === "/subscription" ? "none" : "block" }
+                ${ userType === "ADMIN" && item.path === "/subscription" ? "none" : "block" }
               `}
             >
               <li
@@ -240,9 +241,17 @@ const Dashboard = () => {
 
 
             <Link to={`${userType === "User" ? "/employer-profile" : "/settings/profile"}`}>
-              <div className="w-[171px] h-[42px] bg-[#ffffff] rounded-[5px] flex items-center gap-5 p-[10px]">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLotvhr2isTRMEzzT30Cj0ly77jFThGXr0ng&usqp=CAU" style={{width: "30px", height: "30px", borderRadius: "100%"}} alt="" />
-                <h2 style={{color: "black", fontSize: "10px"}}>DR. Jim ahhmed</h2>
+              <div className="w-[171px] h-[42px] bg-[#ffffff] rounded-[5px] flex items-center gap-3 p-[10px]">
+                <img 
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLotvhr2isTRMEzzT30Cj0ly77jFThGXr0ng&usqp=CAU" 
+                  style={{
+                    width: "30px", 
+                    height: "30px", 
+                    borderRadius: "100%"
+                  }} 
+                  alt="" 
+                />
+                <h2 style={{color: "black", fontSize: "14px"}}>{fullName}</h2>
               </div>
             </Link>
           </div>

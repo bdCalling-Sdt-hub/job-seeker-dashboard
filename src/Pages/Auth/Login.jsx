@@ -1,11 +1,42 @@
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import baseURL from "../../../Config";
+import Swal from "sweetalert2";
 const Login = () => {
-  const onFinish = (values) => {
+  const [checked, setChecked] = useState()
+
+  const onFinish = async(values) => {
     console.log("Received values of form: ", values);
+    await baseURL.post("/login", {email: values.email, password: values.password})
+    .then((response)=>{
+      if(response.status === 200){
+        localStorage.setItem("token", JSON.stringify(response.data.access_token));
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Logged In Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          navigate("/");
+        });
+      }
+    }).catch((error)=>{
+      if(error.response.status === 402){
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: error.response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+      console.log(error)
+    })
+
   };
 
   const navigate = useNavigate();
@@ -88,8 +119,8 @@ const Login = () => {
 
 
           <div className="flex items-center justify-between">
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox style={{color: "#6F6F6F"}}>Remember me</Checkbox>
+            <Form.Item name="remember" noStyle>
+              <Checkbox onChange={(e)=>setChecked(e.target.checked)} style={{color: "#6F6F6F"}}>Remember me</Checkbox>
             </Form.Item>
             <a
               className="login-form-forgot"
@@ -108,6 +139,7 @@ const Login = () => {
               htmlType="submit"
               className="login-form-button"
               block
+              disabled={!checked}
               style={{
                 height: "48px",
                 fontWeight: "400px",

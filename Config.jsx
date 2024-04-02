@@ -1,10 +1,9 @@
 import axios from 'axios';
 
-const baseAxios = axios.create({
-    
-    baseURL: "http://103.161.9.43:3000",
+const baseURL = axios.create({
+    baseURL: "http://103.145.138.53:3000/api",
     timeout: 10000,
     headers: {'X-Custom-Header': 'foobar'}
   });
 
-  export default baseAxios;
+export default baseURL;
