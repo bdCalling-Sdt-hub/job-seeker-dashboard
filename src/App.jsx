@@ -21,12 +21,14 @@ import SellerProductList from "./Pages/Main/SellerProductList";
 import EmployerList from "./Pages/Main/EmployerList";
 import TopSellerList from "./Pages/Main/TopSellerList";
 import Settings from "./Pages/Main/Settings";
-import Subscribers from "./Pages/Main/Subscribers";
+import Subscribers from "./Pages/Main/Admin/Subscribers";
+import SubscriberDetails from "./Pages/Main/Admin/SubscriberDetails";
+import Subscription from "./Pages/Main/Employer/Subscription";
+import SubscriptionDetails from "./Pages/Main/SubscriptionDetails";
+import SubscriptionInfo from "./Pages/Main/Employer/SubscriptionInfo";
 import SettingsDetails from "./Pages/Main/SettingsDetails";
 import EmployerDetails from "./Pages/Main/EmployerDetails";
 import CompanyDetails from "./Pages/Main/CompanyDetails";
-import SubscriptionDetails from "./Pages/Main/SubscriptionDetails";
-import SubscriberDetails from "./Pages/Main/SubscriberDetails";
 import JobPost from "./Pages/Main/JobPost";
 import JobDetails from "./Pages/Main/JobDetails";
 import Interview from "./Pages/Main/Interview";
@@ -40,7 +42,6 @@ import CandidateProfile from "./Pages/Main/CandidateProfile";
 import CandidateShortProfile from "./Pages/Main/CandidateShortProfile";
 import UploadedCVViewer from "./Pages/Main/UploadedCVViewer";
 import JobSeekerCV from "./Pages/Main/JobSeekerCV";
-import Subscription from "./Pages/Main/Employer/Subscription";
 
 function App() {
   return (
@@ -69,6 +70,7 @@ function App() {
               <Route path="/company-details" element={<CompanyDetails/>} />
               <Route path="/subscription-details" element={<SubscriptionDetails/>} />
               <Route path="/subscriber-details" element={<SubscriberDetails/>} />
+              <Route path="/subscription-info/:id" element={<SubscriptionInfo/>} />
               <Route path="/job-post" element={<JobPost/>} />
               <Route path="/job-details" element={<JobDetails/>} />
               <Route path="/job-interviews" element={<Interview/>} />

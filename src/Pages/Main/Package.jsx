@@ -49,7 +49,7 @@ const data = [
 
 const Package = () => {
     const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || "Basic");
-    const userType = "User"
+    const userType = "Admin"
     const filterData = data.find((item) => item.name === selectedPackage);
 
     const handlePackageChange = (value) => {

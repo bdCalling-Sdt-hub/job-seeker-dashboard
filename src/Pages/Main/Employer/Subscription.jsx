@@ -203,7 +203,7 @@ const Subscription = () => {
                                             </p>
                                         </td>
                                         <td className="py-[10px] pl-10 cursor-pointer">
-                                            <Link to={"/job-details"}>
+                                            <Link to={"/subscription-info/1"}>
                                                 <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                                             </Link>
                                         </td>
