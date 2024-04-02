@@ -4,6 +4,7 @@ import OTPInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Navigate from "../../Components/Navigate"
+import baseURL from "../../../Config";
 
 const Otp = () => {
   const navigate = useNavigate();
@@ -11,19 +12,62 @@ const Otp = () => {
   const [err, setErr] = useState("");
   const [open, setOpen] = useState(false)
 
-  const handleResendEmail = () => {
-    const email = JSON.parse(localStorage.getItem("email"));
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Send OTP ",
-      showConfirmButton: false,
-      timer: 1500
-    });
+  const handleResendEmail = async() => {
+    await baseURL.post(`/forget-pass`, {email: JSON.parse(localStorage.getItem("email"))})
+    .then((response)=>{
+      if(response.status === 200){
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: response?.data?.message,
+          showConfirmButton: false,
+          width: 700,
+          timer: 1500
+        }).then(() => {
+          navigate("/otp");
+        });
+      }
+    })
 
   };
-  const handleVerifyOtp=()=>{
-    setOpen(true)
+  const handleVerifyOtp= async ()=>{
+    const formData = new FormData();
+    formData.append("otp", otp);
+    formData.append("email", JSON.parse(localStorage.getItem("email")))
+
+
+    await baseURL.post(`/email-verified`, {email: JSON.parse(localStorage.getItem('email')), otp: otp}, {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      }
+    })
+    .then((response)=>{
+      if(response.status === 200){
+        Swal.fire({
+          html: "Your password has been successfully reset. click confirm to set a new password",
+          confirmButtonText: 'Confirm',
+          customClass: {
+            confirmButton: 'custom-send-button',
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/update-password")
+          }
+        });
+      }
+    }).catch((error)=>{
+      console.log(error)
+      if(error.response.status === 422){
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: error.response.data.message + " " + "OTP",
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    })
   }
 
   const handleClose=()=>{
@@ -65,6 +109,7 @@ const Otp = () => {
 
 
         <Button
+          disabled={otp.length < 6}
           onClick={handleVerifyOtp}
               block
               htmlType="submit"

@@ -1,11 +1,10 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import baseURL from "../../../Config";
 import Swal from "sweetalert2";
 const Login = () => {
-  const [checked, setChecked] = useState()
+  const [checked, setChecked] = useState();
 
   const onFinish = async(values) => {
     console.log("Received values of form: ", values);
@@ -152,11 +151,6 @@ const Login = () => {
               Sign In
             </Button>
           </Form.Item>
-
-          <p className="text-center text-[16px] font-normal text-[#202224]">
-            Don’t have an account?   {"  "}
-            <Link to="/register" className="text-[18px] font-normal text-[#436FB6] underline">Create Account</Link>
-          </p>
         </Form>
     </div>
   );

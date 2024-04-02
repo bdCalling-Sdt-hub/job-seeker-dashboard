@@ -6,14 +6,12 @@ import DashboardHome from "./Pages/Main/DashboardHome";
 import Notification from "./Pages/Main/Notification";
 import Otp from "./Pages/Auth/Otp";
 import Login from "./Pages/Auth/Login";
-import Register from "./Pages/Auth/Register";
 import UpdatePassword from "./Pages/Auth/UpdatePassword";
 import NotFound from "./404";
 import PrivateRoute from "./routes/PrivateRoute";
 import Package from "./Pages/Main/Package";
 import EditPackage from "./Pages/Main/EditPackage";
 import MakeAdmin from "./Pages/Main/MakeAdmin";
-// import Profile from "./Pages/Main/Profile";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
 import SellerDetails from "./Pages/Main/SellerDetails";
 import Contacts from "./Pages/Main/Contacts";
@@ -34,7 +32,6 @@ import JobDetails from "./Pages/Main/JobDetails";
 import Interview from "./Pages/Main/Interview";
 import CreateJob from "./Pages/Main/CreateJob";
 import AppliedJobTable from "./Pages/Main/Employer/AppliedJobTable";
-import NewApplicantList from "./Components/Dashboard/Employer/NewApplicantList";
 import NewApplicantTable from "./Pages/Main/Employer/NewApplicantTable";
 import EmployerProfile from "./Pages/Main/Employer/EmployerProfile";
 import EmployerChangePassword from "./Pages/Main/Employer/EmployerChangePassword";
@@ -87,7 +84,6 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/otp" element={<Otp />} />
             <Route path="/update-password" element={<UpdatePassword />} />
-            <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

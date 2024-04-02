@@ -3,21 +3,38 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Navigate from "../../Components/Navigate";
+import baseURL from "../../../Config";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const onFinish = (values) => {
+  const onFinish = async(values) => {
     localStorage.setItem("email", JSON.stringify(values.email))
-    console.log("Received values of form: ", values.email);
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Send OTP ",
-      showConfirmButton: false,
-      timer: 1500
-    }).then(() => {
-      navigate("/otp")
-    });
+    await baseURL.post(`/forget-pass`, {email: values.email})
+    .then((response)=>{
+      if(response.status === 200){
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: response?.data?.message,
+          showConfirmButton: false,
+          width: 700,
+          timer: 1500
+        }).then(() => {
+          navigate("/otp");
+        });
+      }
+    }).catch((error)=>{
+      console.log(error)
+      if(error.response.status === 401){
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: error.response.data.error,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    })
   };
   return (
     <div className="w-full bg-[#FCFCFC] h-screen flex items-center justify-center">
