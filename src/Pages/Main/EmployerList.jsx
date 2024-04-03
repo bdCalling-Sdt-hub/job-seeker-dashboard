@@ -9,6 +9,7 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import baseURL from '../../../Config';
 
 const data = [
   {
@@ -87,6 +88,7 @@ const EmployerList = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState(new URLSearchParams(window.location.search).get('category') || "All")
   const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
+  const [employer, setEmployer] = useState();
 
   const items = [
     {
@@ -143,12 +145,25 @@ const EmployerList = () => {
     window.history.pushState(null, "", `?${params.toString()}`);
   };
 
+  useEffect(()=>{
+    async function getAPi(){
+      const response = await baseURL.get(`/employer-list?category_name=${search}`,{
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+        }
+      });
+      setEmployer(response?.data?.data);
+    }
+    getAPi();
+}, [search]);
+
   return (
     <div>
       <div style={{ marginBottom: "16px" }}>
         <BackButton link="/" />
       </div>
-      <div className='bg-white p-5 rounded-xl'>
+      <div className='bg-white px-5 py-4 rounded-xl'>
         <h1 className='text-[20px] font-semibold text-[#2F2F2F]'>Total Employer List</h1>
 
 
@@ -207,27 +222,27 @@ const EmployerList = () => {
 
             
             {
-              (data?.slice(0, 8))?.map((item, index)=>
+              employer?.data?.map((item, index)=>
               <>
                 <div key={index} style={{marginTop: '8px'}}></div>
                 <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
-                  <td>{item.key}</td>
-                  <td>{item.companyname}</td>
-                  <td>{item.category}</td>
+                  <td>{index + 1}</td>
+                  <td>{item?.company_name}</td>
+                  <td>{item?.category?.category_name}</td>
                   <td>{item.location}</td>
                   <td>
                     <p 
                       className={` w-[88px] h-[31px] rounded-[100px] flex items-center justify-center
-                        ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
-                        ${item?.status === "Inactive" && "bg-[#F8B5B0] text-[#BA0E00]"}
-                        ${item?.status === "Pending" && "bg-[#C5D2E8] text-[#365992]"}
+                        ${item?.status === "active" && "bg-[#B0ECB2] text-[#009B06]"}
+                        ${item?.status === "blocked" && "bg-[#F8B5B0] text-[#BA0E00]"}
+                        ${item?.status === "pending" && "bg-[#C5D2E8] text-[#365992]"}
                       `}
                     >
                       {item?.status}
                     </p>
                   </td>
                   <td className="py-[10px] pl-10 cursor-pointer">
-                    <Link to={"/employer-details"}>
+                    <Link to={`/employer-details/${item?.user_id}`}>
                       <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                     </Link>
                   </td>
@@ -241,8 +256,9 @@ const EmployerList = () => {
         {/* pagination */}
         <div className='mt-6 flex items-center justify-center'>
           <Pagination 
-            defaultCurrent={page} 
-            total={50} 
+            defaultCurrent={employer?.current_page} 
+            total={employer?.total} 
+            pageSize={employer?.per_page}
             onChange={handlePageChange}
           />
         </div>

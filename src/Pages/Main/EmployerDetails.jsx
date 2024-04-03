@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../Components/BackButton';
 import Swal from 'sweetalert2';
 import { Button, Form, Input, Modal, Pagination } from 'antd';
@@ -6,8 +6,9 @@ import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { LuListFilter } from "react-icons/lu";
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { IoIosArrowRoundForward } from "react-icons/io";
+import baseURL from '../../../Config';
 
 const data = [
     {
@@ -83,9 +84,11 @@ const data = [
     },
 ];
 const EmployerDetails = () => {
+    const { id } = useParams();
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const [openModal, setOpenModal] = useState(false);
     const [search, setSearch] = useState("");
+    const [employer, setEmployer] = useState();
 
     const handleblock=(id)=>{
         Swal.fire({
@@ -97,25 +100,34 @@ const EmployerDetails = () => {
             confirmButtonText: "Yes",
             cancelButtonText: "No"
 
-        }).then((result) => {
+        }).then(async(result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Blocked!",
-                    text: "Your file has been deleted.",
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
+                await baseURL.get(`/block-recruiter?recruiter_id=${id}`,{
+                    headers: {
+                      "Content-Type": "application/json",
+                      authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+                    }
+                }).then((response)=>{
+                    if(response.status ===200){
+                        Swal.fire({
+                            title: "Blocked!",
+                            text: response?.data?.message,
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                
             }
         });
     }
 
     const onFinish = (values) => {
-        console.log("Received values of form: ", values);
     };
 
     const initialFormData={
-        email: "nadirhossain@gmail.com"
+        email: employer?.company_details?.user?.email
     }
 
     const handlePageChange = (page) => {
@@ -125,6 +137,21 @@ const EmployerDetails = () => {
         window.history.pushState(null, "", `?${params.toString()}`);
     }
 
+
+
+    useEffect(()=>{
+        async function getAPi(){
+          const response = await baseURL.get(`/company-wise-subscription?user_id=${id}`,{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+          });
+            console.log(response.data.data.subscription[2])
+          setEmployer(response?.data?.data);
+        }
+        getAPi();
+    }, [id]);
     return (
         <>
             <div style={{marginBottom : "20px"}}>
@@ -138,50 +165,52 @@ const EmployerDetails = () => {
                         <img style={{width: "257px", height: "230px", border: "1px solid red", borderRadius: "8px"}} src="https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" alt="" />
                         <div className='w-full grid grid-cols-1 gap-7 text-[#565656]'>
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Company Name</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>sfasdfdf</p>
+                                <p className='w-[25%]'>Company Name</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{employer?.company_details?.company_name}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Email</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>admin@gmail.com</p>
+                                <p className='w-[25%]'>Email</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{employer?.company_details?.user?.email}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Phone</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>01756953936</p>
+                                <p className='w-[25%]'>Phone</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{employer?.company_details?.phone}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Country</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>Bangladesh</p>
+                                <p className='w-[25%]'>Country</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{employer?.company_details?.phone}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Location</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>Banasree, Banasree, Banasree</p>
+                                <p className='w-[25%]'>Location</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{employer?.company_details?.location}</p>
                             </div>
                         </div>
                     </div>
+
+
                     <div className='w-[40%] bg-[#ECF1F8] h-[279px] rounded-lg p-6 relative'>
                         <div className='flex items-center justify-between mb-6'>
                             <p className='w-[30%]'>Company Category</p>
-                            <div className='w-[10%]'>:</div>
-                            <p className='w-[50%]'>IT</p>
+                            <div className='w-[5%]'>:</div>
+                            <p className='w-[65%]'>{employer?.company_details?.category?.category_name}</p>
                         </div>
 
                         <div className='flex justify-between'>
                             <p className='w-[30%]'>Company Service</p>
-                            <div className='w-[10%]'>:</div>
-                            <div className='w-[50%] h-full'>
+                            <div className='w-[5%]'>:</div>
+                            <div className='w-[65%] h-full'>
                                 {
                                     ["Web Development", "Mobile App Development", "UX/UI", "Data Entry", "Graphs"].map((service, index)=>
-                                        <p className='text-[14px] font-normal text-[#565656]'>{service}</p>
+                                        <p key={index} className='text-[14px] font-normal text-[#565656]'>{service}</p>
                                     )
                                 }
                             </div>
@@ -212,11 +241,12 @@ const EmployerDetails = () => {
                     <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                     <div className='flex items-center gap-6'>
                         <button onClick={()=>setOpenModal(true)} className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
-                        <button onClick={handleblock} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] '>Block</button>
+                        <button onClick={()=>handleblock(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] '>Block</button>
                     </div>
                 </div>
 
-                <h1 className='mb-4 text-[20px] font-medium text-[#172740]'>All Subscription</h1>
+                <h1 className='mb-4 text-[20px] font-medium text-[#172740]'>All Job Subscriptions</h1>
+
                 {/* search and filter section */}
                 <div className='flex items-center justify-between mb-[14px]'>
                     <Input
@@ -270,9 +300,9 @@ const EmployerDetails = () => {
                         </tr>                        
                         {
                             (data.slice(0, 9))?.map((item, index)=>
-                                <>
-                                    <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
+                                < >
+                                    <div style={{marginTop: '8px'}}></div>
+                                    <tr  className="bg-[#ECF1F8] text-[#949494] custom-table-row">
                                         <td>{item.key}</td>
                                         <td>{item.companyname}</td>
                                         <td>{item.package}</td>

@@ -55,7 +55,7 @@ function App() {
               <Route path="/change-password" element={<EmployerChangePassword />} />
               <Route path="/employer-profile" element={< EmployerProfile />} />
               <Route path="/employer-list" element={<EmployerList  />} />
-              <Route path="/employer-details" element={<EmployerDetails  />} />
+              <Route path="/employer-details/:id" element={<EmployerDetails  />} />
               <Route path="/seller-details/:id" element={<SellerDetails />} />
               <Route path="/seller-product-list" element={<SellerProductList />} />
               <Route path="/contacts" element={<Contacts />} />
