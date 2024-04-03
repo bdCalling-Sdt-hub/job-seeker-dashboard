@@ -64,7 +64,7 @@ function App() {
               <Route path="/settings/:settingType" element={<SettingsDetails />} />
               <Route path="/subscribers" element={<Subscribers/>} />
               <Route path="/subscription" element={<Subscription/>} />
-              <Route path="/company-details" element={<CompanyDetails/>} />
+              <Route path="/company-details/:id" element={<CompanyDetails/>} />
               <Route path="/subscription-details" element={<SubscriptionDetails/>} />
               <Route path="/subscriber-details" element={<SubscriberDetails/>} />
               <Route path="/subscription-info/:id" element={<SubscriptionInfo/>} />

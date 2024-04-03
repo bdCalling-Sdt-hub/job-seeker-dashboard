@@ -141,14 +141,13 @@ const EmployerDetails = () => {
 
     useEffect(()=>{
         async function getAPi(){
-          const response = await baseURL.get(`/company-wise-subscription?user_id=${id}`,{
-            headers: {
-              "Content-Type": "application/json",
-              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-            }
-          });
-            console.log(response.data.data.subscription[2])
-          setEmployer(response?.data?.data);
+            const response = await baseURL.get(`/company-wise-subscription?user_id=${id}`,{
+                headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+                }
+            });
+            setEmployer(response?.data?.data);
         }
         getAPi();
     }, [id]);
@@ -157,12 +156,28 @@ const EmployerDetails = () => {
             <div style={{marginBottom : "20px"}}>
                 <BackButton link="/employer-list" />
             </div>
+
+
             <div className='bg-white p-6 rounded-lg mb-[28px]'>
                 <h1 className='text-[20px] text-[#172740] font-medium'>About Employer</h1>
 
                 <div className='flex items-center gap-6 my-6'>
                     <div className='w-[60%] bg-[#ECF1F8] h-[279px] rounded-lg p-6 flex gap-6'>
-                        <img style={{width: "257px", height: "230px", border: "1px solid red", borderRadius: "8px"}} src="https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" alt="" />
+                        <img 
+                            style={{
+                                width: "257px", 
+                                height: "230px",
+                                borderRadius: "8px"
+                            }} 
+                            src={
+                                employer?.company_details?.logo 
+                                ? 
+                                employer?.company_details?.logo
+                                : 
+                                "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" 
+                            } 
+                            alt="Employer Logo" 
+                        />
                         <div className='w-full grid grid-cols-1 gap-7 text-[#565656]'>
                             <div className='flex items-center justify-between'>
                                 <p className='w-[25%]'>Company Name</p>
@@ -217,7 +232,7 @@ const EmployerDetails = () => {
                         </div>
 
                         <div className='absolute bottom-6 right-6'>
-                            <Link to={`/company-details`}>
+                            <Link to={`/company-details/${employer?.company_details?.user_id}`}>
                                 <button 
                                     className='
                                     w-[157px] 

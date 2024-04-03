@@ -100,6 +100,9 @@ const AdminJobPost = () => {
         params.set('page', page);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+
+
+    
     return (
         <>
             <div className='bg-white p-6 rounded-lg'>

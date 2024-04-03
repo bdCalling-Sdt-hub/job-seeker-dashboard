@@ -4,9 +4,7 @@ import EmployerJobPost from '../../Components/Dashboard/EmployerJobPost';
 import AdminJobPost from '../../Components/Dashboard/AdminJobPost';
 
 const JobPost = () => {
-    const user = {
-        userType:"Employer"
-    }
+    const { userType } = JSON.parse(localStorage.getItem("user"));
     return (
         <>
             <div style={{marginBottom: "20px"}}>
@@ -15,7 +13,7 @@ const JobPost = () => {
 
             <div>
                 {
-                    user.userType === "Admin"
+                    userType === "ADMIN"
                     ?
                     <AdminJobPost/>
                     :
