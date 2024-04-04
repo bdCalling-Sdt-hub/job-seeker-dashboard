@@ -7,7 +7,6 @@ import baseURL from '../../../Config';
 
 const CompanyDetails = () => {
     const { id } = useParams();
-    console.log(id)
     const [employer, setEmployer] = useState();
 
     useEffect(()=>{

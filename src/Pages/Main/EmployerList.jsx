@@ -86,26 +86,26 @@ const data = [
 
 const EmployerList = () => {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState(new URLSearchParams(window.location.search).get('category') || "All")
+  const [category, setCategory] = useState(new URLSearchParams(window.location.search).get('category') || "all")
   const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
   const [employer, setEmployer] = useState();
 
   const items = [
     {
       label: "All",
-      key: "All",
+      key: "all",
     },
     {
-      label: "Information technology",
-      key: "Information technology",
+      label: "Active",
+      key: "active",
     },
     {
-      label: "Accounts",
-      key: "Accounts",
+      label: "Blocked",
+      key: "blocked",
     },
     {
-      label: "Electrical engineer",
-      key: "Electrical engineer",
+      label: "Reported",
+      key: "reported",
     },
   ];
 
@@ -147,7 +147,7 @@ const EmployerList = () => {
 
   useEffect(()=>{
     async function getAPi(){
-      const response = await baseURL.get(`/employer-list?category_name=${search}`,{
+      const response = await baseURL.get(`/employer-list?category_name=${search}&status=${category === "all" ? "" : category }`,{
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
@@ -156,7 +156,7 @@ const EmployerList = () => {
       setEmployer(response?.data?.data);
     }
     getAPi();
-}, [search]);
+}, [category, search]);
 
   return (
     <div>
@@ -198,7 +198,10 @@ const EmployerList = () => {
                   }}
                   onClick={(e) => e.preventDefault()}
                 >
-                  {category}
+                  {category === "all" && "All"}
+                  {category === "active" && "Active"}
+                  {category === "blocked" && "Blocked"}
+                  {category === "reported" && "Reported"}
                   <DownOutlined style={{ paddingLeft: "18px" }} color='#717171' />
                 </p>
               </Dropdown>
@@ -235,6 +238,7 @@ const EmployerList = () => {
                       className={` w-[88px] h-[31px] rounded-[100px] flex items-center justify-center
                         ${item?.status === "active" && "bg-[#B0ECB2] text-[#009B06]"}
                         ${item?.status === "blocked" && "bg-[#F8B5B0] text-[#BA0E00]"}
+                        ${item?.status === "reported" && "bg-[#FEE3B8] text-[#6F6F6F]"}
                         ${item?.status === "pending" && "bg-[#C5D2E8] text-[#365992]"}
                       `}
                     >

@@ -1,7 +1,8 @@
 import { Form, Input, Modal, Table, Button } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineDelete } from 'react-icons/md';
 import BackButton from '../../Components/BackButton';
+import baseURL from '../../../Config';
 
 
 const data = [
@@ -52,6 +53,7 @@ const data = [
 const MakeAdmin = () => {
     const [openAddModel, setOpenAddModel] = useState(false);
     const [reFresh, setReFresh] = useState("");
+    const [admins, setAdmins] = useState();
 
     if(reFresh){
         setTimeout(()=>{
@@ -94,31 +96,21 @@ const MakeAdmin = () => {
         });  */
 
     }
-    const columns = [
-        {
-          title: 'Full Name',
-          dataIndex: 'name',
-          key: 'name',
-          render: (_, record) => <p>{record?.fullName}</p>,
-        },
-        {
-          title: 'Email',
-          dataIndex: 'email',
-          key: 'email',
-        },
-        {
-          title: 'User Type',
-          dataIndex: 'userType',
-          key: 'userType',
-        },
-        {
-          title: 'Action',
-          key: 'action',
-          render: (_, record) => (
-            <MdOutlineDelete onClick={()=>handleDelete(record)} className='cursor-pointer' size={25} color='red'/>
-          ),
-        },
-    ];
+    
+    useEffect(()=>{
+        async function getAPi(){
+            const response = await baseURL.get(`/show-admin`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            });
+            setAdmins(response?.data?.data);
+        }
+        getAPi();
+    }, []);
+
+
     return (
         <div >
             <div style={{margin: "24px 0"}}>

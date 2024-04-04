@@ -121,6 +121,10 @@ ul , li {
   width: 100px !important;
 }
 
+.filter .ant-dropdown-trigger{
+  width: 100px !important;
+}
+
 .ant-dropdown-trigger{
   display: flex !important;
   align-items: center !important;
