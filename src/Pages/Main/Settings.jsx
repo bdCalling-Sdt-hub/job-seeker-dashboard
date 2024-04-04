@@ -24,7 +24,7 @@ const settingsItem = [
     
     {
         title: "Terms & Conditions",
-        path: "term-&-conditions",
+        path: "terms-&-conditions",
     },
     {
         title: "Privacy policy",

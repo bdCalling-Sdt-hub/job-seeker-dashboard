@@ -1,10 +1,62 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import JoditEditor from "jodit-react";
 import { Button } from 'antd';
+import baseURL from "../../../Config"
+import Swal from 'sweetalert2';
 
 const PrivacyPolicy = () => {
     const editor = useRef(null);
-    const [content, setContent] = useState("There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.");
+    const [data, setData] = useState()
+    const [content, setContent] = useState("");
+    const [refresh, setRefresh] = useState("");
+
+    if(refresh){
+        setTimeout(()=>{
+            setRefresh("")
+        }, 1500)
+    }
+
+    useEffect(()=>{
+        setContent(data?.description)
+    }, [data]);
+
+
+    useEffect(()=>{
+        async function getAPi(){
+          const response = await baseURL.get(`/privacy-policy`,{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+          });
+          setData(response?.data?.data);
+        }
+        getAPi();
+    }, [ refresh !== "" ]);
+
+    const handleUpdate=async(id)=>{
+        await baseURL.post(`/update-privacy-policy/${id}`, {description: content},{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+        }).then((response)=>{
+            if(response.status === 200){
+                Swal.fire({
+                    position: "center",
+                    title: "Successfully!",
+                    text: response.data.message,
+                    icon: "success",
+                    timer: 1500,
+                    showConfirmButton: false,
+                }).then(()=>{
+                    setRefresh("done")
+                })
+            }
+        })
+    }
+
+    
     return (
         <div>
             <JoditEditor
@@ -17,6 +69,7 @@ const PrivacyPolicy = () => {
 
             <Button
                 block
+                onClick={()=>handleUpdate(data?.id)}
                 style={{
                     marginTop: "30px",
                     backgroundColor: "#436FB6",
