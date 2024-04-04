@@ -80,7 +80,6 @@ const MakeAdmin = () => {
             }else{
                 setError("")
             }
-            console.log(error);
         })
 
     }

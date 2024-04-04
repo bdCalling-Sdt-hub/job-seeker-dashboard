@@ -2,26 +2,7 @@ import { Button, Checkbox, Form, Input } from 'antd'
 import React, { useState } from 'react'
 
 const ChangePassword = () => {
-    const [newPassError, setNewPassError] = useState("");
-    const [conPassError, setConPassError] = useState("");
-    const [curPassError, setCurPassError] = useState("");
-    const [checked, setChecked] = useState("");
-
-    const handleChangePassword=(values)=>{
-
-        if(values?.current_password === values.new_password){
-            setNewPassError("The New password is semilar with old Password");
-        }else{
-            setNewPassError("")
-        }
-        
-        if(values?.new_password !== values.confirm_password){
-            setConPassError("New Password and Confirm Password Doesn't Matched");
-        }else{
-            setConPassError("")
-        }
     
-    }
     return (
         <div className='flex items-center justify-center pb-10'>
             <Form

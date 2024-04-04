@@ -5,18 +5,16 @@ import AboutUs from '../../Components/Settings/AboutUs';
 import PrivacyPolicy from '../../Components/Settings/PrivacyPolicy';
 import TermsConditions from '../../Components/Settings/TermsConditions';
 import Notifications from '../../Components/Settings/Notifications';
-import ChangePassword from '../../Components/Settings/ChangePassword';
 import Profile from '../../Components/Settings/Profile';
 
 const SettingsDetails = () => {
     const { settingType } = useParams();
     const title = settingType?.split("-").join(" ");
-    const userType = "Employer"
     return (
         <>
             {/* heading */}
             <div style={{marginBottom: "15px"}}>
-                <BackButton link='/' />
+                <BackButton link='/settings' />
             </div>
 
             <div className='bg-white p-6 rounded-lg'>
@@ -25,9 +23,8 @@ const SettingsDetails = () => {
                 <div className='mt-[25px]'>
                     { settingType === "about-us"  && <AboutUs/> }
                     { settingType === "privacy-policy"  && <PrivacyPolicy /> }
-                    { settingType === "term-&-conditions"  && <TermsConditions /> }
+                    { settingType === "terms-&-conditions"  && <TermsConditions /> }
                     { settingType === "notifications"  && <Notifications /> }
-                    { settingType === "change-password"  && <ChangePassword /> }
                     { settingType === "profile"  && <Profile /> }
                 </div>
             </div>
