@@ -1,40 +1,55 @@
 import { Button, Input, Form } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CiEdit } from "react-icons/ci";
 import Swal from 'sweetalert2';
+import baseURL from '../../../Config';
+import ImgConfig from '../../../ImgConfig';
 
 const Profile = () => {
-    const [image, setImage] = useState("https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?size=626&ext=jpg");
+    const profile = JSON.parse(localStorage.getItem("user"));
+    const [image, setImage] = useState(profile?.image ? `${ImgConfig}${profile?.image}` :"https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?size=626&ext=jpg");
     const [imgURL, setImgURL] = useState(image);
+    
+    const handleUpdate=async(values)=>{
+        const formData = new FormData();
+        formData.append("fullName", values.fullName)
+        formData.append("email", values.email)
+        formData.append("mobile", values.mobile)
+        formData.append("address", values.address)
+        formData.append("image", image);
 
-
-    const handleChangeProfile=(values)=>{
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Profile Updated Successfully",
-            showConfirmButton: false,
-            timer: 1500
-        });
-    };
+        await baseURL.post(`/profile/edit/${profile?.id}?_method=PUT`, formData,{
+            headers: {
+              "Content-Type": "multipart/form-data",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+        }).then((response)=>{
+            localStorage.setItem("user", JSON.stringify(response?.data?.data))
+            if(response.status === 200){
+                Swal.fire({
+                    position: "center",
+                    title: "Successfully!",
+                    text: response.data.message,
+                    icon: "success",
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+            }
+        })
+    }
 
     const onChange = (e) => {
         const file= e.target.files[0];
-        console.log(file)
         const imgUrl = URL.createObjectURL(file);
         setImgURL(imgUrl);
         setImage(file)
     };
 
     const initialValuesData={
-        fullName : "Nadir Hossain",
-        email: "nadirhossain336@gmail.com",
-        contact_no: "01756953936",
-        address: "Khilgaon",
-        company_name: "bdCalling",
-        division: "Dhaka",
-        designation: "Developer",
-        location: "Banasree"
+        fullName : profile?.fullName,
+        email: profile?.email,
+        mobile: profile?.mobile,
+        address: profile?.address
     }
 
     return (
@@ -74,7 +89,7 @@ const Profile = () => {
                 name="normal_login"
                 className="login-form grid grid-cols-1 gap-6"
                 initialValues={initialValuesData}
-                onFinish={handleChangeProfile}
+                onFinish={handleUpdate}
             >
                 <div className="grid grid-cols-2 gap-6">
 
@@ -124,7 +139,7 @@ const Profile = () => {
                         <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Contact No</label>
                         <Form.Item
                             style={{marginBottom: 0}}
-                            name="contact_no"
+                            name="mobile"
                         >
                             <Input
                                 type="text"
@@ -149,92 +164,7 @@ const Profile = () => {
                         >
                             <Input
                                 type="text"
-                                placeholder="Enter Your Address"
-                                style={{
-                                    border: "none",
-                                    height: "48px",
-                                    background: "#F1F4F9",
-                                    borderRadius: "90px",
-                                    outline: "none",
-                                    padding: "0 16px"
-                                }}
-                            />
-                        </Form.Item>
-                    </div>
-
-
-                    <div>
-                        <label style={{display: "block", marginBottom: "5px" }} htmlFor="name">Company Name</label>
-                        <Form.Item
-                            style={{marginBottom: 0}}
-                            name="company_name"
-                        >
-                            <Input
-                                type="text"
-                                placeholder="Enter Your Company Name"
-                                style={{
-                                    border: "none",
-                                    height: "48px",
-                                    background: "#F1F4F9",
-                                    borderRadius: "90px",
-                                    outline: "none",
-                                    padding: "0 16px"
-                                }}
-                            />
-                        </Form.Item>
-                    </div>
-
-                    <div>
-                        <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Division</label>
-                        <Form.Item
-                            style={{marginBottom: 0}}
-                            name="division"
-                        >
-                            <Input
-                                type="text"
-                                placeholder="Enter Your Division"
-                                style={{
-                                    border: "none",
-                                    height: "48px",
-                                    background: "#F1F4F9",
-                                    borderRadius: "90px",
-                                    outline: "none",
-                                    padding: "0 16px"
-                                }}
-                            />
-                        </Form.Item>
-                    </div>
-
-                    <div>
-                        <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Designation</label>
-                        <Form.Item
-                            style={{marginBottom: 0}}
-                            name="designation"
-                        >
-                            <Input
-                                type="text"
-                                placeholder="Enter Designation"
-                                style={{
-                                    border: "none",
-                                    height: "48px",
-                                    background: "#F1F4F9",
-                                    borderRadius: "90px",
-                                    outline: "none",
-                                    padding: "0 16px"
-                                }}
-                            />
-                        </Form.Item>
-                    </div>
-
-                    <div>
-                        <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Office Location</label>
-                        <Form.Item
-                            style={{marginBottom: 0}}
-                            name="location"
-                        >
-                            <Input
-                                type="text"
-                                placeholder="Enter Your Location"
+                                placeholder="Enter Your Contact Number"
                                 style={{
                                     border: "none",
                                     height: "48px",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../Components/BackButton';
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
@@ -97,7 +97,19 @@ const Settings = () => {
         }
     };
 
-
+    useEffect(()=>{
+        async function getAPi(){
+            const response = await baseURL.get(`/profile`,{
+                headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+                }
+            });
+            console.log(response)
+            localStorage.setItem("user", JSON.stringify(response?.data?.user))
+        }
+        getAPi();
+    }, [  ]);
 
     return (
         <div>

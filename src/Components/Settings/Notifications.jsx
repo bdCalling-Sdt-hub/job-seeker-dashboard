@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { AiOutlineDelete } from "react-icons/ai";
 import { Pagination } from 'antd';
+import baseURL from '../../../Config';
 
 const Notifications = () => {
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
+    const [refresh, setRefresh] = useState("");
+    const [notifications, setNotifications] = useState()
+
+    if(refresh){
+        setTimeout(()=>{
+            setRefresh("")
+        }, 1500)
+    }
 
     const handlePageChange = (page) => {
         setPage(page);
@@ -12,6 +21,19 @@ const Notifications = () => {
         params.set('page', page);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+
+    useEffect(()=>{
+        async function getAPi(){
+            const response = await baseURL.get(`/notifications`,{
+                headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+                }
+            });
+            setNotifications(response?.data?.user);
+        }
+        getAPi();
+    }, [ refresh !== "" ]);
 
     return (
         <div>
