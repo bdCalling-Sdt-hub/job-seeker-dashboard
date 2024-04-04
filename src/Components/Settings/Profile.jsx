@@ -1,5 +1,5 @@
 import { Button, Input, Form } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { CiEdit } from "react-icons/ci";
 import Swal from 'sweetalert2';
 import baseURL from '../../../Config';

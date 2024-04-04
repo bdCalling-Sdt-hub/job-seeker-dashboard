@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { AiOutlineDelete } from "react-icons/ai";
-import { Pagination } from 'antd';
+import { Pagination, Empty } from 'antd';
 import baseURL from '../../../Config';
 
 const Notifications = () => {
@@ -36,8 +36,8 @@ const Notifications = () => {
     }, [ refresh !== "" ]);
 
     return (
-        <div>
-            <div>
+        <div className=''>
+            <div >
                 <table className="w-full">
                     <tr className="border-b-[1px] border-[#436FB6] text-[#436FB6] ">
                         {
@@ -48,19 +48,29 @@ const Notifications = () => {
                             )
                         }
                     </tr>
-
-                    
                     {
-                        [...Array(10).keys()].map((index)=>
-                            <>
-                                <tr key={index} className="text-center border-b-[1px] border-[#E0E0E0]" >
-                                    <td className='py-4'>{"Apple"}</td>
-                                    <td className='py-4'>{"Send A Job Post "}</td>
-                                    <td className='py-4'>{"8:38 AM"}</td>
-                                </tr>
-                            </>
-                        )
+                        notifications?.lenght > 0
+                        ?
+                        <>
+                            {
+                                [...Array(10).keys()].map((index)=>
+                                    <>
+                                        <tr key={index} className="text-center border-b-[1px] border-[#E0E0E0]" >
+                                            <td className='py-4'>{"Apple"}</td>
+                                            <td className='py-4'>{"Send A Job Post "}</td>
+                                            <td className='py-4'>{"8:38 AM"}</td>
+                                        </tr>
+                                    </>
+                                )
+                            }
+                        </>
+                        :
+                        
+                        <div className='absolute rounded-b-[6px] bg-white  left-0 w-[100%] h-[200px] flex items-center justify-center '>
+                            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                        </div>
                     }
+                    
                 </table>
             </div>
 

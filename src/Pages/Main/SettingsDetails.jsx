@@ -17,7 +17,7 @@ const SettingsDetails = () => {
                 <BackButton link='/settings' />
             </div>
 
-            <div className='bg-white p-6 rounded-lg'>
+            <div className='bg-white p-6 rounded-lg relative'>
                 <h1 className='capitalize text-[24px] font-medium text-[#565656]'> {title}</h1>
 
                 <div className='mt-[25px]'>
