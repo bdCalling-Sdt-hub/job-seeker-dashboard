@@ -15,12 +15,6 @@ const data = [
       icon: <HiUserGroup color="#00B2DC" size={32} />,
       bgColor: "#E2F7FC"
     },
-   {
-      name: "New Employers",
-      count: "865",
-      icon: <RiUserAddFill color="#F98002" size={32} />,
-      bgColor: "#FFE3C7"
-    },
     {
       name: "Total Job Post",
       count: "865",
@@ -43,7 +37,7 @@ const data = [
 const DashboardHome = () => {
     return (
         <div>
-            <div className="grid grid-cols-5 gap-5">
+            <div className="grid grid-cols-4 gap-5">
                 {
                 data.map((item, index)=>
                     <div key={index} className=' bg-white p-6 text-black text-center rounded-[15px] h-[112px] flex gap-5 items-center'>

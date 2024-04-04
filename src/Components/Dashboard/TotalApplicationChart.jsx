@@ -2,98 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import baseURL from '../../../Config';
 
 
 const TotalApplicationChart = () => {
-
-  const data = [
-    {
-      name: 'Jan',
-      uv: 4000,
-      pv: 2400,
-      tv :1200,
-      amt: 10,
-    },
-    {
-      name: 'Feb',
-      uv: 3000,
-      pv: 1398,
-      tv :1200,
-      amt: 20,
-    },
-    {
-      name: 'Mar',
-      uv: 2000,
-      pv: 9800,
-      tv :1200,
-      amt: 30,
-    },
-    {
-      name: 'Apr',
-      uv: 2780,
-      pv: 3908,
-      tv :1200,
-      amt: 40,
-    },
-    {
-      name: 'May',
-      uv: 1890,
-      pv: 4800,
-      tv :1200,
-      amt: 50,
-    },
-    {
-      name: 'Jun',
-      uv: 2390,
-      pv: 3800,
-      tv :1200,
-      amt: 60,
-    },
-    {
-      name: 'Jul',
-      uv: 3490,
-      pv: 4300,
-      tv :1200,
-      amt: 70,
-    },
-    {
-      name: 'Aug',
-      uv: 3490,
-      pv: 4300,
-      tv :1200,
-      amt: 80,
-    },
-    {
-      name: 'Sep',
-      uv: 3490,
-      pv: 4300,
-      tv :1200,
-      amt: 90,
-    },
-    {
-      name: 'Oct',
-      uv: 3490,
-      pv: 4300,
-      tv :1200,
-      amt: 100,
-    },
-    {
-      name: 'Nov',
-      uv: 3490,
-      pv: 4300,
-      tv :1200,
-      amt: 110,
-    },
-    {
-      name: 'Dec',
-      uv: 3490,
-      pv: 4300,
-      tv :1200,
-      amt: 120,
-    },
-  ];
-
-  const [year, setYear] = useState(2024);
+  const [data, setData] = useState([]);
+  const [growth, setGrowth] = useState("")
+  const [year, setYear] = useState(new URLSearchParams(window.location.search).get('year') || 2024);
 
   const items = [
     {
@@ -116,12 +31,31 @@ const TotalApplicationChart = () => {
 
   const onClick = ({ key }) => {
     setYear(key)
+    const params = new URLSearchParams(window.location.search);
+    params.set('year', key);
+    window.history.pushState(null, "", `?${params.toString()}`);
   };
+
+  useEffect(()=>{
+    async function getAPi(){
+        const response = await baseURL.get(`/month-wise-jobpost/${year}`,{
+            headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+        });
+
+        const result = Object.entries(response?.data?.data).map(([month, count]) => ({ month, count }));
+        setGrowth(response?.data.yearly_growth)
+        setData(result);
+    }
+    getAPi();
+}, [ year ]);
 
   return(
   <div> 
     <div className='flex items-center justify-between'>
-      <p className='text-[20px] font-semibold mb-[10px] text-black'>Employer Overview</p>
+      <p className='text-[20px] font-semibold mb-[10px] text-black'>Total Application</p>
       <Dropdown menu={{ items, onClick }} >
         <p  className="cursor-pointer text-[#717171] border border-[#E9E9E9] rounded-[4px] py-1 px-3" onClick={(e) => e.preventDefault()}>
           {year}
@@ -130,19 +64,9 @@ const TotalApplicationChart = () => {
       </Dropdown>
     </div>
 
-    <div className='flex items-center gap-[31px] mb-5'>
-      <div className='flex gap-[10px]'>
-        <p className='text-xs font-normal text-[#808080]'>Overly Growth</p>
-        <h1 className='text-sm font-bold text-[#2f2f2f]'>38.38%</h1>
-      </div>
-      <div className='flex gap-[10px]'>
-        <p className='text-xs font-normal text-[#808080]'>Monthly</p>
-        <h1 className='text-sm font-bold text-[#2f2f2f]'>15.5%</h1>
-      </div>
-      <div className='flex gap-[10px]'>
-        <p className='text-xs font-normal text-[#808080]'>Daily</p>
-        <h1 className='text-sm font-bold text-[#2f2f2f]'>58.50%</h1>
-      </div>
+    <div className='flex items-center gap-[10px] mb-5'>
+      <p className='text-xs font-normal text-[#808080]'>Overly Growth</p>
+      <h1 className='text-sm font-bold text-[#2f2f2f]'>{growth}%</h1>
     </div>
 
     
@@ -153,12 +77,10 @@ const TotalApplicationChart = () => {
       
     >
       <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="month" />
         <YAxis />
         <Tooltip />
-      <Bar  barSize={15} dataKey="pv" stackId="a" fill="#c5d2e8" />
-      <Bar  barSize={15} dataKey="uv" stackId="a" fill="#3c64a4" />
-      <Bar  barSize={15} dataKey="tv" stackId="a" fill="#436fb6" />
+      <Bar  barSize={15} dataKey="count" stackId="a" fill="#436FB6" />
     </BarChart>
   </div>)
 };
