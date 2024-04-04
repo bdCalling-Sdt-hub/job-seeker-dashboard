@@ -140,13 +140,13 @@ const Dashboard = () => {
               key={index} 
               to={item.path}
               className={`
-                ${ userType === "ADMIN" && item.path === "/employer-profile" ? "none" : "block" }
-                ${ userType === "ADMIN" && item.path === "/job-interviews" ? "none" : "block" }
+                ${ userType === "ADMIN" || userType === "SUPER ADMIN" && item.path === "/employer-profile" ? "none" : "block" }
+                ${ userType === "ADMIN" || userType === "SUPER ADMIN" && item.path === "/job-interviews" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/settings" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/make-admin" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/employer-list" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/subscribers" ? "none" : "block" }
-                ${ userType === "ADMIN" && item.path === "/subscription" ? "none" : "block" }
+                ${ userType === "ADMIN" || userType === "SUPER ADMIN" && item.path === "/subscription" ? "none" : "block" }
               `}
             >
               <li

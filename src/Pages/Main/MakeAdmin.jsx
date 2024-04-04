@@ -1,59 +1,15 @@
-import { Form, Input, Modal, Table, Button } from 'antd';
+import { Form, Input, Modal, Empty, Button } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { MdOutlineDelete } from 'react-icons/md';
 import BackButton from '../../Components/BackButton';
 import baseURL from '../../../Config';
-
-
-const data = [
-    {
-        key: "1",
-        fullName: "Tushar",
-        email: "tushar@gmail.com",
-        userType: "ADMIN",
-    },
-    {
-        key: "2",
-        fullName: "Rahman",
-        email: "rahman@gmail.com",
-        userType: "ADMIN",
-    },
-    {
-        key: "3",
-        fullName: "Rafsan",
-        email: "rafsan@gmail.com",
-        userType: "ADMIN",
-    },
-    {
-        key: "4",
-        fullName: "jusef",
-        email: "jusef@gmail.com",
-        userType: "ADMIN",
-    },
-    {
-        key: "5",
-        fullName: "Asad",
-        email: "asad@gmail.com",
-        userType: "ADMIN",
-    },
-    {
-        key: "6",
-        fullName: "Fahim",
-        email: "fahim@gmail.com",
-        userType: "ADMIN",
-    },
-    {
-        key: "7",
-        fullName: "Nadir",
-        email: "nadir@gmail.com",
-        userType: "ADMIN",
-    }
-  ];
+import Swal from 'sweetalert2';
   
 const MakeAdmin = () => {
     const [openAddModel, setOpenAddModel] = useState(false);
     const [reFresh, setReFresh] = useState("");
     const [admins, setAdmins] = useState();
+    const [error, setError] = useState("")
 
     if(reFresh){
         setTimeout(()=>{
@@ -62,9 +18,10 @@ const MakeAdmin = () => {
     }
 
     const handleDelete=async(value)=>{
-        /* Swal.fire({
+        Swal.fire({
             title: "Are you sure to delete this User?",
             icon: "warning",
+            width: 550,
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
@@ -75,7 +32,7 @@ const MakeAdmin = () => {
                 const response = await baseURL.get(`/delete-admin/${value?.id}`,
                     {
                         headers: {
-                            authorization: `Bearer ${localStorage.getItem('token')}`
+                            authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                         }
                     }
                 )
@@ -88,18 +45,49 @@ const MakeAdmin = () => {
                         timer: 1500,
                         showConfirmButton: false,
                     }).then(()=>{
-                        dispatch(AllAdmin());
+                        setReFresh("done");
                     })
-                }
-                        
+                }     
             }
-        });  */
+        }); 
+
+    }
+
+    const handleSubmit=async(values)=>{
+        await baseURL.post(`/add-admin`, values, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        }).then((response)=>{
+            if(response.status === 200){
+                Swal.fire({
+                    position: "center",
+                    title: "Deleted!",
+                    text: response.data.message,
+                    icon: "success",
+                    timer: 1500,
+                    showConfirmButton: false,
+                }).then(()=>{
+                    setReFresh("done");
+                    setOpenAddModel(false)
+                })
+            }
+        })
+        .catch((error)=>{
+            if(error.response.data.message){
+                setError(error.response.data.message);
+            }else{
+                setError("")
+            }
+            console.log(error);
+        })
 
     }
     
     useEffect(()=>{
         async function getAPi(){
-            const response = await baseURL.get(`/show-admin`, {
+            const response = await baseURL.get(`/show-admin`,  {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -108,9 +96,11 @@ const MakeAdmin = () => {
             setAdmins(response?.data?.data);
         }
         getAPi();
-    }, []);
+    }, [reFresh  !== ""]);
 
 
+
+    
     return (
         <div >
             <div style={{margin: "24px 0"}}>
@@ -125,47 +115,56 @@ const MakeAdmin = () => {
             </div>
 
             {/* admin table list */}
-            <div className='bg-white px-3 rounded-md py-4 w-full'>
-                <table className="w-full rounded-[5px]">
+            <div className='bg-white px-3 rounded-md py-4 w-full relative'>
+                <table className="w-full rounded-[5px] ">
                     <tr className="text-left w-full bg-[#FEE3B8]" style={{borderRadius: "8px"}}>
-                    {
-                        ["Full Name", "Email", "User Type", "Action"].map((item, index)=>
-                        <th
-                            style={{
-                                borderTopLeftRadius: item === "Full Name" ? "8px" : 0,
-                                borderBottomLeftRadius: item === "Full Name" ? "8px" : 0,
-                                borderTopRightRadius: item === "Action" ? "8px" : 0,
-                                borderBottomRightRadius: item === "Action" ? "8px" : 0,
-                            }} 
-                            key={index} 
-                            className="py-[10px] px-10"
-                        >
-                            {item}
-                        </th>
-                        )
-                    }
+                        {
+                            ["Full Name", "Email", "User Type", "Action"].map((item, index)=>
+                            <th
+                                style={{
+                                    borderTopLeftRadius: item === "Full Name" ? "8px" : 0,
+                                    borderBottomLeftRadius: item === "Full Name" ? "8px" : 0,
+                                    borderTopRightRadius: item === "Action" ? "8px" : 0,
+                                    borderBottomRightRadius: item === "Action" ? "8px" : 0,
+                                }} 
+                                key={index} 
+                                className="py-[10px] px-10"
+                            >
+                                {item}
+                            </th>
+                            )
+                        }
                     </tr>
 
-                    
                     {
-                        (data?.slice(0, 4))?.map((item, index)=>
-                            <>
-                                <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
-                                    <td className="py-[10px] pl-10">{item.fullName}</td>
-                                    <td className="py-[10px] pl-10">{item.email}</td>
-                                    <td className="py-[10px] pl-10">{item.userType}</td>
-                                    <td className="py-[10px] pl-10">
-                                        <MdOutlineDelete 
-                                            onClick={()=>handleDelete(record)} 
-                                            className='cursor-pointer' 
-                                            size={25} 
-                                            color='red'
-                                        />
-                                    </td>
-                                </tr>
-                            </>
-                        )
+                        admins?.length > 0
+                        ?
+                        <>
+                            {
+                                admins?.map((item, index)=>
+                                    < React.Fragment key={index}>
+                                        <div key={index} style={{marginTop: '8px'}}></div>
+                                            <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
+                                            <td className="py-[10px] pl-10">{item.fullName}</td>
+                                            <td className="py-[10px] pl-10">{item.email}</td>
+                                            <td className="py-[10px] pl-10">{item.userType}</td>
+                                            <td className="py-[10px] pl-10">
+                                                <MdOutlineDelete 
+                                                    onClick={()=>handleDelete(item)} 
+                                                    className='cursor-pointer' 
+                                                    size={25} 
+                                                    color='red'
+                                                />
+                                            </td>
+                                        </tr>
+                                    </React.Fragment>
+                                )
+                            }
+                        </>
+                        :
+                        <div className='absolute rounded-b-[6px] bg-white  left-0 w-[100%] h-[200px] flex items-center justify-center '>
+                            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                        </div>
                     }
                 </table>
             </div>
@@ -181,9 +180,8 @@ const MakeAdmin = () => {
                 <div className='mt-5'>
                     <Form
                         name="normal_login"
-                        initialValues={{
-                            remember: true,
-                        }}
+                        initialValues={{userType: "ADMIN"}}
+                        onFinish={handleSubmit}
                     >
                         <div style={{marginBottom: "16px"}}>
                             <label style={{display: "block", marginBottom: "5px" }}>Full Name</label>
@@ -203,11 +201,11 @@ const MakeAdmin = () => {
                                     style={{
                                         border: "none",
                                         padding:"0 16px",
-                                        height: "48px",
+                                        height: "42px",
                                         background: "#F1F4F9",
                                         borderRadius: "90px",
                                         outline: "none",
-                                        fontSize: "16px",
+                                        fontSize: "15px",
                                         fontWeight: 400,
                                         color: "#D1D2D6"
                                     }}
@@ -233,16 +231,17 @@ const MakeAdmin = () => {
                                     style={{
                                         border: "none",
                                         padding:"0 16px",
-                                        height: "48px",
+                                        height: "42px",
                                         background: "#F1F4F9",
                                         borderRadius: "90px",
                                         outline: "none",
-                                        fontSize: "16px",
+                                        fontSize: "15px",
                                         fontWeight: 400,
                                         color: "#D1D2D6"
                                     }}
                                 />
                             </Form.Item>
+                            { error && <p style={{display: "block", marginTop: "3px", color: "red"}}>{error}</p> }
                         </div>
             
                         <div style={{marginBottom: "16px"}}>
@@ -263,11 +262,11 @@ const MakeAdmin = () => {
                                     style={{
                                         border: "none",
                                         padding:"0 16px",
-                                        height: "48px",
+                                        height: "42px",
                                         background: "#F1F4F9",
                                         borderRadius: "90px",
                                         outline: "none",
-                                        fontSize: "16px",
+                                        fontSize: "15px",
                                         fontWeight: 400,
                                         color: "#D1D2D6"
                                     }}
@@ -287,11 +286,11 @@ const MakeAdmin = () => {
                                     style={{
                                         border: "none",
                                         padding:"0 16px",
-                                        height: "48px",
+                                        height: "42px",
                                         background: "#F1F4F9",
                                         borderRadius: "90px",
                                         outline: "none",
-                                        fontSize: "16px",
+                                        fontSize: "15px",
                                         fontWeight: 400,
                                     }}
                                     defaultValue="ADMIN"
@@ -307,7 +306,7 @@ const MakeAdmin = () => {
                                 block
                                 style={{
                                     border: "none",
-                                    height: "48px",
+                                    height: "42px",
                                     background: "#436FB6",
                                     color: "white",
                                     borderRadius: "90px",

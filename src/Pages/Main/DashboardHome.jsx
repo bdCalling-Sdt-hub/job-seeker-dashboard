@@ -6,7 +6,7 @@ const DashboardHome = () => {
     return (
         <div>
             {
-                userType === "ADMIN"
+                userType === "ADMIN" || userType === "SUPER ADMIN" 
                 ?
                 <DashboardHomeAdmin/>
                 :
