@@ -1,9 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../Components/BackButton';
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { TiSocialLinkedinCircular } from "react-icons/ti";
+import { useParams } from 'react-router-dom';
+import baseURL from '../../../Config';
+import moment from 'moment';
 
 const JobDetails = () => {
+    const { id } = useParams();
+    const [details, setDetails] = useState({});
+    console.log(details)
+
+
+    useEffect(()=>{
+        async function getAPi(){
+            const response = await baseURL.get(`/single-job-list?id=${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            });
+            setDetails(response?.data?.data[0]);
+        }
+        getAPi();
+    }, [ id ]);
     const user = {
         userType:"Employer"
     }
@@ -32,7 +52,7 @@ const JobDetails = () => {
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Company</p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%] text-[#6F6F6F]'>Chase It</p>
+                                <p className='w-[50%] text-[#6F6F6F]'>{details?.recruiter?.company_name} </p>
                             </div>
 
                             <div className='flex items-center justify-between'>
@@ -41,45 +61,27 @@ const JobDetails = () => {
                                 <p className='w-[50%] text-[#6F6F6F] flex'>
                                     <p 
                                         className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                            ${"bg-[#B0ECB2] text-[#009B06]"}
+                                            ${details?.status === "published" && "bg-[#B0ECB2] text-[#009B06]" }
+                                            ${details?.status === "expired" && "bg-[#F8B5B0] text-[#E81100]" }
+                                            ${details?.status === "pending" && "bg-[#C5D2E8] text-[#365992]" }
                                             
                                         `}
                                     >
-                                        Published
+                                        {details?.status}
                                     </p>
-
-                                    <span 
-                                        className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                            ${"bg-[#C5D2E8] text-[#365992]"}
-                                            
-                                        `}
-                                    >
-                                        Pending
-                                    </span>
-                                    
-                                    <span 
-                                        className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                            ${"bg-[#F8B5B0] text-[#E81100]"} 
-                                        `}
-                                    >
-                                        Expired
-                                    </span>
                                 </p>
-
-                                {/* ${"bg-[#FEE3B8] text-[#C98415]"}
-                                ${"bg-[#C5D2E8] text-[#365992]"} */}
                             </div>
 
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Published</p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%] text-[#6F6F6F]'>Feb 3,2024</p>
+                                <p className='w-[50%] text-[#6F6F6F]'>{moment(details?.created_at).format('l')}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Last Date</p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%] text-red-500'>Mar 31,2024</p>
+                                <p className='w-[50%] text-red-500'>{details?.application_last_date}</p>
                             </div>
                         </div>
                     </div>
@@ -89,37 +91,31 @@ const JobDetails = () => {
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Job Postion</p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%] text-[#6F6F6F]'>Web Developer</p>
-                            </div>
-
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Job Type</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%] text-[#6F6F6F]'>Full Time</p>
+                                <p className='w-[50%] text-[#6F6F6F]'>{details?.job_title}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Job Catagory</p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%] text-[#6F6F6F]'>IT</p>
+                                <p className='w-[50%] text-[#6F6F6F]'>{details?.category?.category_name}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Locatioon</p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>/H No./R No./ City</p>
+                                <p className='w-[50%]'>{details?.recruiter?.location}</p>
                             </div>
                             
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Website </p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>Chase It101.COM</p>
+                                <p className='w-[50%]'>{details?.recruiter?.website_url}</p>
                             </div>
                             
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Salary</p>
                                 <div className='w-[10%]'>:</div>
-                                <p className='w-[50%] text-[#436FB6] font-semibold '>$20k/Monthly</p>
+                                <p className='w-[50%] text-[#436FB6] font-semibold '>{details?.salary}</p>
                             </div>
                         </div>
 
@@ -127,16 +123,10 @@ const JobDetails = () => {
 
                     <div className="bg-[#ECF1F8] p-6 rounded-lg">
                         <div className='flex justify-between mb-4'>
-                            <p className='w-[40%] font-medium text-[#6F6F6F]'>Employment Status </p>
+                            <p className='w-[40%] font-medium text-[#6F6F6F]'>Job Status </p>
                             <div className='w-[10%]'>:</div>
                             <div className='w-[50%] h-full'>
-                                <ul >
-                                    {
-                                        ["Full Time", "Private", "IT", "Day Shift"].map((service, index)=>
-                                        <li key={index} className='list-disc text-[14px] font-normal text-[#565656]'>{service}</li>
-                                        )
-                                    }
-                                </ul>
+                                {details?.work_type}
                             </div>
                         </div>
 
@@ -170,13 +160,13 @@ const JobDetails = () => {
                         <div className='flex justify-between mb-4'>
                             <p className='w-[40%] font-medium text-[#6F6F6F]'>Vacancy</p>
                             <div className='w-[10%]'>:</div>
-                            <div className='w-[50%] h-full'>3</div>
+                            <div className='w-[50%] h-full'>{details?.vacancy}</div>
                         </div> 
                         
                         <div className='flex justify-between'>
                             <p className='w-[40%] font-medium text-[#6F6F6F]'>Area</p>
                             <div className='w-[10%]'>:</div>
-                            <div className='w-[50%] h-full'>Banasree</div>
+                            <div className='w-[50%] h-full'>{details?.area}</div>
                         </div>
 
 
@@ -184,6 +174,8 @@ const JobDetails = () => {
                 </div>
 
                 <div className='grid grid-cols-12 gap-6'>
+
+                    {/* job requirement */}
                     <div className="col-span-8 bg-[#ECF1F8] p-6 rounded-lg">
                         <h3 className='mb-3 text-[#436FB6]'>Job Requirements</h3>
 
@@ -192,7 +184,7 @@ const JobDetails = () => {
                                 <p className='mb-2 text-[#6F6F6F] font-semibold'>Education : </p>
                                 <ul >
                                     {
-                                        ["Bachelor of Science (BSc) in Computer Science & Engineering", "B.Sc. Engineering in CSE/CS/EEE/Telecom. from any recognized and reputed university."].map((service, index)=>
+                                        details?.education?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -214,7 +206,7 @@ const JobDetails = () => {
                                 <p className='mb-2 text-[#6F6F6F] font-semibold'>Responsibilities  : </p>
                                 <ul >
                                     {
-                                        ["Manage software development teams.", "Develop software modules.", "Identify bottlenecks and bugs and devise solutions to the problems.", "Ensure quick resolution of challenges and issues arising from technical demands."].map((service, index)=>
+                                        details?.responsibilities?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -233,33 +225,16 @@ const JobDetails = () => {
                                 </ul>
                             </div>
                             
-                            <div>
-                                <p className='mb-2 text-[#6F6F6F] font-semibold'>Experience  : </p>
-                                <ul >
-                                    {
-                                        ["At least 8 years", "The applicants should have experience in the following business area(s) : University, IT Enabled Service"].map((service, index)=>
-                                            <li 
-                                                key={index} 
-                                                className='
-                                                    list-disc 
-                                                    text-[14px] 
-                                                    font-normal
-                                                    ml-6 mb-1 
-                                                    text-[#565656]
-                                                '
-                                            >
-                                                {service}
-                                            </li>
-                                        )
-                                    }
-                                </ul>
+                            <div className='flex items-center gap-4'>
+                                <p className=' text-[#6F6F6F] font-semibold'>Experience  : </p>
+                                <p>{details?.experience}</p>
                             </div>
                             
                             <div>
                                 <p className='mb-2 text-[#6F6F6F] font-semibold'>Compensation & Other Benefits  : </p>
                                 <ul >
                                     {
-                                        ["Higher initial pay may be offered to highly experienced and competent candidates.", "Candidates may indicate their expected salary in the application form.", "Provident Fund, Gratuity and other benefits as per the University rules/practice."].map((service, index)=>
+                                        details?.compensation_other_benifits?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -281,7 +256,7 @@ const JobDetails = () => {
                                 <p className='mb-2 text-[#6F6F6F] font-semibold'>Additional Requirements  : </p>
                                 <ul >
                                     {
-                                        ["Age 35 to 40 years", "The age limit may be relaxed for the highly experienced and competent candidates."].map((service, index)=>
+                                        details?.additional_requirement?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -302,12 +277,11 @@ const JobDetails = () => {
 
                         </div>
                     </div>
+
+                    {/* company details */}
                     <div className='col-span-4 bg-[#ECF1F8] rounded-lg p-4 h-fit'>
                         <h1 className='text-[24px] text-[#565656] font-normal mb-4'>Company Details</h1>
-                        <p>
-                            quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at 
-                            ex Sed nisi tincidunt lacus elit leo. faucibus quis Sed consectetur nulla, libero, ipsum at, elit dui massa amet, ipsum vehicula, at, Vestibulum odio tincidunt diam amet, dolor adipiscing Nullam laoreet nec sit elementum sodales. nibh id  
-                        </p>
+                        <p>{details?.recruiter?.company_des}</p>
 
                         <div className='flex items-center gap-4 mt-10'>
                             <TiSocialLinkedinCircular size={38} color='#0A66C2' />

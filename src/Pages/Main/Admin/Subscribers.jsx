@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../Components/BackButton'
 import { Dropdown, Input, Pagination } from 'antd';
 import { DownOutlined } from "@ant-design/icons";
@@ -6,7 +6,8 @@ import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-
+import baseURL from '../../../../Config';
+import moment from 'moment';
 const data = [
     {
         key: "1",
@@ -94,6 +95,10 @@ const Subscribers = () => {
     const [account, setAccount] = useState(new URLSearchParams(window.location.search).get('account') || "Daily");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const [search, setSearch] = useState("");
+    const [subscriber, setSubscriber] = useState();
+
+
+
     const items = [
         {
             label: "Daily",
@@ -122,6 +127,21 @@ const Subscribers = () => {
         params.set('page', page);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+
+
+
+    useEffect(()=>{
+        async function getAPi(){
+          const response = await baseURL.get(`/package-wise-company-subscription`,{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+          });
+          setSubscriber(response?.data?.data);
+        }
+        getAPi();
+    }, []);
 
 
     return (
@@ -190,7 +210,7 @@ const Subscribers = () => {
                     <table className="w-full rounded-[5px] rounded-table">
                         <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
                             {
-                                ["Serial No", "Company Name", "Package", "Package Price", "Date Form", "Status", "Visit Profile"].map((item, index)=>
+                                ["Serial No", "Company Name", "Package", "Package Price", "Date", "Status", "Visit Profile"].map((item, index)=>
                                     <th key={index}>
                                         {item}
                                     </th>
@@ -200,23 +220,23 @@ const Subscribers = () => {
 
                         
                         {
-                            (data.slice(0, 10))?.map((item, index)=>
-                                <>
-                                    <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
-                                        <td>{item.key}</td>
-                                        <td>{item.companyname}</td>
-                                        <td>{item.package}</td>
-                                        <td>$ {item.price}</td>
-                                        <td>{item.date}</td>
+                            (subscriber?.slice(0, 10))?.map((item, index)=>
+                                <React.Fragment key={index}>
+                                    <div style={{marginTop: '8px'}}></div>
+                                    <tr className="bg-[#ECF1F8] text-[#949494] custom-table-row">
+                                        <td>{index + 1}</td>
+                                        <td>{item?.recruiter?.company_name}</td>
+                                        <td>{item?.package?.package_name}</td>
+                                        <td>$ {item?.package?.amount}</td>
+                                        <td>{moment(item?.package?.created_at).format('L')}</td>
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                                    ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
-                                                    ${item?.status === "Complete" && "bg-[#FEE3B8] text-[#C98415]"}
+                                                    ${item?.package?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.package?.status === "Completed" && "bg-[#FEE3B8] text-[#C98415]"}
                                                 `}
                                             >
-                                                {item?.status}
+                                                {item?.package?.status }
                                             </p>
                                         </td>
                                         <td>
@@ -225,7 +245,7 @@ const Subscribers = () => {
                                             </Link>
                                         </td>
                                     </tr>
-                                </>
+                                </ React.Fragment>
                             )
                         }
                     </table>

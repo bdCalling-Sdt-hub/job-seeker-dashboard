@@ -8,8 +8,8 @@ import baseURL from "../../../Config"
 const Package = () => {
     const [packages, setPackages] = useState([]);
     const { userType } = JSON.parse(localStorage.getItem("user"));
-    const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || packages[0]?.id);
-    const filterData = packages.find((item) => item?.id === selectedPackage || packages[0]?.id);
+    const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || "Basic");
+    const filterData = packages.find((item) => item?.package_name === selectedPackage);
 
     const handlePackageChange = (value) => {
         setSelectedPackage(value);
@@ -45,17 +45,17 @@ const Package = () => {
                         packages?.map((item, index)=>(
                             <div 
                                 key={index} 
-                                onClick={()=>(( localStorage.setItem("package", JSON.stringify(item)) ,handlePackageChange(item.id)))} 
+                                onClick={()=>(( localStorage.setItem("package", JSON.stringify(item)) ,handlePackageChange(item.package_name)))} 
                                 className={`
                                     w-[335px] h-[101px] 
                                     rounded-[20px] 
                                     p-6 cursor-pointer
-                                    ${selectedPackage == item?.id ? "bg-[#436FB6]" : "bg-white"} 
+                                    ${selectedPackage == item?.package_name ? "bg-[#436FB6]" : "bg-white"} 
                                     flex  items-center justify-between
                                 `}
                                 style={{boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)"}}
                             >
-                                <div style={{ color: selectedPackage == item?.id ? "#F1F1F1" : "#565656"}}>
+                                <div style={{ color: selectedPackage == item?.package_name ? "#F1F1F1" : "#565656"}}>
                                     <h3 
                                         className='
                                             text-base 
@@ -68,7 +68,7 @@ const Package = () => {
                                     <div className='text-[12px] font-normal'>{"Payment Type"}</div>
                                 </div>
                                 <div
-                                    style={{ color: selectedPackage == item?.id ? "#FBA51A" : "#436FB6"}} 
+                                    style={{ color: selectedPackage == item?.package_name ? "#FBA51A" : "#436FB6"}} 
                                     className='text-2xl font-bold'
                                 >
                                     $ {item.amount}
@@ -131,7 +131,7 @@ const Package = () => {
 
                 <div style={{display: "flex", alignItems: "flex-end", justifyContent: "flex-end"}}>
                     {
-                        userType === "ADMIN" 
+                        userType === "ADMIN" || userType === "SUPER ADMIN" 
                         ?
                         <Link to={`/edit-package/${selectedPackage}`}>
                             <Button

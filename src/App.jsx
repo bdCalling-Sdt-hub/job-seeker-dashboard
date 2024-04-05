@@ -69,7 +69,7 @@ function App() {
               <Route path="/subscriber-details" element={<SubscriberDetails/>} />
               <Route path="/subscription-info/:id" element={<SubscriptionInfo/>} />
               <Route path="/job-post" element={<JobPost/>} />
-              <Route path="/job-details" element={<JobDetails/>} />
+              <Route path="/job-details/:id" element={<JobDetails/>} />
               <Route path="/job-interviews" element={<Interview/>} />
               <Route path="/create-job" element={<CreateJob/>} />
               <Route path="/applied-job" element={<AppliedJobTable/>} />

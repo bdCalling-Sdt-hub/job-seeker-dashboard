@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import BackButton from '../../Components/BackButton';
 import { Form, Input, Button } from 'antd';
 import {  PlusOutlined } from '@ant-design/icons';
 import baseURL from '../../../Config';
+import { LuMinusCircle } from "react-icons/lu";
 
 const EditPackage = () => {
     const [packages, setPackages] = useState([]);
@@ -71,7 +72,7 @@ const EditPackage = () => {
                                 <div className='text-[12px] font-normal'>{"Payment Type"}</div>
                             </div>
                             <div
-                                style={{ color: selectedPackage === item?.name ? "#FBA51A" : "#436FB6"}} 
+                                style={{ color: selectedPackage == item?.id? "#FBA51A" : "#436FB6"}} 
                                 className='text-2xl font-bold'
                             >
                                 $ {item.amount}
@@ -185,24 +186,39 @@ const EditPackage = () => {
                                                         fields.map((field, index) => (
                                                             
                                                                 <Form.Item
-                                                                    {...field}
+                                                                    key={index}
                                                                     validateTrigger={['onChange', 'onBlur']}
                                                                     style={{marginBottom : 0}}
                                                                     className='w-full'
                                                                 >
-                                                                    <Input
-                                                                        style={{
-                                                                            width:"100%",
-                                                                            border: "none",
-                                                                            height: "30px",
-                                                                            padding: "18px 15px",
-                                                                            background: "white",
-                                                                            borderRadius: "8px",
-                                                                            outline: "none",
-                                                                            color: "#949494",
-                                                                            fontSize: "14px"
-                                                                        }}
-                                                                    />
+                                                                    <div  className='flex items-center gap-[30px] w-full'>
+                                                                        <Form.Item
+                                                                            {...field}
+                                                                            validateTrigger={['onChange', 'onBlur']}
+                                                                            style={{marginBottom : 0}}
+                                                                            className='w-full'
+                                                                        >
+                                                                            <Input
+                                                                                style={{
+                                                                                    width:"100%",
+                                                                                    border: "none",
+                                                                                    height: "30px",
+                                                                                    padding: "18px 15px",
+                                                                                    background: "white",
+                                                                                    borderRadius: "8px",
+                                                                                    outline: "none",
+                                                                                    color: "#949494",
+                                                                                    fontSize: "14px"
+                                                                                }}
+                                                                            />
+                                                                        </Form.Item>
+                                                                        <LuMinusCircle 
+                                                                            className='cursor-pointer' 
+                                                                            size={35} 
+                                                                            color='#B9B9B9' 
+                                                                            onClick={() => remove(field.name)}
+                                                                        />
+                                                                    </div>
                                                                 </Form.Item>
                                                             // </Form.Item>
                                                         ))
@@ -259,7 +275,7 @@ const EditPackage = () => {
                         block
                         style={{
                             width: "200px",
-                            height: "48px",
+                            height: "42px",
                             background: "#436FB6",
                             borderRadius: "90px",
                             border: "none",

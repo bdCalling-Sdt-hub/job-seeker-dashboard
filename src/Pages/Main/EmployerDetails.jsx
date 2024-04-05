@@ -9,6 +9,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { IoIosArrowRoundForward } from "react-icons/io";
 import baseURL from '../../../Config';
+import moment from 'moment';
 
 const data = [
     {
@@ -89,6 +90,8 @@ const EmployerDetails = () => {
     const [openModal, setOpenModal] = useState(false);
     const [search, setSearch] = useState("");
     const [employer, setEmployer] = useState();
+    const [subscriptions, setSubscriptions] = useState();
+    console.log(subscriptions)
 
     const handleblock=(id)=>{
         Swal.fire({
@@ -148,6 +151,7 @@ const EmployerDetails = () => {
                 }
             });
             setEmployer(response?.data?.data);
+            setSubscriptions(response?.data?.data.subscription)
         }
         getAPi();
     }, [id]);
@@ -306,7 +310,7 @@ const EmployerDetails = () => {
                     <table className="w-full rounded-[5px] rounded-table">
                         <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
                             {
-                                ["Serial No", "Company Name", "Package", "Package Price", "Date Form", "Status", "Visit Profile"].map((item, index)=>
+                                ["Serial No", "Package", "Package Price", "Date", "Status", "Visit Profile"].map((item, index)=>
                                     <th key={index}>
                                         {item}
                                     </th>
@@ -314,15 +318,14 @@ const EmployerDetails = () => {
                             }
                         </tr>                        
                         {
-                            (data.slice(0, 9))?.map((item, index)=>
+                            (subscriptions?.data?.slice(0, 9))?.map((item, index)=>
                                 < >
                                     <div style={{marginTop: '8px'}}></div>
                                     <tr  className="bg-[#ECF1F8] text-[#949494] custom-table-row">
-                                        <td>{item.key}</td>
-                                        <td>{item.companyname}</td>
-                                        <td>{item.package}</td>
-                                        <td>$ {item.price}</td>
-                                        <td>{item.date}</td>
+                                        <td>{index + 1}</td>
+                                        <td>{item?.package?.package_name}</td>
+                                        <td>$ {item?.package?.amount}</td>
+                                        <td>{moment(item?.package?.created_at).format('L') }</td>
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
