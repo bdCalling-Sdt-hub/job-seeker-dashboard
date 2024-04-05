@@ -8,8 +8,7 @@ import baseURL from '../../../Config';
 export default function EmployerOverview() {
   const [data, setData] = useState([]);
   const [year, setYear] = useState(new URLSearchParams(window.location.search).get('eyear') || 2024);
-  const [growth, setGrowth] = useState("")
-  console.log(data, growth)
+  const [growth, setGrowth] = useState("");
 
   const items = [
     {
