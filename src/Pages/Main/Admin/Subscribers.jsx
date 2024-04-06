@@ -236,7 +236,7 @@ const Subscribers = () => {
                                                     ${item?.package?.status === "Completed" && "bg-[#FEE3B8] text-[#C98415]"}
                                                 `}
                                             >
-                                                {item?.package?.status }
+                                                {item?.subscription?.status }
                                             </p>
                                         </td>
                                         <td>

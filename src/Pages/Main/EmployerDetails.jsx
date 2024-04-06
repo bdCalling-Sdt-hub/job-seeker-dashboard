@@ -132,7 +132,7 @@ const EmployerDetails = () => {
             subject: values.subject,
             message: values.message
         }
-        console.log(value)
+        
         await baseURL.post(`/report-employer`, value, {
             headers: {
                 "Content-Type": "application/json",
