@@ -90,8 +90,8 @@ const EmployerDetails = () => {
     const [openModal, setOpenModal] = useState(false);
     const [search, setSearch] = useState("");
     const [employer, setEmployer] = useState();
+    console.log(employer)
     const [subscriptions, setSubscriptions] = useState();
-    console.log(subscriptions)
 
     const handleblock=(id)=>{
         Swal.fire({
@@ -126,7 +126,31 @@ const EmployerDetails = () => {
         });
     }
 
-    const onFinish = (values) => {
+    const onFinish = async(values) => {
+        const value = {
+            user_id : employer.company_details.user_id,
+            subject: values.subject,
+            message: values.message
+        }
+        console.log(value)
+        await baseURL.post(`/report-employer`, value, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+        }).then((response)=>{
+            if(response.status ===200){
+                Swal.fire({
+                    title: "Blocked!",
+                    text: response?.data?.message,
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                }).then((response)=>{
+                    setOpenModal(false)
+                })
+            }
+        })
     };
 
     const initialFormData={

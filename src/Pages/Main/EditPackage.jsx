@@ -25,8 +25,16 @@ const EditPackage = () => {
         getAPi();
     }, []);
 
-    const handleSubmit=(values)=>{
+    const handleSubmit=async(values)=>{
         console.log(values)
+        await baseURL.post(`/update-package`, {...values, id: selectedData.id}, {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+        }).then((response)=>{
+            console.log(response)
+        })
     }
 
     const initialFormValues={
