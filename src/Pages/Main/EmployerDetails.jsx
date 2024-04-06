@@ -290,45 +290,6 @@ const EmployerDetails = () => {
 
                 <h1 className='mb-4 text-[20px] font-medium text-[#172740]'>All Job Subscriptions</h1>
 
-                {/* search and filter section */}
-                <div className='flex items-center justify-between mb-[14px]'>
-                    <Input
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search Company"
-                        prefix={<FiSearch size={14} color="#868FA0" />}
-                        suffix={<IoClose onClick={() => setSearch("")} style={{ cursor: "pointer" }} size={14} color="#868FA0" />}
-                        style={{
-                            width: "450px",
-                            height:"40px",
-                            padding: "10px 15px",
-                            fontSize: "14px",
-                            fontWeight: 400,
-                            borderRadius: "8px",
-                            color: "#A1A9B8",
-                        }}
-                        size="middle"
-                        value={search}
-                    />
-
-                    <div 
-                        className='
-                            bg-white 
-                            w-[120px] 
-                            rounded-[8px] 
-                            border 
-                            border-[#E9E9E9] 
-                            flex 
-                            items-center 
-                            justify-between 
-                            px-3 
-                            py-[5px] 
-                            text-[#8B8B8B]
-                        '
-                    >
-                        Filter <LuListFilter />
-                    </div>
-                </div>
-
                 {/* subscription table list */}
                 <div>
                     <table className="w-full rounded-[5px] rounded-table">
@@ -361,7 +322,7 @@ const EmployerDetails = () => {
                                             </p>
                                         </td>
                                         <td>
-                                            <Link to={"/subscription-details"}>
+                                            <Link to={`/subscription-details/${employer?.company_details?.user_id}`}>
                                                 <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                                             </Link>
                                         </td>

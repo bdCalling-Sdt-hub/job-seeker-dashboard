@@ -67,7 +67,7 @@ function App() {
               <Route path="/subscribers" element={<Subscribers/>} />
               <Route path="/subscription" element={<Subscription/>} />
               <Route path="/company-details/:id" element={<CompanyDetails/>} />
-              <Route path="/subscription-details" element={<SubscriptionDetails/>} />
+              <Route path="/subscription-details/:id" element={<SubscriptionDetails/>} />
               <Route path="/subscriber-details/:userID/:id" element={<SubscriberDetails/>} />
               <Route path="/subscription-info/:id" element={<SubscriptionInfo/>} />
               <Route path="/job-post" element={<JobPost/>} />
