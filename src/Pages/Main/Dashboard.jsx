@@ -14,7 +14,10 @@ import { TbCrown } from "react-icons/tb";
 import { FiUser } from "react-icons/fi";
 import { IconCalendarStats } from '@tabler/icons-react';
 import { IconUsers } from '@tabler/icons-react';
+import { IconCategoryPlus } from '@tabler/icons-react';
 const { Header, Sider, Content } = Layout;
+
+
 
 const Dashboard = () => {
   const { pathname } = useLocation();
@@ -68,6 +71,11 @@ const Dashboard = () => {
       title: "Job & Interviews",
       path: "/job-interviews",
       icon: <IconCalendarStats size={24} />,
+    },
+    {
+      title: "Category",
+      path: "/category",
+      icon: <IconCategoryPlus size={24} />,
     },
     {
       title: "Make Admin",
@@ -146,6 +154,7 @@ const Dashboard = () => {
                 ${ userType === "Employer" && item.path === "/make-admin" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/employer-list" ? "none" : "block" }
                 ${ userType === "Employer" && item.path === "/subscribers" ? "none" : "block" }
+                ${ userType === "Employer" && item.path === "/category" ? "none" : "block" }
                 ${ userType === "ADMIN" || userType === "SUPER ADMIN" && item.path === "/subscription" ? "none" : "block" }
               `}
             >

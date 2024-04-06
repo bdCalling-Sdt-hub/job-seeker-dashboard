@@ -39,6 +39,7 @@ import CandidateProfile from "./Pages/Main/CandidateProfile";
 import CandidateShortProfile from "./Pages/Main/CandidateShortProfile";
 import UploadedCVViewer from "./Pages/Main/UploadedCVViewer";
 import JobSeekerCV from "./Pages/Main/JobSeekerCV";
+import Category from "./Pages/Main/Admin/Category";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
               <Route path="/" element={<DashboardHome />} />
               <Route path="/notification" element={<Notification />} />
               <Route path="/package" element={<Package />} />
+              <Route path="/category" element={<Category />} />
               <Route path="/edit-package/:name" element={<EditPackage />} />
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/change-password" element={<EmployerChangePassword />} />
