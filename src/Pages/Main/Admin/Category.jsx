@@ -27,8 +27,8 @@ const Category = () => {
         async function getAPi(){
             const response = await baseURL.get(`/show-category`,{
                 headers: {
-                "Content-Type": "application/json",
-                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             });
             setCategory(response?.data?.data);

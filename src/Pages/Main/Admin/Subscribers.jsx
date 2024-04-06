@@ -240,7 +240,7 @@ const Subscribers = () => {
                                             </p>
                                         </td>
                                         <td>
-                                            <Link to={"/subscriber-details"}>
+                                            <Link to={`/subscriber-details/${item?.user_id}/${item?.package?.id} `}>
                                                 <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                                             </Link>
                                         </td>

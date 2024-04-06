@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HiOutlineMail } from "react-icons/hi";
 import { Input, Pagination } from 'antd';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { MdDelete } from "react-icons/md";
-import { MdClose } from "react-icons/md";
 import { LuSend } from "react-icons/lu";
 import { TfiLink } from "react-icons/tfi";
 import { FaFileImage } from "react-icons/fa";
 import { IconMailForward } from '@tabler/icons-react';
 import Swal from 'sweetalert2';
 import BackButton from '../../../Components/BackButton';
+import baseURL from '../../../../Config';
 
 const AdminContacts = () => {
     const [tab, setTab] = useState(new URLSearchParams(window.location.search).get('tab') || "inbox");
@@ -55,7 +55,17 @@ const AdminContacts = () => {
             }
         });
     };
-
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get("/asdas", {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            console.log(response);
+        }
+    }, [])
     return (
         <div>
 

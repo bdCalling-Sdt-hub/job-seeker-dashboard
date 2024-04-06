@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../Components/BackButton'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { IoIosArrowRoundForward } from 'react-icons/io'
 import { LuListFilter } from 'react-icons/lu'
 import { FiSearch } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
-import { Input } from 'antd'
+import { Input, Pagination } from 'antd'
 import { FaCircleCheck } from 'react-icons/fa6'
+import baseURL from '../../../../Config'
+import moment from 'moment'
 
 
 
@@ -49,7 +51,35 @@ const data = [
     }
 ];
 const SubscriberDetails = () => {
-    const [search, setSearch] = useState("");
+    const {userID, id} = useParams();
+    const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
+    const [companyDetails, setCompanyDetails] = useState({});
+    const [packageDetails, setPackageDetails] = useState({});
+    const [jobs, setJobs] = useState([]);
+
+
+    const handlePageChange = (page) => {
+        setPage(page);
+        const params = new URLSearchParams(window.location.search);
+        params.set('page', page);
+        window.history.pushState(null, "", `?${params.toString()}`);
+    }
+
+    useEffect(()=>{
+        async function getAPi(){ 
+          const response = await baseURL.get(`/company-wise-subscription?user_id=${userID}&package_id=${id}`,{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+          });
+          console.log(response?.data?.data)
+          setCompanyDetails(response?.data?.data?.company_details);
+          setPackageDetails(response?.data?.data?.subscription?.data[0]?.package)
+          setJobs(response?.data?.data?.subscription?.data[0]?.job_posts)
+        }
+        getAPi();
+    }, [userID, id]);
     return (
         <>
             {/* heading */}
@@ -66,47 +96,47 @@ const SubscriberDetails = () => {
                         <img style={{width: "257px", height: "230px", border: "1px solid red", borderRadius: "8px"}} src="https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" alt="" />
                         <div className='w-full grid grid-cols-1 gap-7 text-[#565656]'>
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Company Name</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>sfasdfdf</p>
+                                <p className='w-[25%]'>Company Name</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{companyDetails?.company_name}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Email</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>admin@gmail.com</p>
+                                <p className='w-[25%]'>Email</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{companyDetails?.user?.email}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Phone</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>01756953936</p>
+                                <p className='w-[25%]'>Phone</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{companyDetails?.phone}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Country</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>Bangladesh</p>
+                                <p className='w-[25%]'>Country</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{companyDetails?.country}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Location</p>
-                                <div className='w-[10%]'>:</div>
-                                <p className='w-[50%]'>Banasree, Banasree, Banasree</p>
+                                <p className='w-[25%]'>Location</p>
+                                <div className='w-[5%]'>:</div>
+                                <p className='w-[70%]'>{companyDetails?.location}</p>
                             </div>
                         </div>
                     </div>
                     <div className='w-[40%] bg-[#ECF1F8] h-[279px] rounded-lg p-6 relative'>
                         <div className='flex items-center justify-between mb-6'>
                             <p className='w-[30%]'>Company Category</p>
-                            <div className='w-[10%]'>:</div>
-                            <p className='w-[50%]'>IT</p>
+                            <div className='w-[5%]'>:</div>
+                            <p className='w-[65%]'>{companyDetails?.category?.category_name}</p>
                         </div>
 
                         <div className='flex justify-between'>
                             <p className='w-[30%]'>Company Service</p>
-                            <div className='w-[10%]'>:</div>
-                            <div className='w-[50%] h-full'>
+                            <div className='w-[5%]'>:</div>
+                            <div className='w-[65%] h-full'>
                                 {
                                     ["Web Development", "Mobile App Development", "UX/UI", "Data Entry", "Graphs"].map((service, index)=>
                                         <p className='text-[14px] font-normal text-[#565656]'>{service}</p>
@@ -116,7 +146,7 @@ const SubscriberDetails = () => {
                         </div>
 
                         <div className='absolute bottom-6 right-6'>
-                            <Link to={`/company-details`}>
+                            <Link to={`/company-details/${companyDetails?.user_id}`}>
                                 <button 
                                     className='
                                     w-[157px] 
@@ -137,13 +167,12 @@ const SubscriberDetails = () => {
                 </div>
 
                 <h1 className='text-[20px] text-[#172740] font-medium my-6'>Subscriber Package</h1>
-
                 <div className='grid grid-cols-3 gap-6'>
                     <div className="bg-[#ECF1F8] rounded-lg p-6 flex items-center justify-center">
                         <div className='text-center'>
-                            <p className='text-[24px] font-medium text-[#545454]'>Basic</p>
+                            <p className='text-[24px] font-medium text-[#545454]'>{packageDetails?.package_name}</p>
                             <p className='my-4 text-[#6C6C6C] text-[14px] font-normal'>Payment Package</p>
-                            <h1 className='text-[#436FB6] font-bold text-[48px]'>$20</h1>
+                            <h1 className='text-[#436FB6] font-bold text-[48px]'>${packageDetails?.amount}</h1>
                         </div>
                     </div>
 
@@ -151,24 +180,24 @@ const SubscriberDetails = () => {
                         <div className='flex items-center justify-between mb-4'>
                             <p className='w-[35%]'>Company Name</p>
                             <div className='w-[5%]'>:</div>
-                            <p className='w-[75%]'>sfasdfdf</p>
+                            <p className='w-[75%]'>{companyDetails?.company_name}</p>
                         </div>
                         <div className='flex items-center justify-between mb-4'>
                             <p className='w-[35%]'>Package</p>
                             <div className='w-[5%]'>:</div>
-                            <p className='w-[75%]'>Basic</p>
+                            <p className='w-[75%]'>{packageDetails?.package_name}</p>
                         </div>
 
                         <div className='flex items-center justify-between mb-4'>
                             <p className='w-[35%]'>Package Price</p>
                             <div className='w-[5%]'>:</div>
-                            <p className='w-[75%]'>$500</p>
+                            <p className='w-[75%]'>${packageDetails?.amount}</p>
                         </div>
 
                         <div className='flex items-center justify-between mb-4'>
-                            <p className='w-[35%]'>Date Form</p>
+                            <p className='w-[35%]'>Date</p>
                             <div className='w-[5%]'>:</div>
-                            <p className='w-[75%]'>$500</p>
+                            <p className='w-[75%]'>{moment(packageDetails?.created_at).format("L")}</p>
                         </div>
 
                         <div className='flex items-center justify-between mb-4'>
@@ -187,12 +216,12 @@ const SubscriberDetails = () => {
                         <h1 className='text-[#565656] mb-3'>Conditions :</h1>
                         <div className='grid grid-cols-1 gap-3'>
                             {
-                                ["Data", "Data", "Data", "Data", "Data"].map((item, index)=>
+                                /* (packageDetails?.feature)?.map((item, index)=>
                                     <div key={index} className="flex items-center gap-[10px]">
                                         <FaCircleCheck size={16} color="#00C208"/>
                                         <p className="text-[#6F6F6F]">{item}</p>
                                     </div>
-                                )
+                                ) */
                             }
                         </div>
                     </div>
@@ -200,45 +229,6 @@ const SubscriberDetails = () => {
 
 
                 <h1 className='my-4 text-[20px] font-medium text-[#172740]'>All Job Post</h1>
-
-                {/* search and filter section */}
-                <div className='flex items-center justify-between mb-[14px]'>
-                    <Input
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search Company"
-                        prefix={<FiSearch size={14} color="#868FA0" />}
-                        suffix={<IoClose onClick={() => setSearch("")} style={{ cursor: "pointer" }} size={14} color="#868FA0" />}
-                        style={{
-                            width: "450px",
-                            height:"40px",
-                            padding: "10px 15px",
-                            fontSize: "14px",
-                            fontWeight: 400,
-                            borderRadius: "8px",
-                            color: "#A1A9B8",
-                        }}
-                        size="middle"
-                        value={search}
-                    />
-
-                    <div 
-                        className='
-                            bg-white 
-                            w-[120px] 
-                            rounded-[8px] 
-                            border 
-                            border-[#E9E9E9] 
-                            flex 
-                            items-center 
-                            justify-between 
-                            px-3 
-                            py-[5px] 
-                            text-[#8B8B8B]
-                        '
-                    >
-                        Filter <LuListFilter />
-                    </div>
-                </div>
 
                 {/* subscription table list */}
                 <div>
@@ -253,20 +243,20 @@ const SubscriberDetails = () => {
                             }
                         </tr>                        
                         {
-                            (data.slice(0, 9))?.map((item, index)=>
-                                <>
-                                    <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
-                                        <td>{item.key}</td>
-                                        <td>{item.designation}</td>
-                                        <td>{item.vacancy}</td>
-                                        <td>{item.start_date}</td>
-                                        <td>{item.end_date}</td>
-                                        <td>{item.total_date}</td>
+                            jobs?.map((item, index)=>
+                                <React.Fragment key={index}>
+                                    <div  style={{marginTop: '8px'}}></div>
+                                    <tr className="bg-[#ECF1F8] text-[#949494] custom-table-row">
+                                        <td>{index + 1}</td>
+                                        <td>{item?.job_title}</td>
+                                        <td>{item?.vacancy}</td>
+                                        <td>{moment(item?.created_at).format("L")}</td>
+                                        <td>{item?.application_last_date}</td>
+                                        <td>{"6"}</td>
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                                    ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.status === "published" && "bg-[#B0ECB2] text-[#009B06]"}
                                                     ${item?.status === "Complete" && "bg-[#FEE3B8] text-[#C98415]"}
                                                 `}
                                             >
@@ -274,10 +264,20 @@ const SubscriberDetails = () => {
                                             </p>
                                         </td>
                                     </tr>
-                                </>
+                                </React.Fragment>
                             )
                         }
                     </table>
+                </div>
+
+                {/* pagination for data */}
+
+                <div className='mt-5 flex items-center justify-center'>
+                    <Pagination 
+                        defaultCurrent={page} 
+                        total={data?.length} 
+                        onChange={handlePageChange}
+                    />
                 </div>
 
             </div>
