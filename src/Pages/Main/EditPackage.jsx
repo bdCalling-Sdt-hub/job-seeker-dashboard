@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom"
 import BackButton from '../../Components/BackButton';
 import { Form, Input, Button } from 'antd';
 import {  PlusOutlined } from '@ant-design/icons';
 import baseURL from '../../../Config';
 import { LuMinusCircle } from "react-icons/lu";
+import Swal from "sweetalert2"
 
 const EditPackage = () => {
     const [packages, setPackages] = useState([]);
     const selectedData  = JSON.parse(localStorage.getItem("package"));
     const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || selectedData.id);
-    const navigate = useNavigate();
 
     useEffect(()=>{
         async function getAPi(){
@@ -26,14 +25,21 @@ const EditPackage = () => {
     }, []);
 
     const handleSubmit=async(values)=>{
-        console.log(values)
-        await baseURL.post(`/update-package`, {...values, id: selectedData.id}, {
+        await baseURL.post(`/update-package`, {...values, id: selectedData.id, candidate_limit: 10, post_limit: 2}, {
             headers: {
               "Content-Type": "application/json",
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
         }).then((response)=>{
-            console.log(response)
+            if(response.status ===200){
+                Swal.fire({
+                    title: "Successfully",
+                    text: response?.data?.message,
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
         })
     }
 
