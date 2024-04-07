@@ -1,10 +1,12 @@
 import { Input, Pagination } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { LuListFilter } from 'react-icons/lu';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import baseURL from '../../../Config';
+import moment from 'moment';
 
 const data = [
     {
@@ -101,6 +103,7 @@ const data = [
 ];
 
 const EmployerJobPost = () => {
+    const [jobs, setJobs] = useState()
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const handlePageChange = (page) => {
@@ -109,6 +112,21 @@ const EmployerJobPost = () => {
         params.set('page', page);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+
+
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/show/job`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            console.log(response)
+            setJobs(response?.data?.data);
+        }
+        getApi();
+    }, []);
     return (
         <>
 
@@ -173,21 +191,21 @@ const EmployerJobPost = () => {
                             }
                         </tr>                        
                         {
-                            data?.map((item, index)=>
-                                <>
-                                    <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
-                                        <td>{item.key}</td>
-                                        <td>{item.designation}</td>
-                                        <td>{item.vacancy}</td>
-                                        <td>{item.start_date}</td>
-                                        <td>{item.end_date}</td>
+                            jobs?.data?.map((item, index)=>
+                                <React.Fragment key={index}>
+                                    <div style={{marginTop: '8px'}}></div>
+                                    <tr className="bg-[#ECF1F8] text-[#949494] custom-table-row">
+                                        <td>{ index + 1 }</td>
+                                        <td>{item?.job_title}</td>
+                                        <td>{item?.vacancy}</td>
+                                        <td>{moment(item?.created_at).format("L")}</td>
+                                        <td>{item?.application_last_date}</td>
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                                    ${item?.status === "Published" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.status === "published" && "bg-[#B0ECB2] text-[#009B06]"}
                                                     ${item?.status === "Expired" && "bg-[#F8B5B0] text-[#E81100]"}
-                                                    ${item?.status === "Pending" && "bg-[#C5D2E8] text-[#365992]"}
+                                                    ${item?.status === "pending" && "bg-[#C5D2E8] text-[#365992]"}
                                                 `}
                                             >
                                                 {item?.status}
@@ -199,7 +217,7 @@ const EmployerJobPost = () => {
                                             </Link>
                                         </td>
                                     </tr>
-                                </>
+                                </React.Fragment>
                             )
                         }
                     </table>

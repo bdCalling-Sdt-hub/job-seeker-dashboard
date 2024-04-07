@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../Components/BackButton'
 import { Input, Pagination } from 'antd';
 import { FiSearch } from 'react-icons/fi';
@@ -6,6 +6,8 @@ import { IoClose } from 'react-icons/io5';
 import { LuListFilter } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
+import baseURL from '../../../../Config';
+import moment from 'moment';
 
 const data = [
     {
@@ -111,6 +113,7 @@ const data = [
 ];
 
 const Subscription = () => {
+    const [subscription, setSubscription] = useState()
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const handlePageChange = (page) => {
@@ -119,6 +122,21 @@ const Subscription = () => {
         params.set('page', page);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+
+
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/subscription`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            console.log(response?.data?.data)
+            setSubscription(response?.data?.data);
+        }
+        getApi();
+    }, []);
     return (
         <>
             <div style={{marginBottom : "20px"}}>
@@ -174,7 +192,7 @@ const Subscription = () => {
                     <table className="w-full rounded-[5px] rounded-table">
                         <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
                             {
-                                ["Serial No", "Company Name", "Package", "Package Price", "Date", "Time", "Status", "Action"].map((item, index)=>
+                                ["Serial No", "Package", "Package Price", "Date", "Status", "Action"].map((item, index)=>
                                     <th key={index}>
                                         {item}
                                     </th>
@@ -182,20 +200,18 @@ const Subscription = () => {
                             }
                         </tr>                        
                         {
-                            data?.map((item, index)=>
-                                <>
-                                    <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
-                                        <td>{item.key}</td>
-                                        <td>{item.company_name}</td>
-                                        <td>{item.package}</td>
-                                        <td>${item.package_price}</td>
-                                        <td>{item.date}</td>
-                                        <td>{item.time}</td>
+                            subscription?.data?.map((item, index)=>
+                                <React.Fragment key={index}>
+                                    <div style={{marginTop: '8px'}}></div>
+                                    <tr className="bg-[#ECF1F8] text-[#949494] custom-table-row">
+                                        <td>{ index + 1 }</td>
+                                        <td>{item?.package?.package_name}</td>
+                                        <td>${item?.package?.amount}</td>
+                                        <td>{moment(item?.package?.created_id).format("L")}</td>
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                                    ${item?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.status === "successful" && "bg-[#B0ECB2] text-[#009B06]"}
                                                     ${item?.status === "Expired" && "bg-[#F8B5B0] text-[#E81100]"}
                                                 `}
                                             >
@@ -208,7 +224,7 @@ const Subscription = () => {
                                             </Link>
                                         </td>
                                     </tr>
-                                </>
+                                </React.Fragment>
                             )
                         }
                     </table>

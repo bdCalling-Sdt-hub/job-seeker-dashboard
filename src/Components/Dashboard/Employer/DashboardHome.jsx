@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HiUserGroup } from "react-icons/hi";
 import { TbDatabaseDollar } from "react-icons/tb";
 import { IconCreditCard } from '@tabler/icons-react';
@@ -7,35 +7,52 @@ import EmployeListTable from "../EmployeListTable";
 import AppliedJobTable from "./AppliedJobTable";
 import TotalCostChart from "./TotalCostChart";
 import NewApplicantList from "./NewApplicantList";
+import baseURL from "../../../../Config";
 
 
-const data = [
-    {
-      name: "Total Employers",
-      count: "50k",
-      icon: <HiUserGroup color="#00B2DC" size={32} />,
-      bgColor: "#E2F7FC"
-    },
-    {
-      name: "Total Job Post",
-      count: "865",
-      icon: <ImBriefcase color="#FF011C" size={32} />,
-      bgColor: "#FFE7E9"
-    },
-    {
-      name: "Subscription",
-      count: "2k",
-      icon: <IconCreditCard color="#00C2FF" size={32} />,
-      bgColor: "#C5D2E8"
-    },
-    {
-      name: "Total Cost",
-      count: "1000k",
-      icon: <TbDatabaseDollar color="#5664FD" size={32} />,
-      bgColor: "#DDE0FF"
-    },
-  ]
+
 const DashboardHome = () => {
+    const [summary, setSummary] = useState({});
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/counting`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            console.log(response)
+            setSummary(response?.data);
+        }
+        getApi();
+    }, []);
+
+    const data = [
+        {
+          name: "Total Employers",
+          count: summary?.total_apply          ,
+          icon: <HiUserGroup color="#00B2DC" size={32} />,
+          bgColor: "#E2F7FC"
+        },
+        {
+          name: "Total Job Post",
+          count: summary?.total_job_post,
+          icon: <ImBriefcase color="#FF011C" size={32} />,
+          bgColor: "#FFE7E9"
+        },
+        {
+          name: "Subscription",
+          count: summary?.total_subscribe,
+          icon: <IconCreditCard color="#00C2FF" size={32} />,
+          bgColor: "#C5D2E8"
+        },
+        {
+          name: "Total Cost",
+          count: summary?.total_cust + "K",
+          icon: <TbDatabaseDollar color="#5664FD" size={32} />,
+          bgColor: "#DDE0FF"
+        },
+      ]
     return (
         <div>
             <div className="grid grid-cols-4 gap-5">
