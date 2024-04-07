@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { HiOutlineMail } from "react-icons/hi";
-import { Input, Pagination } from 'antd';
+import { Input, Pagination, Empty } from 'antd';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { MdDelete } from "react-icons/md";
@@ -11,14 +11,25 @@ import { IconMailForward } from '@tabler/icons-react';
 import Swal from 'sweetalert2';
 import BackButton from '../../../Components/BackButton';
 import baseURL from '../../../../Config';
+import moment from 'moment';
 
 const AdminContacts = () => {
     const [tab, setTab] = useState(new URLSearchParams(window.location.search).get('tab') || "inbox");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const [search, setSearch] = useState("");
     const [from, setFrom] = useState("")
-    const [to, setTo] = useState("");
-    const [message, setMessage] = useState("")
+    const [replay, setReply] = useState("");
+    const [message, setMessage] = useState([])
+    const [refresh, setRefresh] = useState("");
+    const [value, setValue] = useState(JSON.parse(localStorage.getItem("details")));
+    const [image, setImage] = useState();
+
+    if(refresh){
+        setTimeout(()=>{
+            setRefresh("")
+        }, 1500)
+    }
+
 
     
     const handleTab=(value)=>{
@@ -43,29 +54,69 @@ const AdminContacts = () => {
             confirmButtonText: "Yes",
             cancelButtonText: "No"
 
-        }).then((result) => {
+        }).then(async(result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 1500,
+                await baseURL.get(`/delete-message?user_id=${id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                    }
+                }).then((response)=>{
+                    console.log(response);
+                    if(response?.status === 200){
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: response?.data?.message,
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then((response)=>{
+                            setRefresh("done")
+                        })
+                    }
                 });
+                
             }
         });
     };
+
+
     useEffect(()=>{
         async function getApi(){
-            const response = await baseURL.get("/asdas", {
+            const response = await baseURL.get(`/show-message?subject=${search ? search : ""}`, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
-            console.log(response);
+            setMessage(response?.data?.data);
         }
-    }, [])
+        getApi();
+    }, [search, refresh !== ""]);
+
+
+    const handleReply = async()=>{
+        const formData = new FormData();
+
+        formData.append("user_id", value?.user_id);
+        formData.append("message", replay);
+        formData.append("image", image);
+
+
+        await baseURL.post(`/send-message-admin`, formData, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        }).then((response)=>{
+            console.log(response);
+        })
+    }
+
+    const onChange = (e) => {
+        const file= e.target.files[0];
+        setImage(file)
+    };
     return (
         <div>
 
@@ -161,7 +212,7 @@ const AdminContacts = () => {
                             {/* search section */}
                             <div style={{ padding: "24px 24px 10px 24px" }}>
                                 <Input
-                                    onChange={(e)=>setSearch(e.target.value)}
+                                    onChange={(e)=>setReply(e.target.value)}
                                     placeholder="Search..."
                                     prefix={<FiSearch size={14} color="#868FA0"/>}
                                     suffix={<IoClose onClick={()=>setSearch("")} style={{cursor: "pointer"}} size={14} color="#2B2A2A" />}
@@ -178,37 +229,53 @@ const AdminContacts = () => {
                             {/* email list */}
                             <div>
                                 {
-                                    [...Array(9).keys()].map((item, index)=>
-                                        <div key={index}
-                                            style={{
-                                                borderBottom: "1px solid #E0E0E0",
-                                                cursor: "pointer"
-                                            }}
-                                            onClick={()=>handleTab("details")}
-                                        >
-                                            <div className='flex items-center justify-between p-[18px]'>
-                                                <p>Jullu Jalal</p>
-                                                <p>Our Bachelor of Commerce program is ACBSP-accredited.....</p>
-                                                <div className='flex items-center gap-[70px]'>
-                                                    <p>8:38 AM</p>
-                                                    <MdDelete onClick={(e) => handleDeleteClick(e, 1)} style={{cursor: "pointer"}} size={25} />
+                                    message?.data?.length > 0
+                                    ?
+                                    <>
+                                        {
+                                            message?.data?.map((item, index)=>
+                                                <div key={index}
+                                                    style={{
+                                                        borderBottom: "1px solid #E0E0E0",
+                                                        cursor: "pointer"
+                                                    }}
+                                                    onClick={
+                                                        ()=>( 
+                                                            setValue(item), 
+                                                            handleTab("details"),
+                                                            localStorage.setItem("details", JSON.stringify(item)) 
+                                                        )
+                                                    }
+                                                >
+                                                    <div className='flex items-center justify-between p-[18px]'>
+                                                        <p>{item?.user?.fullName}</p>
+                                                        <p>{item?.subject}</p>
+                                                        <div className='flex items-center gap-[70px]'>
+                                                            <p>{moment(item?.created_at).format('LT')}</p>
+                                                            <MdDelete onClick={(e) => handleDeleteClick(e, item?.id)} style={{cursor: "pointer"}} size={25} />
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    )
+                                            )
+                                        }
+                                    </>
+                                    :
+                                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                                 }
+                                
                             </div>
 
                             {/* pagination */}
                             <div style={{
-                                display: "flex",
+                                display: message?.data?.length > 0 ? "flex" : "none",
                                 alignItems: "center",
                                 justifyContent: 'center',
                                 marginTop: "24px"
                             }}>
                                 <Pagination 
                                     defaultCurrent={parseInt(page)} 
-                                    total={10} 
+                                    total={message?.total}
+                                    pageSize={message?.per_page} 
                                     onChange={handlePageChange} 
                                 />
                             </div>
@@ -279,17 +346,16 @@ const AdminContacts = () => {
 
                             {/* sender name and time */}
                             <div className='flex items-center gap-4 mb-1'>
-                                <p className='text-[#6A6D7C] text-base font-medium'>Job Seeker</p>
-                                <p className='text-[#6A6D7C] text-[14px] font-normal'>8:38 AM</p>
+                                <p className='text-[#6A6D7C] text-base font-medium'>{value?.user?.fullName}</p>
+                                <p className='text-[#6A6D7C] text-[14px] font-normal'>{moment(value?.created_at).format('LT')}</p>
                             </div>
 
                             {/* email subject */}
-                            <p className='text-[#6A6D7C] text-[14px] font-normal mb-4'>Our Bachelor of Commerce program is ACBSP-accredited.</p>
+                            <p className='text-[#6A6D7C] text-[14px] font-normal mb-4'>{value?.subject}</p>
 
                             {/* email message */}
                             <div className='bg-[#F1F4F9] rounded-[8px] text-[#949494] p-4 h-fit'>
-                                quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at 
-                                ex Sed nisi tincidunt lacus elit leo. faucibus quis Sed consectetur nulla, libero, ipsum at, elit dui massa amet, ipsum vehicula, at, Vestibulum odio tincidunt diam amet, dolor adipiscing Nullam laoreet nec sit elementum sodales. nibh id 
+                                {value?.message}
                             </div>
 
                             <hr style={{margin: "24px 0"}} />
@@ -346,7 +412,7 @@ const AdminContacts = () => {
                                         gap: "12px"
                                     }}
                                 >
-                                    <input type="file" id='file' style={{display: "none"}} />
+                                    <input type="file" id='file' onChange={onChange} style={{display: "none"}} />
                                     <input type="file" id='img' style={{display: "none"}} />
 
                                     <label  style={{display: "block"}} htmlFor="file">
@@ -358,6 +424,7 @@ const AdminContacts = () => {
                                     </label>
 
                                     <button
+                                        onClick={handleReply}
                                         style={{
                                             width: "120px",
                                             height:"38px",
