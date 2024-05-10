@@ -8,8 +8,9 @@ import moment from 'moment';
 
 const JobDetails = () => {
     const { id } = useParams();
+    console.log(id)
     const [details, setDetails] = useState({});
-    console.log(details)
+    const [company, setCompany] = useState({});
 
 
     useEffect(()=>{
@@ -21,12 +22,11 @@ const JobDetails = () => {
                 }
             });
             setDetails(response?.data?.data[0]);
+            setCompany(response?.data?.data[0]?.recruiter)
         }
         getAPi();
     }, [ id ]);
-    const user = {
-        userType:"Employer"
-    }
+    const user = JSON.parse(localStorage.getItem("user"))
     return (
         <>
             <div style={{ marginBottom: "16px" }}>
@@ -45,7 +45,7 @@ const JobDetails = () => {
                                 borderRadius: "8px",
                                 margin: "0 auto"
                             }} 
-                            src="https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" 
+                            src={ details?.logo ? `${ImgURL}/${details?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
                             alt="" 
                         />
                         <div className="grid grid-cols-1 gap-4 mt-5">
@@ -281,24 +281,30 @@ const JobDetails = () => {
                     {/* company details */}
                     <div className='col-span-4 bg-[#ECF1F8] rounded-lg p-4 h-fit'>
                         <h1 className='text-[24px] text-[#565656] font-normal mb-4'>Company Details</h1>
-                        <p>{details?.recruiter?.company_des}</p>
+                        <p>{company?.company_des}</p>
 
                         <div className='flex items-center gap-4 mt-10'>
-                            <TiSocialLinkedinCircular size={38} color='#0A66C2' />
-                            <FaInstagram size={24} color='#0A66C2' />
-                            <FaFacebook size={24} color='#0A66C2' />
+                                <a href={company?.linkdin_url} target="_blank">
+                                    <TiSocialLinkedinCircular size={38} color='#0A66C2' />
+                                </a>
+                                <a href={company?.instagram_url}  target="_blank">
+                                    <FaInstagram size={24} color='#0A66C2' />
+                                </a>
+                                <a href={company?.facebook_url} target="_blank">
+                                    <FaFacebook size={24} color='#0A66C2' />
+                                </a>
                         </div>
                     </div>
                 </div>
                 
                 {
-                    user.userType === "Admin"
+                    user.userType === "ADMIN"
                     ?
                     <div className='bg-[#ECF1F8] w-full  h-[96px] p-6 rounded-lg flex items-center justify-between mt-6'>
                         <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                         <div className='flex items-center gap-6'>
                             <button  className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
-                            <button className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] '>Published</button>
+                            <button className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] capitalize'>{details?.status ? details?.status : "pending"}</button>
                         </div>
                     </div>
                     :

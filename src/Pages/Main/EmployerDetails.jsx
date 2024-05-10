@@ -197,13 +197,7 @@ const EmployerDetails = () => {
                                 height: "230px",
                                 borderRadius: "8px"
                             }} 
-                            src={
-                                employer?.company_details?.logo 
-                                ? 
-                                employer?.company_details?.logo
-                                : 
-                                "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" 
-                            } 
+                            src={ employer?.company_details?.logo ? `${ImgURL}/${employer?.company_details?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
                             alt="Employer Logo" 
                         />
                         <div className='w-full grid grid-cols-1 gap-7 text-[#565656]'>
@@ -252,7 +246,7 @@ const EmployerDetails = () => {
                             <div className='w-[5%]'>:</div>
                             <div className='w-[65%] h-full'>
                                 {
-                                    ["Web Development", "Mobile App Development", "UX/UI", "Data Entry", "Graphs"].map((service, index)=>
+                                    (employer?.company_details?.company_service)?.split(",")?.map((service, index)=>
                                         <p key={index} className='text-[14px] font-normal text-[#565656]'>{service}</p>
                                     )
                                 }
@@ -284,7 +278,11 @@ const EmployerDetails = () => {
                     <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                     <div className='flex items-center gap-6'>
                         <button onClick={()=>setOpenModal(true)} className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
-                        <button onClick={()=>handleblock(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] '>Block</button>
+                        <button onClick={()=>handleblock(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] capitalize rounded-[90px] '>
+                            {
+                                employer?.company_details?.status === "blocked" ? "unblock" : employer?.company_details?.status
+                            }
+                        </button>
                     </div>
                 </div>
 

@@ -122,7 +122,6 @@ const EmployerJobPost = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
-            console.log(response)
             setJobs(response?.data?.data);
         }
         getApi();
@@ -212,7 +211,7 @@ const EmployerJobPost = () => {
                                             </p>
                                         </td>
                                         <td className="py-[10px] pl-10 cursor-pointer">
-                                            <Link to={"/job-details"}>
+                                            <Link to={`/job-details/${item.id}`}>
                                                 <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                                             </Link>
                                         </td>

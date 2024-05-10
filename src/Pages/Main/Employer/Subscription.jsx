@@ -9,109 +9,6 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import baseURL from '../../../../Config';
 import moment from 'moment';
 
-const data = [
-    {
-        key: "1",
-        designation: "Web Developers",
-        package: "Basic",
-        package_price: "200",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Bara Apple",
-        total_day: "3 days",
-        status:"Active",
-    },
-    {
-        key: "2",
-        designation: "Designer",
-        package: "Essential",
-        package_price: "400",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Khoaya Apple",
-        total_day: "20 days",
-        status:"Active",
-    },
-    {
-        key: "3",
-        designation: "Motion",
-        package: "Essential Pro",
-        package_price: "600",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Chota Apple",
-        total_day: "10 days",
-        status:"Active",
-    },
-    {
-        key: "4",
-        designation: "Executive",
-        package: "Basic",
-        package_price: "200",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Pocha Apple",
-        total_day: "9 days",
-        status:"Expired",
-    },
-    {
-        key: "5",
-        designation: "Web Developers",
-        package: "Basic",
-        package_price: "200",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Bara Apple",
-        total_day: "7 days",
-        status:"Active",
-    },
-    {
-        key: "6",
-        designation: "Designer",
-        package: "Essential",
-        package_price: "400",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Khoaya Apple",
-        total_day: "6 days",
-        status:"Expired",
-    },
-    {
-        key: "7",
-        designation: "Motion",
-        package: "Essential",
-        package_price: "400",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Chota Apple",
-        total_day: "5 days",
-        status:"Expired",
-    },
-    {
-        key: "8",
-        designation: "Executive",
-        package: "Essential Pro",
-        package_price: "600",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Pocha Apple",
-        total_day: "30 days",
-        status:"Active",
-    }
-    ,
-    {
-        key: "9",
-        designation: "Motion",
-        package: "Essential Pro",
-        package_price: "600",
-        date: "Dec 30, 2024",
-        time: "5:18 PM",
-        company_name: "Chota Apple",
-        total_day: "13 days",
-        status:"Active",
-    }
-];
-
 const Subscription = () => {
     const [subscription, setSubscription] = useState()
     const [search, setSearch] = useState("");
@@ -219,7 +116,7 @@ const Subscription = () => {
                                             </p>
                                         </td>
                                         <td className="py-[10px] pl-10 cursor-pointer">
-                                            <Link to={"/subscription-info/1"}>
+                                            <Link to={`/subscription-info/${item?.id}`}>
                                                 <MdOutlineRemoveRedEye color='#6F6F6F' size={24} />
                                             </Link>
                                         </td>

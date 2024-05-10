@@ -1,84 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import BackButton from "../../../Components/BackButton";
 import { Input, Pagination } from "antd";
 import { FiSearch } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { LuListFilter } from "react-icons/lu";
+import baseURL from "../../../../Config";
+import moment from "moment";
 
-
-const data = [
-    {
-        key: "1",
-        category: "IT",
-        vacancy: 15,
-        applied: 30,
-        Date: "Jul 20, 2024",
-    },
-    {
-        key: "2",
-        category: "IT",
-        vacancy: 5,
-        applied: 10,
-        Date: "Jul 20, 2024",
-    },
-    {
-        key: "3",
-        category: "IT",
-        vacancy: 40,
-        applied: 80,
-        Date: "Dec 20, 2024",
-    },
-    {
-        key: "4",
-        category: "IT",
-        vacancy: 7,
-        applied: 14,
-        Date: "Aug 20, 2024",
-    },
-    {
-        key: "5",
-        category: "IT",
-        vacancy: 30,
-        applied: 60,
-        Date: "Feb 20, 2024",
-    },
-    {
-        key: "6",
-        category: "IT",
-        vacancy: 20,
-        applied: 30,
-        Date: "Jan 20, 2024",
-    },
-    {
-        key: "7",
-        category: "IT",
-        vacancy: 10,
-        applied: 20,
-        Date: "Apr 20, 2024",
-    },
-    {
-        key: "8",
-        category: "IT",
-        vacancy: 5,
-        applied: 10,
-        Date: "Jun 20, 2024",
-    },
-    {
-        key: "9",
-        category: "IT",
-        vacancy: 10,
-        applied: 30,
-        Date: "May 20, 2024",
-    },
-    {
-        key: "10",
-        category: "IT",
-        vacancy: 20,
-        applied: 100,
-        Date: "May 20, 2023",
-    },
-];
 
 
 const AppliedJobTable = () => {
@@ -100,6 +29,24 @@ const AppliedJobTable = () => {
         params.set('page', page);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+
+    const [data, setData] = useState([]);
+    const [paginate, setPaginate] = useState()
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/application/job`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+
+            setData (response?.data.data)
+            setPaginate(response?.data?.pagination)
+            console.log(response?.data)
+        }
+        getApi();
+    }, []);
 
     return (
         <>
@@ -153,7 +100,7 @@ const AppliedJobTable = () => {
 
                     <tr className="text-left w-full bg-[#FEE3B8] custom-table-row">
                         {
-                            ["Serial No", "Category", "Vacancy", "Applied", "Date"].map((item, index)=>
+                            ["Serial No", "Job Title", "Vacancy", "Applied", "Date"].map((item, index)=>
                                 <th key={index} >
                                     {item}
                                 </th>
@@ -166,11 +113,11 @@ const AppliedJobTable = () => {
                             <>
                                 <div key={index} style={{marginTop: '8px'}}></div>
                                 <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
-                                    <td>{item.key}</td>
-                                    <td>{item.category}</td>
-                                    <td>{item.vacancy}</td>
-                                    <td className='bg-[#F7F0E2]'>{item.applied}</td>
-                                    <td>{item.Date}</td>
+                                    <td>{item?.id}</td>
+                                    <td>{item?.job_title}</td>
+                                    <td>{item?.vacancy}</td>
+                                    <td className='bg-[#F7F0E2]'>{item?.applied_count}</td>
+                                    <td>{moment(item?.application_last_date).format("L")}</td>
                                 </tr>
                             </>
                         )
@@ -181,7 +128,7 @@ const AppliedJobTable = () => {
                 <div className='mt-6 flex items-center justify-center'>
                     <Pagination 
                         defaultCurrent={page} 
-                        total={50} 
+                        total={paginate?.total} 
                         onChange={handlePageChange}
                     />
                 </div>

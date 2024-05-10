@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../../Components/BackButton';
 import { FaCircleCheck } from 'react-icons/fa6'
 import { Input, Pagination } from 'antd'
 import { LuListFilter } from 'react-icons/lu'
 import { FiSearch } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
+import baseURL from '../../../../Config';
+import { useParams } from 'react-router-dom';
 
 
 const data = [
@@ -102,6 +104,8 @@ const data = [
 ];
 
 const SubscriptionInfo = () => {
+    const [details, setDetails] = useState({});
+    const [subscription, setSubscription] = useState({});
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const handlePageChange = (page) => {
@@ -110,6 +114,21 @@ const SubscriptionInfo = () => {
         params.set('page', page);
         window.history.pushState(null, "", `?${params.toString()}`);
     }
+    const { id } = useParams();
+
+
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/subscription/details/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            console.log(response?.data)
+        }
+        getApi();
+    }, [id]);
     return (
         <>
             <div style={{marginBottom : "20px"}}>

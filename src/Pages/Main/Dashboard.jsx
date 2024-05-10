@@ -23,6 +23,7 @@ const Dashboard = () => {
   const { pathname } = useLocation();
   const { userType, fullName } = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  console.log(userType)
 
   const handleLogOut=()=>{
     navigate('/login');
@@ -69,7 +70,7 @@ const Dashboard = () => {
     },
     {
       title: "Job & Interviews",
-      path: "/job-interviews",
+      path: "/new-applicant",
       icon: <IconCalendarStats size={24} />,
     },
     {
@@ -143,59 +144,63 @@ const Dashboard = () => {
             marginTop: 0
           }} 
         >
-          {linkItems.map((item, index) => (
-            <Link 
-              key={index} 
-              to={item.path}
-              className={`
-                ${ userType === "ADMIN" || userType === "SUPER ADMIN" && item.path === "/employer-profile" ? "none" : "block" }
-                ${ userType === "ADMIN" || userType === "SUPER ADMIN" && item.path === "/job-interviews" ? "none" : "block" }
-                ${ userType === "RECRUITER" && item.path === "/settings" ? "none" : "block" }
+          {
+            linkItems.map((item, index) => {
+              return (
+              <Link 
+                key={index} 
+                to={item.path}
+                className={`
+                ${ userType === "SUPER ADMIN" && item.path === "/employer-profile" ? "hidden" : "block" }
+                ${ userType === "SUPER ADMIN"  && item.path === "/subscription" ? "hidden" : "block" }
+                ${ userType === "ADMIN" && item.path === "/employer-profile" ? "none" : "block" }
+                ${ userType === "ADMIN"  && item.path === "/subscription" ? "none" : "block" }
+                ${ userType === "ADMIN" && item.path === "/make-admin" ? "hidden" : "block" }
                 ${ userType === "RECRUITER" && item.path === "/make-admin" ? "none" : "block" }
+                ${ userType === "RECRUITER" && item.path === "/settings" ? "none" : "block" }
                 ${ userType === "RECRUITER" && item.path === "/employer-list" ? "none" : "block" }
                 ${ userType === "RECRUITER" && item.path === "/subscribers" ? "none" : "block" }
                 ${ userType === "RECRUITER" && item.path === "/category" ? "none" : "block" }
-                ${ userType === "ADMIN" || userType === "SUPER ADMIN" && item.path === "/subscription" ? "none" : "block" }
-              `}
-            >
-              <li
-                  key={index}
-                  style={{
-                    width: "100%",
-                    height: "34px",
-                    position: "relative",
-                    paddingLeft: "44px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {
-                    item.path === pathname
-                    ?
-                    <div style={{backgroundColor: "#4365b6", position: "absolute", left:0, top: 0, width: "8px", height: "35px", borderRadius: "0 10px 10px 0"}}></div>
-                    :
-                    null
-
-                  }
-                  <div
+                `}
+              >
+                <li
+                    key={index}
                     style={{
+                      width: "100%",
+                      height: "34px",
+                      position: "relative",
+                      paddingLeft: "44px",
                       display: "flex",
-                      color: item.path === pathname ? "#4365b6" : "#6A6D7C", 
                       alignItems: "center",
-                      margin: "auto  0 auto 0",
-                      gap: "14px"
                     }}
                   >
-                    <div style={{height: "24px",}}>{item.icon}</div>
-                    <div style={{fontSize: "14px", textAlign: "center", height: "fit-content"}}>{item.title}</div>
                     {
-                      item.path === "/contacts" ? <div className="w-[30px] h-5 flex items-center justify-center border border-[#565656] rounded-[4px] text-[11px]">40+</div> : null
-                    }  
-                  </div>
-              </li>
-            </Link>
-            
-          ))}
+                      item.path === pathname
+                      ?
+                      <div style={{backgroundColor: "#4365b6", position: "absolute", left:0, top: 0, width: "8px", height: "35px", borderRadius: "0 10px 10px 0"}}></div>
+                      :
+                      null
+
+                    }
+                    <div
+                      style={{
+                        display: "flex",
+                        color: item.path === pathname ? "#4365b6" : "#6A6D7C", 
+                        alignItems: "center",
+                        margin: "auto  0 auto 0",
+                        gap: "14px"
+                      }}
+                    >
+                      <div style={{height: "24px",}}>{item.icon}</div>
+                      <div style={{fontSize: "14px", textAlign: "center", height: "fit-content"}}>{item.title}</div>
+                      {
+                        item.path === "/contacts" ? <div className="w-[30px] h-5 flex items-center justify-center border border-[#565656] rounded-[4px] text-[11px]">40+</div> : null
+                      }  
+                    </div>
+                </li>
+              </Link>
+            )})
+          }
 
           <li
             style={{

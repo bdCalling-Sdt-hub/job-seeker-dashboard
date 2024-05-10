@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../Components/BackButton'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineUpload } from "react-icons/md";
 import onsite from "../../assets/on site.png"
@@ -10,48 +10,131 @@ import { WiTime7 } from "react-icons/wi";
 import { DatePicker, TimePicker  } from "antd";
 import Swal from 'sweetalert2';
 import logo from "../../assets/logo.png"
+import baseURL from '../../../Config';
+import ImgURL from '../../../ImgConfig';
 
 const CandidateShortProfile = () => {
+    const { id } = useParams();
+    const [applicant, setApplicant] = useState();
+    const [job, setJob] = useState();
+    const [application, setApplication] = useState()
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState("");
+    const [refresh, setRefresh] = useState("")
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
 
-    const handleSubmit=(values)=>{
-        Swal.fire({
-            html: "You are Sending a Job Interview <span style=\"color: #436FB6\">Notification & Email</span> <br> Candidate  name : Mr.Jobed <br>Application No : #20221",
-            imageUrl: `${logo}`,
-            width: 600,
-            imageWidth: 200,
-            imageHeight: 30,
-            imageAlt: "Custom image",
-            confirmButtonText: 'Confirm',
-            showCloseButton: true,
-            customClass: {
-                confirmButton: 'custom-send-button',
-                closeButton: 'custom-close-button',
-                popup: 'custom-modal-popup',
+    if(refresh){
+        setTimeout(()=>{
+            setRefresh("")
+        }, 1500)
+    }
+
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/apply/details/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            setApplicant (response?.data.Cv[0]);
+            setJob(response?.data?.joblist)
+            setApplication(response?.data?.apply_details)
+        }
+        getApi();
+    }, [id, refresh !== ""]);
+
+    const handleSubmit=async(values)=>{
+
+        await baseURL.post(`/send/mail`, {...values, email: applicant?.email }, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
-        });        
+        }).then((response)=>{
+            if(response.status === 200){
+                Swal.fire({
+                    html: `You are Sending a Job Interview <span style=\"color: #436FB6\">Notification & Email</span> <br> Candidate  name : ${applicant?.fullName} <br>Application No : #20221`,
+                    imageUrl: `${logo}`,
+                    width: 600,
+                    imageWidth: 200,
+                    imageHeight: 30,
+                    imageAlt: "Custom image",
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+            }
+            
+        })        
     }
     
-    const handleReject=()=>{
+    const handleReject=async(id)=>{
+        const data= {
+            id: id,
+            status: "reject"
+        }
+
         Swal.fire({
-            html: "Do you want to Reject This Candidate ! <br> Candidate  name : Mr.Jobed <br>Application No : #20221",
-            imageUrl: `${logo}`,
-            width: 450,
-            imageWidth: 200,
-            imageHeight: 30,
-            imageAlt: "Custom image",
-            confirmButtonText: 'Confirm',
-            showCloseButton: true,
-            customClass: {
-                confirmButton: 'custom-send-button',
-                closeButton: 'custom-close-button',
-                popup: 'custom-modal-popup',
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            showCancelText: "No",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes"
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+                await baseURL.post(`/apply/status`, data, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                    }
+                }).then((response)=>{
+                    
+                    if(response.status === 200){
+                        setRefresh("true")
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Rejected This Candidate",
+                            icon: "success",
+                            timer: 1500,
+                            showConfirmButton: false,
+                        });
+                    }
+                }); 
+                
             }
-        });        
+        });      
+    }
+
+    const handleRecuited = async(id)=>{
+        const data= {
+            id: id,
+            status: "select"
+        }
+        await baseURL.post(`/apply/status`, data, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        }).then((response)=>{
+            if(response.status === 200){
+                setRefresh("true")
+                Swal.fire({
+                    html: `You are Sending a Job Interview <span style=\"color: #436FB6\">Notification & Email</span> <br> Candidate  name : ${applicant?.fullName} <br>Application No : #20221`,
+                    imageUrl: `${logo}`,
+                    width: 600,
+                    imageWidth: 200,
+                    imageHeight: 30,
+                    imageAlt: "Custom image",
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+            }
+        });
     }
     return (
         <>
@@ -71,7 +154,8 @@ const CandidateShortProfile = () => {
                                     height: "230px",
                                     borderRadius: "8px",
                                 }} 
-                                src="https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" 
+                                src={applicant?.image ? `${ImgURL}/${applicant?.image}` :      "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg"                            } 
+                                
                                 alt="" 
                             />
                         </div>
@@ -81,31 +165,31 @@ const CandidateShortProfile = () => {
                                 <div className='flex  items-center justify-between'>
                                     <p className='w-[30%]'>Name</p>
                                     <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>User Hossain</p>
+                                    <p className='w-[65%] text-[#6F6F6F]'> {applicant?.fullName} </p>
                                 </div>
                                 
                                 <div className='flex items-center justify-between'>
                                     <p className='w-[30%]'>Application NO</p>
                                     <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>174577545745</p>
+                                    <p className='w-[65%] text-[#6F6F6F]'>{applicant?.id} </p>
                                 </div>
                                 
                                 <div className='flex items-center justify-between'>
                                     <p className='w-[30%]'>Email</p>
                                     <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>admin@gmail</p>
+                                    <p className='w-[65%] text-[#6F6F6F]'>{applicant?.email} </p>
                                 </div>
                                 
                                 <div className='flex items-center justify-between'>
                                     <p className='w-[30%]'>Phone</p>
                                     <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>+88015654544</p>
+                                    <p className='w-[65%] text-[#6F6F6F]'>{applicant?.mobile ? applicant?.mobile : "Not Found"} </p>
                                 </div>
                                 
                                 <div className='flex items-center justify-between'>
                                     <p className='w-[30%]'>Present Address</p>
                                     <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>Banasree/Rampura- Dhaka-1219</p>
+                                    <p className='w-[65%] text-[#6F6F6F]'>{applicant?.address ? applicant?.address : "Not Found"} </p>
                                 </div>
                             </div>
                         </div>
@@ -117,19 +201,19 @@ const CandidateShortProfile = () => {
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Job Position</p>
                                 <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>Software Developer</p>
+                                <p className='w-[65%] text-[#6F6F6F]'> {job?.job_title} </p>
                             </div>
                             
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Experience</p>
                                 <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>bdCalling</p>
+                                <p className='w-[65%] text-[#6F6F6F]'> {job?.experience}  </p>
                             </div>
                             
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Education</p>
                                 <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>Banasree</p>
+                                <p className='w-[65%] text-[#6F6F6F]'>{job?.education} </p>
                             </div>
                             
                             <div className='flex items-center justify-between'>
@@ -165,15 +249,15 @@ const CandidateShortProfile = () => {
                         <div className='flex items-center justify-between'>
                             <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                             <div className='flex items-center gap-6'>
-                                <button onClick={handleReject}  className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]'> Reject</button>
-                                <button onClick={()=>setOpen(!open)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px]'>{ open ? "Recruited" : "Selected" }</button>
+                                <button onClick={()=>handleReject(application?.id)}  className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]'> Reject</button>
+                                <button  onClick={()=>handleRecuited(application?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px]'>{ application?.status === "select" ? "Recruited" : "Selected" }</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 {
-                    open &&
+                    application?.status === "select" &&
                     <div className='grid grid-cols-2 gap-6'>
                         <div onClick={()=>(setOpen(false),setTab("onsite"))} className="bg-[#ECF1F8] cursor-pointer rounded-lg p-6">
                             <div  className="bg-white h-[350px] flex items-center justify-center gap-2 rounded-lg">
@@ -203,7 +287,7 @@ const CandidateShortProfile = () => {
 
                 {
                     tab &&
-                    <Form className='grid grid-cols-12 gap-6'>
+                    <Form className='grid grid-cols-12 gap-6' onFinish={handleSubmit} initialValues={{job_title: job?.job_title}}>
                         <div className='col-span-6'>
                             <label htmlFor="email" style={{display: "block", marginBottom: "13px" }}> Job Title </label>
                             <Form.Item
@@ -325,8 +409,7 @@ const CandidateShortProfile = () => {
                                         borderRadius: "90px",
                                         padding: "0 16px",
                                         cursor: "pointer"
-                                    }} 
-                                    onChange={onChange} 
+                                    }}
                                 />
                             </Form.Item>
                         </div>
@@ -353,8 +436,7 @@ const CandidateShortProfile = () => {
                                         borderRadius: "90px",
                                         padding: "0 16px",
                                         cursor: "pointer"
-                                    }} 
-                                    onChange={onChange} 
+                                    }}
                                 />
                             </Form.Item>
                         </div>
@@ -393,8 +475,7 @@ const CandidateShortProfile = () => {
                         
                         <Form.Item style={{marginBottom: 0}}>
                             <Button
-                                // htmlType='submit'
-                                onClick={handleSubmit}
+                                htmlType='submit'
                                 block
                                 style={{
                                     width: "200px",

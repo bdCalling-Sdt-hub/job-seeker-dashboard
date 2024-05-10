@@ -1,95 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown } from 'antd';
 import { AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
+import baseURL from '../../../../Config';
 
-const data = [
-    {
-        name: 'Jan',
-        uv: 4000,
-        pv: 2400,
-        tv :1200,
-        amt: 10,
-    },
-    {
-        name: 'Feb',
-        uv: 3000,
-        pv: 1398,
-        tv :1200,
-        amt: 20,
-    },
-    {
-        name: 'Mar',
-        uv: 2000,
-        pv: 9800,
-        tv :1200,
-        amt: 30,
-    },
-    {
-        name: 'Apr',
-        uv: 2780,
-        pv: 3908,
-        tv :1200,
-        amt: 40,
-    },
-    {
-        name: 'May',
-        uv: 1890,
-        pv: 4800,
-        tv :1200,
-        amt: 50,
-    },
-    {
-        name: 'Jun',
-        uv: 2390,
-        pv: 3800,
-        tv :1200,
-        amt: 60,
-    },
-    {
-        name: 'Jul',
-        uv: 3490,
-        pv: 4300,
-        tv :1200,
-        amt: 70,
-    },
-    {
-        name: 'Aug',
-        uv: 3490,
-        pv: 4300,
-        tv :1200,
-        amt: 80,
-    },
-    {
-        name: 'Sep',
-        uv: 3490,
-        pv: 4300,
-        tv :1200,
-        amt: 90,
-    },
-    {
-        name: 'Oct',
-        uv: 3490,
-        pv: 4300,
-        tv :1200,
-        amt: 100,
-    },
-    {
-        name: 'Nov',
-        uv: 3490,
-        pv: 4300,
-        tv :1200,
-        amt: 110,
-    },
-    {
-        name: 'Dec',
-        uv: 3490,
-        pv: 4300,
-        tv :1200,
-        amt: 120,
-    },
-];
 const TotalCostChart = () => {
+    const [data, setData] = useState();
     const [year, setYear] = useState(2024);
     const items = [
         {
@@ -113,6 +29,19 @@ const TotalCostChart = () => {
     const onClick = ({ key }) => {
         setYear(key)
     };
+
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/coust/ratio?year=${year}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            setData(response?.data.monthly_income);
+        }
+        getApi();
+    }, [year]);
 
 
     return (
@@ -145,10 +74,10 @@ const TotalCostChart = () => {
                     }}
                 >
                     
-                    <XAxis dataKey="name" />
+                    <XAxis dataKey="month_name" />
                     <YAxis />
                     <Tooltip />
-                    <Area type="monotone" dataKey="uv" stroke="#4365b6" fill="#4365b6" />
+                    <Area type="monotone" dataKey="count" stroke="#4365b6" fill="#4365b6" />
                 </AreaChart>
             </div>
         </div>

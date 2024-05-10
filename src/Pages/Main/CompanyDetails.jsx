@@ -36,7 +36,7 @@ const CompanyDetails = () => {
                         <div className='bg-[#ECF1F8] rounded-lg flex items-center justify-center'>
                             <img 
                                 style={{width: "300px", height: "200px", margin: "auto", borderRadius: "8px"}} 
-                                src="https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" 
+                                src={ employer?.company_details?.logo ? `${ImgURL}/${employer?.company_details?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
                                 alt="" 
                             />
                         </div>
@@ -45,9 +45,15 @@ const CompanyDetails = () => {
                             <p>{employer?.company_details?.company_des}</p>
 
                             <div className='flex items-center gap-4 mt-10'>
-                                <TiSocialLinkedinCircular size={38} color='#0A66C2' />
-                                <FaInstagram size={24} color='#0A66C2' />
-                                <FaFacebook size={24} color='#0A66C2' />
+                                <a href={employer?.company_details?.linkdin_url} target="_blank">
+                                    <TiSocialLinkedinCircular size={38} color='#0A66C2' />
+                                </a>
+                                <a href={employer?.company_details?.instagram_url}  target="_blank">
+                                    <FaInstagram size={24} color='#0A66C2' />
+                                </a>
+                                <a href={employer?.company_details?.facebook_url} target="_blank">
+                                    <FaFacebook size={24} color='#0A66C2' />
+                                </a>
                             </div>
 
                         </div>
@@ -89,8 +95,9 @@ const CompanyDetails = () => {
                             <p className='w-[25%]'>Company Service</p>
                             <div className='w-[5%]'>:</div>
                             <div className='w-[70%] h-full flex flex-wrap gap-2'>
+                                
                                 {
-                                    ["Web Development", "Mobile App Development", "UX/UI", "Data Entry", "Graphs"].map((service, index)=>
+                                    (employer?.company_details?.company_service)?.split(",")?.map((service, index)=>
                                         <p className='text-[14px] w-fit px-3 py-[3px] rounded-[100px] border border-[#436FB6]  font-normal text-[#436FB6]'>{service}</p>
                                     )
                                 }
@@ -112,19 +119,19 @@ const CompanyDetails = () => {
                         <div className='flex items-center justify-between mb-6'>
                             <p className='w-[25%]'>Linkedin Link</p>
                             <div className='w-[5%]'>:</div>
-                            <p className='w-[70%]'>{employer?.company_details?.social_media_link} </p>
+                            <p className='w-[70%]'>{employer?.company_details?.linkdin_url} </p>
                         </div>
 
                         <div className='flex items-center justify-between mb-6'>
                             <p className='w-[25%]'>Facebook Link</p>
                             <div className='w-[5%]'>:</div>
-                            <p className='w-[70%]'>{employer?.company_details?.social_media_link} </p>
+                            <p className='w-[70%]'>{employer?.company_details?.facebook_url} </p>
                         </div>
 
                         <div className='flex items-center justify-between mb-6'>
                             <p className='w-[25%]'>Instagram Link</p>
                             <div className='w-[5%]'>:</div>
-                            <p className='w-[70%]'>{employer?.company_details?.social_media_link} </p>
+                            <p className='w-[70%]'>{employer?.company_details?.instagram_url} </p>
                         </div>
                     </div>
                 </div>

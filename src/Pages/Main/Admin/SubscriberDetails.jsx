@@ -9,6 +9,7 @@ import { Input, Pagination } from 'antd'
 import { FaCircleCheck } from 'react-icons/fa6'
 import baseURL from '../../../../Config'
 import moment from 'moment'
+import ImgURL from '../../../../ImgConfig'
 
 
 
@@ -93,7 +94,11 @@ const SubscriberDetails = () => {
 
                 <div className='flex items-center gap-6 my-6'>
                     <div className='w-[60%] bg-[#ECF1F8] h-[279px] rounded-lg p-6 flex gap-6'>
-                        <img style={{width: "257px", height: "230px", border: "1px solid red", borderRadius: "8px"}} src="https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" alt="" />
+                        <img 
+                            style={{width: "257px", height: "230px", borderRadius: "8px"}} 
+                            src={ companyDetails?.logo ? `${ImgURL}/${companyDetails?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
+                            alt=""
+                        />
                         <div className='w-full grid grid-cols-1 gap-7 text-[#565656]'>
                             <div className='flex items-center justify-between'>
                                 <p className='w-[25%]'>Company Name</p>
@@ -138,7 +143,7 @@ const SubscriberDetails = () => {
                             <div className='w-[5%]'>:</div>
                             <div className='w-[65%] h-full'>
                                 {
-                                    ["Web Development", "Mobile App Development", "UX/UI", "Data Entry", "Graphs"].map((service, index)=>
+                                   (companyDetails?.company_service)?.split(",")?.map((service, index)=>
                                         <p className='text-[14px] font-normal text-[#565656]'>{service}</p>
                                     )
                                 }

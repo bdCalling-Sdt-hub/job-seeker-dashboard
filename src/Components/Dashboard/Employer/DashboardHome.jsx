@@ -21,7 +21,6 @@ const DashboardHome = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
-            console.log(response)
             setSummary(response?.data);
         }
         getApi();
@@ -48,7 +47,7 @@ const DashboardHome = () => {
         },
         {
           name: "Total Cost",
-          count: summary?.total_cust + "K",
+          count: "$" + summary?.total_cust ,
           icon: <TbDatabaseDollar color="#5664FD" size={32} />,
           bgColor: "#DDE0FF"
         },

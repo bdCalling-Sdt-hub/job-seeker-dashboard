@@ -4,11 +4,10 @@ import { Navigate, useLocation } from "react-router-dom";
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
-  const user = {
-    email: "tushar@gmail.com",
-  };
+  const user = JSON.parse(localStorage.getItem("user"))
+  const token = JSON.parse(localStorage.getItem("token"))
 
-  if (user.email) {
+  if (token &&  user.email) {
     return children;
   }
 

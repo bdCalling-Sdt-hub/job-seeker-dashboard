@@ -7,6 +7,7 @@ import baseURL from "../../../Config"
 
 const Package = () => {
     const [packages, setPackages] = useState([]);
+    console.log(packages)
     const { userType } = JSON.parse(localStorage.getItem("user"));
     const [selectedPackage, setSelectedPackage] = useState(new URLSearchParams(window.location.search).get('package') || "Basic");
     const filterData = packages.find((item) => item?.package_name === selectedPackage);
