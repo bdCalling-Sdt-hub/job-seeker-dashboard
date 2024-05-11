@@ -1,33 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BackButton from '../../Components/BackButton'
 import { Button, Form, Input } from 'antd'
+import baseURL from '../../../Config'
+import { Select } from 'antd';
+import Swal from 'sweetalert2';
 
 const CreateJob = () => {
 
-    const handleOnFinis=(values)=>{
-        console.log(values)
-        const formData = new FormData();
-        const education = values?.experience.split(",").map((item)=> item);
-        console.log(education);
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
-        formData.append("", values.education)
+    const handleOnFinis=async(values)=>{
+        console.log("post", values)
+        const type = (values?.key_words)?.split(",");
+        await baseURL.post(`/create-job`, {...values, key_word: JSON.stringify(type)}, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        }).then((response)=>{
+            if(response.status === 200){
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: response?.data?.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
 
     }
+
+    const [category, setCategory] = useState([]);
+    console.log(category)
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/show-category`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            setCategory(response?.data?.data);
+        }
+        getApi();
+    }, []);
+
+    const options = category?.map((item) => ({value: item?.id, label: item?.category_name}));
     return (
         <>
             <div style={{marginBottom: "20px"}}>
@@ -41,7 +60,14 @@ const CreateJob = () => {
                     <div className='grid grid-cols-3 gap-6'>
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Job Title</label>
-                            <Form.Item name="job_title" style={{marginBottom: "0"}}>
+                            <Form.Item name="job_title" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Job Title"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder='Enter Job Title'
                                     style={{
@@ -61,7 +87,14 @@ const CreateJob = () => {
 
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Company name</label>
-                            <Form.Item name="company_name" style={{marginBottom: "0"}}>
+                            <Form.Item name="company_name" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Company name"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder='Enter Company Name'
                                     style={{
@@ -82,7 +115,14 @@ const CreateJob = () => {
                         
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Company  Email</label>
-                            <Form.Item name="company_email" style={{marginBottom: "0"}}>
+                            <Form.Item name="company_email" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Company  Email"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder='Enter Company Email'
                                     style={{
@@ -103,7 +143,14 @@ const CreateJob = () => {
                         
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Appling Last Date</label>
-                            <Form.Item name="application_last_date" style={{marginBottom: "0"}}>
+                            <Form.Item name="dadLine" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Appling Last Date"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder='Enter Application Last Date'
                                     style={{
@@ -122,10 +169,17 @@ const CreateJob = () => {
                         </div>
                         
                         <div>
-                            <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Company  location</label>
-                            <Form.Item name="location" style={{marginBottom: "0"}}>
+                            <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Job Vacancy</label>
+                            <Form.Item name="vacancy" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Job Vacancy"
+                                    }
+                                ]}
+                            >
                                 <Input
-                                    placeholder='Enter Company Location'
+                                    placeholder=''
                                     style={{
                                         width:"100%",
                                         border: "none",
@@ -140,10 +194,44 @@ const CreateJob = () => {
                                 />
                             </Form.Item>
                         </div>
-                        
+
                         <div>
-                            <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Job Vacancy</label>
-                            <Form.Item name="vacancy" style={{marginBottom: "0"}}>
+                            <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Salary</label>
+                            <Form.Item name="salary" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Job Salary"
+                                    }
+                                ]}
+                            >
+                                <Input
+                                    placeholder=''
+                                    style={{
+                                        width:"100%",
+                                        border: "none",
+                                        height: "40px",
+                                        padding: "18px 15px",
+                                        background: "#F1F4F9",
+                                        borderRadius: "90px",
+                                        outline: "none",
+                                        color: "#949494",
+                                        fontSize: "14px"
+                                    }}
+                                />
+                            </Form.Item>
+                        </div>
+
+                        <div>
+                            <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Search Keyword</label>
+                            <Form.Item name="key_words" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Search Keyword"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder=''
                                     style={{
@@ -168,7 +256,14 @@ const CreateJob = () => {
                     <div className='grid grid-cols-3 gap-6'>
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Job Type</label>
-                            <Form.Item name="job_type" style={{marginBottom: "0"}}>
+                            <Form.Item name="job_type" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Job Type"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder='Enter Job Type'
                                     style={{
@@ -188,7 +283,14 @@ const CreateJob = () => {
                         
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Work Type</label>
-                            <Form.Item name="Work Type" style={{marginBottom: "0"}}>
+                            <Form.Item name="work_type" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Work Type"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder='Enter Work Type'
                                     style={{
@@ -208,10 +310,21 @@ const CreateJob = () => {
 
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Work Category</label>
-                            <Form.Item name="category" style={{marginBottom: "0"}}>
-                                <Input
-                                    placeholder='Enter Working Category'
+                            <Form.Item name="category_id" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Work Category"
+                                    }
+                                ]}v
+                            >
+                                <Select
+                                    options={options}
                                     style={{
+                                        borderRadius: "90px",
+                                        background: "#F1F4F9"
+                                    }}
+                                    /* style={{
                                         width:"100%",
                                         border: "none",
                                         height: "40px",
@@ -221,14 +334,21 @@ const CreateJob = () => {
                                         outline: "none",
                                         color: "#949494",
                                         fontSize: "14px"
-                                    }}
+                                    }} */
                                 />
                             </Form.Item>
                         </div>
                         
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Work Shift</label>
-                            <Form.Item name="shift" style={{marginBottom: "0"}}>
+                            <Form.Item name="work_shift" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Work Shift"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder='Enter Work Shift'
                                     style={{
@@ -248,7 +368,14 @@ const CreateJob = () => {
                         
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Area</label>
-                            <Form.Item name="area" style={{marginBottom: "0"}}>
+                            <Form.Item name="area" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Area"
+                                    }
+                                ]}
+                            >
                                 <Input
                                     placeholder='Enter Area'
                                     style={{
@@ -271,7 +398,14 @@ const CreateJob = () => {
 
                     <div>
                         <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Education : </label>
-                        <Form.Item name="education" style={{marginBottom: "0"}}>
+                        <Form.Item name="education" style={{marginBottom: "0"}}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please Enter Education"
+                                }
+                            ]}
+                        >
                             <Input.TextArea
                                 placeholder='Enter Education Requirement. Example: At least 8 years, The applicants should have experienced'
                                 style={{
@@ -292,7 +426,14 @@ const CreateJob = () => {
 
                     <div>
                         <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Experience  : </label>
-                        <Form.Item name="experience" style={{marginBottom: "0"}}>
+                        <Form.Item name="experience" style={{marginBottom: "0"}}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please Enter Experience"
+                                }
+                            ]}
+                        >
                             <Input.TextArea
                                 placeholder='Enter Education Requirement. Example: At least 8 years, The applicants should have experienced'
                                 style={{
@@ -313,7 +454,14 @@ const CreateJob = () => {
                     
                     <div>
                         <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Additional Requirements  :  </label>
-                        <Form.Item name="additional_requirements " style={{marginBottom: "0"}}>
+                        <Form.Item name="additional_requirement" style={{marginBottom: "0"}}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please Enter Additional Requirements"
+                                }
+                            ]}
+                        >
                             <Input.TextArea
                                 placeholder='Enter Education Requirement. Example: At least 8 years, The applicants should have experienced'
                                 style={{
@@ -334,9 +482,16 @@ const CreateJob = () => {
                     
                     <div>
                         <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Responsibilities  : </label>
-                        <Form.Item name="responsibilities" style={{marginBottom: "0"}}>
+                        <Form.Item name="responsibilities" style={{marginBottom: "0"}}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please Enter Responsibilities"
+                                }
+                            ]}
+                        >
                             <Input.TextArea
-                                placeholder='Enter Education Requirement. Example: At least 8 years, The applicants should have experienced'
+                                placeholder='Enter Responsibilities'
                                 style={{
                                     width:"100%",
                                     height: "120px",
@@ -355,7 +510,14 @@ const CreateJob = () => {
                     
                     <div>
                         <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Compensation & Other Benefits  : </label>
-                        <Form.Item name="compensation_and_benefits" style={{marginBottom: "0"}}>
+                        <Form.Item  name="other_benifits" style={{marginBottom: "0"}}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please Enter Compensation And Benefits"
+                                }
+                            ]}
+                        >
                             <Input.TextArea
                                 placeholder='Enter Education Requirement. Example: At least 8 years, The applicants should have experienced'
                                 style={{
@@ -374,9 +536,10 @@ const CreateJob = () => {
                         </Form.Item>
                     </div>
 
-                    <Form.Item name="compensation_and_benefits" style={{marginBottom: "0", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <Form.Item style={{marginBottom: "0", display: "flex", alignItems: "center", justifyContent: "center"}}>
                         <Button
                             block
+                            type='primary'
                             htmlType='submit'
                             style={{
                                 width: "120px",

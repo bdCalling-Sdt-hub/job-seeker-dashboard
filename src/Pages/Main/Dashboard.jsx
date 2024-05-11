@@ -1,5 +1,5 @@
 import { Layout,  Badge, } from "antd";
-import React  from "react";
+import React, { useEffect }  from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import { HiLogout, HiOutlineMail } from "react-icons/hi";
@@ -16,14 +16,27 @@ import { IconCalendarStats } from '@tabler/icons-react';
 import { IconUsers } from '@tabler/icons-react';
 import { IconCategoryPlus } from '@tabler/icons-react';
 const { Header, Sider, Content } = Layout;
+import baseURL from "../../../Config"
 
 
 
 const Dashboard = () => {
   const { pathname } = useLocation();
-  const { userType, fullName } = JSON.parse(localStorage.getItem("user"));
+  const { userType, fullName, _id } = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  console.log(userType)
+
+  useEffect(()=>{
+    async function getApi(){
+        const response = await baseURL.get(`/show/recruiter`, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        })
+        localStorage.setItem("userInfo", JSON.stringify(response?.data?.data?.recruiter[0]));
+    }
+    getApi();
+}, []);
 
   const handleLogOut=()=>{
     navigate('/login');
@@ -153,14 +166,15 @@ const Dashboard = () => {
                 className={`
                 ${ userType === "SUPER ADMIN" && item.path === "/employer-profile" ? "hidden" : "block" }
                 ${ userType === "SUPER ADMIN"  && item.path === "/subscription" ? "hidden" : "block" }
-                ${ userType === "ADMIN" && item.path === "/employer-profile" ? "none" : "block" }
-                ${ userType === "ADMIN"  && item.path === "/subscription" ? "none" : "block" }
+                ${ userType === "ADMIN" && item.path === "/employer-profile" ? "hidden" : "block" }
+                ${ userType === "ADMIN"  && item.path === "/subscription" ? "hidden" : "block" }
                 ${ userType === "ADMIN" && item.path === "/make-admin" ? "hidden" : "block" }
-                ${ userType === "RECRUITER" && item.path === "/make-admin" ? "none" : "block" }
-                ${ userType === "RECRUITER" && item.path === "/settings" ? "none" : "block" }
-                ${ userType === "RECRUITER" && item.path === "/employer-list" ? "none" : "block" }
-                ${ userType === "RECRUITER" && item.path === "/subscribers" ? "none" : "block" }
-                ${ userType === "RECRUITER" && item.path === "/category" ? "none" : "block" }
+                ${ userType === "ADMIN" && item.path === "/new-applicant" ? "hidden" : "block" }
+                ${ userType === "RECRUITER" && item.path === "/make-admin" ? "hidden" : "block" }
+                ${ userType === "RECRUITER" && item.path === "/settings" ? "hidden" : "block" }
+                ${ userType === "RECRUITER" && item.path === "/employer-list" ? "hidden" : "block" }
+                ${ userType === "RECRUITER" && item.path === "/subscribers" ? "hidden" : "block" }
+                ${ userType === "RECRUITER" && item.path === "/category" ? "hidden" : "block" }
                 `}
               >
                 <li
@@ -238,12 +252,7 @@ const Dashboard = () => {
             paddingLeft: "270px",
           }}
         >
-          <div className="w-[280px] flex items-center justify-between">
-            <Badge color="#FBA51A" count={5}>
-              <Link to="/contacts" >
-                <RiChat1Line color="#6A6A6A" size={24} />
-              </Link>
-            </Badge>
+          <div className="w-[280px] flex items-center gap-6">
 
             <Badge color="#FBA51A" count={5}>
               <Link to="/notification" >

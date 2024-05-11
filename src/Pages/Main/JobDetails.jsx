@@ -5,12 +5,13 @@ import { TiSocialLinkedinCircular } from "react-icons/ti";
 import { useParams } from 'react-router-dom';
 import baseURL from '../../../Config';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 const JobDetails = () => {
     const { id } = useParams();
-    console.log(id)
     const [details, setDetails] = useState({});
     const [company, setCompany] = useState({});
+    console.log(details)
 
 
     useEffect(()=>{
@@ -27,6 +28,29 @@ const JobDetails = () => {
         getAPi();
     }, [ id ]);
     const user = JSON.parse(localStorage.getItem("user"))
+
+
+
+    const handleApprove=async(id)=>{
+
+        await baseURL.get(`approve-job-post?job_id=${id}`, {
+            headers: {
+            "Content-Type": "multipart/form-data",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+        }).then((response)=>{
+            console.log(response)
+            if(response?.status === 200){
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Job Post Approved",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        });
+    }
     return (
         <>
             <div style={{ marginBottom: "16px" }}>
@@ -135,7 +159,7 @@ const JobDetails = () => {
                             <div className='w-[10%]'>:</div>
                             <div className='w-[50%] h-full flex items-center flex-wrap gap-2'>
                                 {
-                                    ["Leadership Skill", "PI SQL", "No-SQL", "PHP", "Node.js", "React.js"].map((service, index)=>
+                                    (company?.company_service)?.split(",")?.map((service, index)=>
                                         <p 
                                             key={index} 
                                             className='
@@ -304,7 +328,7 @@ const JobDetails = () => {
                         <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                         <div className='flex items-center gap-6'>
                             <button  className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
-                            <button className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] capitalize'>{details?.status ? details?.status : "pending"}</button>
+                            <button onClick={()=>handleApprove(details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] capitalize'>{details?.status}</button>
                         </div>
                     </div>
                     :

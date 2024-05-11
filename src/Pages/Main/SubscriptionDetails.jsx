@@ -9,45 +9,6 @@ import { useParams } from "react-router-dom";
 import baseURL from '../../../Config';
 import moment from 'moment';
 
-const data = [
-    {
-        key: "1",
-        designation: "Web Developers",
-        vacancy: "6",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        total_date: "3 Days",
-        status:"Active",
-    },
-    {
-        key: "2",
-        designation: "Designer",
-        vacancy: "3",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        total_date: "3 Days",
-        status:"Complete",
-    },
-    {
-        key: "3",
-        designation: "Motion",
-        vacancy: "5",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        total_date: "3 Days",
-        status:"Complete",
-    },
-    {
-        key: "4",
-        designation: "Executive",
-        vacancy: "10",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        total_date: "3 Days",
-        status:"Active",
-    }
-];
-
 
 const SubscriptionDetails = () => {
     const { id } = useParams();

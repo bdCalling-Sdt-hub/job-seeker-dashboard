@@ -90,7 +90,6 @@ const EmployerDetails = () => {
     const [openModal, setOpenModal] = useState(false);
     const [search, setSearch] = useState("");
     const [employer, setEmployer] = useState();
-    console.log(employer)
     const [subscriptions, setSubscriptions] = useState();
 
     const handleblock=(id)=>{
@@ -126,6 +125,40 @@ const EmployerDetails = () => {
         });
     }
 
+    const handleApproved=(id)=>{
+        Swal.fire({
+            title: "Are you sure To Block this Employer?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No"
+
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+                await baseURL.get(`/approve-job-post=${id}`,{
+                    headers: {
+                      "Content-Type": "application/json",
+                      authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+                    }
+                }).then((response)=>{
+                    console.log(response)
+                    if(response.status ===200){
+                        Swal.fire({
+                            title: "Approved!",
+                            text: response?.data?.message,
+                            icon: "success",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                
+            }
+        });
+    }
+
     const onFinish = async(values) => {
         const value = {
             user_id : employer.company_details.user_id,
@@ -141,7 +174,7 @@ const EmployerDetails = () => {
         }).then((response)=>{
             if(response.status ===200){
                 Swal.fire({
-                    title: "Blocked!",
+                    title: "Reported!",
                     text: response?.data?.message,
                     icon: "success",
                     showConfirmButton: false,
@@ -175,6 +208,7 @@ const EmployerDetails = () => {
                 }
             });
             setEmployer(response?.data?.data);
+            console.log(response?.data?.data)
             setSubscriptions(response?.data?.data.subscription)
         }
         getAPi();
@@ -278,11 +312,18 @@ const EmployerDetails = () => {
                     <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                     <div className='flex items-center gap-6'>
                         <button onClick={()=>setOpenModal(true)} className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
-                        <button onClick={()=>handleblock(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] capitalize rounded-[90px] '>
-                            {
-                                employer?.company_details?.status === "blocked" ? "unblock" : employer?.company_details?.status
-                            }
-                        </button>
+
+                        {
+                            employer?.company_details?.status === "pending" || employer?.company_details?.status === "bloked" 
+                            ?
+                            <button onClick={()=>handleApproved(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] capitalize rounded-[90px] '>Approved</button>
+                            :
+                            <button onClick={()=>handleblock(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] capitalize rounded-[90px] '>
+                                {
+                                    employer?.company_details?.status === "blocked" ? "unblock" : employer?.company_details?.status
+                                }
+                            </button>
+                        }
                     </div>
                 </div>
 

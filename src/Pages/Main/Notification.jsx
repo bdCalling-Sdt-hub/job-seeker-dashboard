@@ -1,7 +1,8 @@
 import { Table } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RiDeleteBin6Line } from "react-icons/ri";
 import BackButton from '../../Components/BackButton';
+import baseURL from '../../../Config';
 
 const data = [
     {
@@ -214,6 +215,23 @@ const Notification = () => {
     params.set('page', page);
     window.history.pushState(null, "", `?${params.toString()}`);
   }
+
+  const [data, setData] = useState([]);
+
+
+  useEffect(()=>{
+    async function getAPi(){
+      const response = await baseURL.get(`/admin-notification`,{
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+        }
+      });
+      console.log(response);
+      setData(response?.data?.data);
+    }
+    getAPi();
+}, []);
     return (
         <div>
             

@@ -4,39 +4,58 @@ import { CiEdit } from "react-icons/ci";
 import Swal from 'sweetalert2';
 import BackButton from '../../../Components/BackButton';
 import { Link } from 'react-router-dom';
+import baseURL from '../../../../Config';
+import ImgURL from '../../../../ImgConfig';
 
 const EmployerProfile = () => {
     const [image, setImage] = useState("https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?size=626&ext=jpg");
     const [imgURL, setImgURL] = useState(image);
+    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+    const userInfo = localStorage.getItem("userInfo") === "undefined" ? {} : JSON.parse(localStorage.getItem("userInfo"));
 
+   
 
-    const handleChangeProfile=(values)=>{
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Profile Updated Successfully",
-            showConfirmButton: false,
-            timer: 1500
-        });
+    const handleChangeProfile=async(values)=>{
+
+        const response = await baseURL.post(`/update/recruiter`, {...values, catId: userInfo?.category?.id, image: image}, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        })
+        if(response.status === 200){
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Profile Updated Successfully",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+        
     };
 
     const onChange = (e) => {
         const file= e.target.files[0];
-        console.log(file)
         const imgUrl = URL.createObjectURL(file);
         setImgURL(imgUrl);
         setImage(file)
     };
 
     const initialValuesData={
-        fullName : "Nadir Hossain",
-        email: "nadirhossain336@gmail.com",
-        contact_no: "01756953936",
-        address: "Khilgaon",
-        company_name: "bdCalling",
+        fullName : user?.fullName,
+        email: user?.email,
+        verify_no: userInfo?.verify_no,
+        phone: userInfo?.phone,
+        location: userInfo?.location,
+        company_name: userInfo?.company_name,
         division: "Dhaka",
-        designation: "Developer",
-        location: "Banasree"
+        country: userInfo?.country,
+        website_url: userInfo?.website_url,
+        linkdin_url: userInfo?.linkdin_url,
+        company_des: userInfo?.company_des,
+        category_name: userInfo?.category?.category_name,
+        company_service: userInfo?.company_service,
     }
 
     return (
@@ -53,7 +72,7 @@ const EmployerProfile = () => {
                 <div className='flex items-center justify-between'>
                     <div className='w-[118px] h-[118px] relative mb-6'>
                         <img 
-                            src={imgURL}
+                            src={ userInfo?.logo ? `${ImgURL}/${userInfo?.log}` :  imgURL}
                             style={{
                                 width: "118px", 
                                 height: "118px", 
@@ -121,7 +140,7 @@ const EmployerProfile = () => {
                         <div className='col-span-4' >
                             <label style={{display: "block", marginBottom: "5px" }} htmlFor="">Company verification no:</label>
                             <Form.Item
-                                name="verification"
+                                name="verify_no"
                                 style={{marginBottom: 0}}
                             >
                                 <Input
@@ -143,7 +162,7 @@ const EmployerProfile = () => {
                             <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Website Link</label>
                             <Form.Item
                                 style={{marginBottom: 0}}
-                                name="website"
+                                name="website_url"
                             >
                                 <Input
                                     type="text"
@@ -207,7 +226,7 @@ const EmployerProfile = () => {
                             <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Social media link </label>
                             <Form.Item
                                 style={{marginBottom: 0}}
-                                name="social_media"
+                                name="linkdin_url"
                             >
                                 <Input
                                     type="text"
@@ -228,7 +247,7 @@ const EmployerProfile = () => {
                             <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Phone No</label>
                             <Form.Item
                                 style={{marginBottom: 0}}
-                                name="phone_number"
+                                name="phone"
                             >
                                 <Input
                                     type="text"
@@ -249,7 +268,7 @@ const EmployerProfile = () => {
                             <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Company Category</label>
                             <Form.Item
                                 style={{marginBottom: 0}}
-                                name="category"
+                                name="category_name"
                             >
                                 <Input
                                     type="text"
@@ -291,7 +310,7 @@ const EmployerProfile = () => {
                             <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Company Service</label>
                             <Form.Item
                                 style={{marginBottom: 0}}
-                                name="service"
+                                name="company_service"
                             >
                                 <Input
                                     type="text"
@@ -312,7 +331,7 @@ const EmployerProfile = () => {
                             <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Company Details</label>
                             <Form.Item
                                 style={{marginBottom: 0}}
-                                name="details"
+                                name="company_des"
                             >
                                 <Input.TextArea
                                     type="text"

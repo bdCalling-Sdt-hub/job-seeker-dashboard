@@ -19,10 +19,11 @@ const AdminContacts = () => {
     const [search, setSearch] = useState("");
     const [from, setFrom] = useState("")
     const [replay, setReply] = useState("");
-    const [message, setMessage] = useState([])
+    const [message, setMessage] = useState([]);
     const [refresh, setRefresh] = useState("");
     const [value, setValue] = useState(JSON.parse(localStorage.getItem("details")));
     const [image, setImage] = useState();
+    const user = JSON.parse(localStorage.getItem("user"))
 
     if(refresh){
         setTimeout(()=>{
@@ -62,7 +63,6 @@ const AdminContacts = () => {
                         authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                     }
                 }).then((response)=>{
-                    console.log(response);
                     if(response?.status === 200){
                         Swal.fire({
                             title: "Deleted!",
@@ -96,20 +96,27 @@ const AdminContacts = () => {
 
 
     const handleReply = async()=>{
-        const formData = new FormData();
-
-        formData.append("user_id", value?.user_id);
-        formData.append("message", replay);
-        formData.append("image", image);
-
-
-        await baseURL.post(`/send-message-admin`, formData, {
+        const data = {
+            user_id: value?.user_id, 
+            subject: value?.subject , 
+            message: replay, 
+            image: image
+        }
+        await baseURL.post(`/send-message-user`, data, {
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
         }).then((response)=>{
-            console.log(response);
+            if(response.status === 200){
+                Swal.fire({
+                    title: "Successfully!",
+                    text: response?.data?.message,
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                })
+            }
         })
     }
 
@@ -126,73 +133,8 @@ const AdminContacts = () => {
             </div>
 
             {/* sidebar */}
-            <div className='h-[81vh] flex items-center gap-4'>
-                <div  className='w-[290px] h-full border border-[#F5F5F5] p-4 bg-white rounded-lg'>
-                    <p className='text-xl font-normal text-[#494949]'>Contacts</p>
-
-                    <div
-                        onClick={()=>handleTab("inbox")}
-                        style={{
-                            width: "100%", 
-                            height: "42px", 
-                            background: "#C5D2E8", 
-                            borderRadius: "8px",
-                            marginTop: "14px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            color: tab === "inbox" ? "#436FB6" : "#6F6F6F",
-                            padding: "0 16px",
-                            cursor: "pointer"
-                        }}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "8px",
-                                color: tab === "inbox" ? "#436FB6" : "#6F6F6F",
-                            }}
-                        >
-                            <HiOutlineMail size={17} />
-                            <p>Inbox</p>
-                        </div>
-                        1253
-                    </div>
-
-
-                    <div
-                        onClick={()=>handleTab("send")}
-                        style={{
-                            width: "100%", 
-                            height: "42px", 
-                            background: "#C5D2E8" , 
-                            borderRadius: "8px",
-                            marginTop: "14px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            color: tab === "send" ? "#436FB6" : "#6F6F6F",
-                            padding: "0 16px",
-                            cursor: "pointer"
-                        }}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "8px",
-                                color: tab === "send" ? "#436FB6" : "#6F6F6F"
-                            }}
-                        >
-                            <IconMailForward size={17} />
-                            <p>Send</p>
-                        </div>
-                        1253
-                    </div>
-
-                    
-                </div>
+            <div className='h-[81vh]'>
+                
                 
                 {/* content */}
                 <div 
@@ -204,27 +146,58 @@ const AdminContacts = () => {
                         borderRadius: "8px"
                     }}
                 >
+                    {/* search section */}
+                    <div className='flex items-center justify-between pl-4'>
+                                <div
+                                    onClick={()=>handleTab("inbox")}
+                                    style={{
+                                        width: "fit-content", 
+                                        height: "42px", 
+                                        background: "#C5D2E8", 
+                                        borderRadius: "8px",
+                                        marginTop: "14px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 24,
+                                        color: tab === "inbox" ? "#436FB6" : "#6F6F6F",
+                                        padding: "0 16px",
+                                        cursor: "pointer"
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "8px",
+                                            color: tab === "inbox" ? "#436FB6" : "#6F6F6F",
+                                        }}
+                                    >
+                                        <HiOutlineMail size={17} />
+                                        <p>Inbox</p>
+                                    </div>
+                                    {message?.data?.length}
+                                </div>
+                                <div style={{ padding: "24px 24px 10px 24px" }}>
+                                    <Input
+                                        onChange={(e)=>setSearch(e.target.value)}
+                                        placeholder="Search..."
+                                        prefix={<FiSearch size={14} color="#868FA0"/>}
+                                        suffix={<IoClose onClick={()=>setSearch("")} style={{cursor: "pointer"}} size={14} color="#2B2A2A" />}
+                                        style={{
+                                            width: "502px",
+                                            fontSize: "14px",
+                                            height: "48px",
+                                        }}
+                                        value={search}
+                                        size="middle"
+                                    />
+                                </div>
+                    </div>
+
                     { 
                         tab === "inbox"
                         && 
                         <div>
-
-                            {/* search section */}
-                            <div style={{ padding: "24px 24px 10px 24px" }}>
-                                <Input
-                                    onChange={(e)=>setReply(e.target.value)}
-                                    placeholder="Search..."
-                                    prefix={<FiSearch size={14} color="#868FA0"/>}
-                                    suffix={<IoClose onClick={()=>setSearch("")} style={{cursor: "pointer"}} size={14} color="#2B2A2A" />}
-                                    style={{
-                                        width: "502px",
-                                        fontSize: "14px",
-                                        height: "48px",
-                                    }}
-                                    value={search}
-                                    size="middle"
-                                />
-                            </div>
                             
                             {/* email list */}
                             <div>
@@ -377,10 +350,10 @@ const AdminContacts = () => {
 
                                 <Input.TextArea
                                     placeholder="Write Message..."
-                                    onChange={(e)=>setMessage(e.target.value)}
+                                    onChange={(e)=>setReply(e.target.value)}
                                     style={{
                                         width: "100%",
-                                        height: "365px",
+                                        height: "290px",
                                         fontSize: "14px",
                                         fontWeight: 400,
                                         resize: 'none',

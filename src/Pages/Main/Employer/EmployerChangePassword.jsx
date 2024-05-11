@@ -1,6 +1,8 @@
 import { Button, Checkbox, Form, Input } from 'antd'
 import React, { useState } from 'react'
 import BackButton from '../../../Components/BackButton';
+import baseURL from '../../../../Config';
+import Swal from 'sweetalert2';
 
 const EmployerChangePassword = () => {
     const [newPassError, setNewPassError] = useState("");
@@ -8,8 +10,7 @@ const EmployerChangePassword = () => {
     const [curPassError, setCurPassError] = useState("");
     const [checked, setChecked] = useState("");
 
-    const handleChangePassword=(values)=>{
-
+    const handleChangePassword=async(values)=>{
         if(values?.current_password === values.new_password){
             setNewPassError("The New password is semilar with old Password");
         }else{
@@ -21,7 +22,26 @@ const EmployerChangePassword = () => {
         }else{
             setConPassError("")
         }
-    
+
+        await baseURL.post(`/update-pass`, values, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        }).then((response)=>{
+            setCurPassError("")
+            if(response.status === 200){
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Password Changed Successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch((error)=>{
+            setCurPassError(error.response.data.message);
+        })
     }
     return (
         <>
