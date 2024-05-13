@@ -219,19 +219,18 @@ const Notification = () => {
   const [data, setData] = useState([]);
 
 
-  useEffect(()=>{
-    async function getAPi(){
-      const response = await baseURL.get(`/admin-notification`,{
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-        }
-      });
-      console.log(response);
-      setData(response?.data?.data);
-    }
-    getAPi();
-}, []);
+    useEffect(()=>{
+      async function getAPi(){
+        const response = await baseURL.get(`/admin-notification`,{
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+          }
+        });
+        setData(response?.data?.data);
+      }
+      getAPi();
+    }, []);
     return (
         <div>
             

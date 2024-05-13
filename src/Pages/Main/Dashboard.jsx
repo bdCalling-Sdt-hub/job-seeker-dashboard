@@ -1,5 +1,5 @@
 import { Layout,  Badge, } from "antd";
-import React, { useEffect }  from "react";
+import React, { useEffect, useState }  from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import { HiLogout, HiOutlineMail } from "react-icons/hi";
