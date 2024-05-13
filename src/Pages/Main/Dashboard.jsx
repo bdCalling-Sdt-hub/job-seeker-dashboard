@@ -25,7 +25,7 @@ const Dashboard = () => {
   const { pathname } = useLocation();
   const { userType, fullName, _id, image } = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState()
+  const [notifications, setNotifications] = useState();
 
   useEffect(()=>{
     async function getApi(){
