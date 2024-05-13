@@ -25,6 +25,7 @@ const Dashboard = () => {
   const { pathname } = useLocation();
   const { userType, fullName, _id, image } = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState()
 
   useEffect(()=>{
     async function getApi(){
@@ -37,6 +38,19 @@ const Dashboard = () => {
         localStorage.setItem("userInfo", JSON.stringify(response?.data?.data?.recruiter[0]));
     }
     getApi();
+}, []);
+
+useEffect(()=>{
+  async function getAPi(){
+    const response = await baseURL.get(`/admin-notification`,{
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+      }
+    });
+    setNotifications(response?.data?.data);
+  }
+  getAPi();
 }, []);
 
   const handleLogOut=()=>{
@@ -255,7 +269,7 @@ const Dashboard = () => {
         >
           <div className="w-[280px] flex items-center gap-6">
 
-            <Badge color="#FBA51A" count={5}>
+            <Badge color="#FBA51A" count={notifications?.lenght}>
               <Link to="/notification" >
                 <RiNotification2Line color="#6A6A6A" size={24} />
               </Link>
