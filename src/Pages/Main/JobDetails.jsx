@@ -6,12 +6,13 @@ import { useParams } from 'react-router-dom';
 import baseURL from '../../../Config';
 import moment from 'moment';
 import Swal from 'sweetalert2';
+import ImgURL from '../../../ImgConfig';
 
 const JobDetails = () => {
     const { id } = useParams();
     const [details, setDetails] = useState({});
     const [company, setCompany] = useState({});
-    console.log(details)
+    const [userInfo, setuserInfo] = useState({})
 
 
     useEffect(()=>{
@@ -22,6 +23,7 @@ const JobDetails = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             });
+            setuserInfo(response?.data?.data[0].user)
             setDetails(response?.data?.data[0]);
             setCompany(response?.data?.data[0]?.recruiter)
         }
@@ -39,7 +41,6 @@ const JobDetails = () => {
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
         }).then((response)=>{
-            console.log(response)
             if(response?.status === 200){
                 Swal.fire({
                     position: "center",
@@ -69,7 +70,7 @@ const JobDetails = () => {
                                 borderRadius: "8px",
                                 margin: "0 auto"
                             }} 
-                            src={ details?.logo ? `${ImgURL}/${details?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
+                            src={ userInfo?.image ? `${ImgURL}/${userInfo?.image}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
                             alt="" 
                         />
                         <div className="grid grid-cols-1 gap-4 mt-5">

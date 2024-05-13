@@ -42,8 +42,8 @@ const NewApplicantTable = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
-            setData (response?.data.data[11].data);
-            setPaginate(response?.data.data[11])
+            setData (response?.data.data.data);
+            setPaginate(response?.data.data)
         }
         getApi();
     }, []);
@@ -110,8 +110,7 @@ const NewApplicantTable = () => {
                     {
                         (data?.slice(0, 9))?.map((item, index)=>
                             <>
-                                <div key={index} style={{marginTop: '8px'}}></div>
-                                <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
+                                <tr key={index} className="bg-[#ECF1F8]" >
                                     <td>{item?.id}</td>
                                     <td>{item?.id}</td>
                                     <td>{item?.user?.fullName}</td>

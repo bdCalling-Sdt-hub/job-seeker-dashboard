@@ -1,5 +1,5 @@
-import { Button, Input, Form } from 'antd';
-import React, { useState } from 'react';
+import { Button, Input, Form, Select } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { CiEdit } from "react-icons/ci";
 import Swal from 'sweetalert2';
 import BackButton from '../../../Components/BackButton';
@@ -8,21 +8,21 @@ import baseURL from '../../../../Config';
 import ImgURL from '../../../../ImgConfig';
 
 const EmployerProfile = () => {
-    const [image, setImage] = useState("https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?size=626&ext=jpg");
-    const [imgURL, setImgURL] = useState(image);
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     const userInfo = localStorage.getItem("userInfo") === "undefined" ? {} : JSON.parse(localStorage.getItem("userInfo"));
+    const [image, setImage] = useState( user?.image ? `${ImgURL}/${user?.image}` : "https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?size=626&ext=jpg");
+    const [imgURL, setImgURL] = useState(image);
 
    
 
     const handleChangeProfile=async(values)=>{
-
-        const response = await baseURL.post(`/update/recruiter`, {...values, catId: userInfo?.category?.id, image: image}, {
+        const response = await baseURL.post(`/update/recruiter`, {...values, image: image}, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
         })
+        localStorage.setItem("userInfo", JSON.stringify(response.data.data));
         if(response.status === 200){
             Swal.fire({
                 position: "center",
@@ -43,20 +43,37 @@ const EmployerProfile = () => {
     };
 
     const initialValuesData={
-        fullName : user?.fullName,
         email: user?.email,
         verify_no: userInfo?.verify_no,
         phone: userInfo?.phone,
         location: userInfo?.location,
-        company_name: userInfo?.company_name,
+        companyName: userInfo?.company_name,
         division: "Dhaka",
         country: userInfo?.country,
         website_url: userInfo?.website_url,
+        facebook_url: userInfo?.facebook_url,
         linkdin_url: userInfo?.linkdin_url,
+        instagram_url: userInfo?.instagram_url,
         company_des: userInfo?.company_des,
-        category_name: userInfo?.category?.category_name,
+        catId: userInfo?.category?.id,
         company_service: userInfo?.company_service,
     }
+
+    const [category, setCategory] = useState([]);
+    useEffect(()=>{
+        async function getApi(){
+            const response = await baseURL.get(`/show-category`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            setCategory(response?.data?.data);
+        }
+        getApi();
+    }, []);
+
+    const options = category?.map((item) => ({value: item?.id, label: item?.category_name}));
 
     return (
         <>
@@ -72,7 +89,7 @@ const EmployerProfile = () => {
                 <div className='flex items-center justify-between'>
                     <div className='w-[118px] h-[118px] relative mb-6'>
                         <img 
-                            src={ userInfo?.logo ? `${ImgURL}/${userInfo?.log}` :  imgURL}
+                            src={ imgURL}
                             style={{
                                 width: "118px", 
                                 height: "118px", 
@@ -120,7 +137,7 @@ const EmployerProfile = () => {
                             <label style={{display: "block", marginBottom: "8px" }}>Company name</label>
                             <Form.Item
                                 style={{marginBottom: 0}}
-                                name="company_name"
+                                name="companyName"
                             >
                                 <Input
                                     placeholder="Enter Company Name"
@@ -223,7 +240,28 @@ const EmployerProfile = () => {
                         </div>
 
                         <div className='col-span-4' >
-                            <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Social media link </label>
+                            <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Facebook media link </label>
+                            <Form.Item
+                                style={{marginBottom: 0}}
+                                name="facebook_url"
+                            >
+                                <Input
+                                    type="text"
+                                    placeholder="Enter Your  Linkedin Link"
+                                    style={{
+                                        border: "none",
+                                        height: "48px",
+                                        background: "#F1F4F9",
+                                        borderRadius: "90px",
+                                        outline: "none",
+                                        padding: "0 16px"
+                                    }}
+                                />
+                            </Form.Item>
+                        </div>
+
+                        <div className='col-span-4' >
+                            <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Linkedin media link </label>
                             <Form.Item
                                 style={{marginBottom: 0}}
                                 name="linkdin_url"
@@ -231,6 +269,27 @@ const EmployerProfile = () => {
                                 <Input
                                     type="text"
                                     placeholder="Enter Your Division"
+                                    style={{
+                                        border: "none",
+                                        height: "48px",
+                                        background: "#F1F4F9",
+                                        borderRadius: "90px",
+                                        outline: "none",
+                                        padding: "0 16px"
+                                    }}
+                                />
+                            </Form.Item>
+                        </div>
+
+                        <div className='col-span-4' >
+                            <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Instagram media link </label>
+                            <Form.Item
+                                style={{marginBottom: 0}}
+                                name="instagram_url"
+                            >
+                                <Input
+                                    type="text"
+                                    placeholder="Enter Your Instagram Link"
                                     style={{
                                         border: "none",
                                         height: "48px",
@@ -265,21 +324,20 @@ const EmployerProfile = () => {
                         </div>
 
                         <div className='col-span-4' >
-                            <label style={{display: "block", marginBottom: "5px" }} htmlFor="email">Company Category</label>
-                            <Form.Item
-                                style={{marginBottom: 0}}
-                                name="category_name"
+                            <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Work Category</label>
+                            <Form.Item name="catId" style={{marginBottom: "0"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter Work Category"
+                                    }
+                                ]}v
                             >
-                                <Input
-                                    type="text"
-                                    placeholder="Enter Company Category"
+                                <Select
+                                    options={options}
                                     style={{
-                                        border: "none",
-                                        height: "48px",
-                                        background: "#F1F4F9",
                                         borderRadius: "90px",
-                                        outline: "none",
-                                        padding: "0 16px"
+                                        background: "#F1F4F9"
                                     }}
                                 />
                             </Form.Item>

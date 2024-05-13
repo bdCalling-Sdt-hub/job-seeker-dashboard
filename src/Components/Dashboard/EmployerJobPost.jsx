@@ -152,28 +152,9 @@ const EmployerJobPost = () => {
                         value={search}
                     />
 
-                    <div className='flex items-center gap-6'>
-                        <div 
-                            className='
-                                bg-white 
-                                w-[120px] 
-                                rounded-md
-                                border 
-                                border-[#E9E9E9] 
-                                flex 
-                                items-center 
-                                justify-between 
-                                px-3  cursor-pointer
-                                py-[5px] 
-                                text-[#8B8B8B]
-                            '
-                        >
-                            Filter <LuListFilter />
-                        </div>
-                        <Link to={"/create-job"} className='bg-[#436FB6] hover:text-white text-white text-center rounded-md w-[120px] px-3 py-[5px]'>
-                            Create Job
-                        </Link>
-                    </div>
+                    <Link to={"/create-job"} className='bg-[#436FB6] hover:text-white text-white text-center rounded-md w-[120px] px-3 py-[5px]'>
+                        Create Job
+                    </Link>
 
                 </div>
 
@@ -226,7 +207,7 @@ const EmployerJobPost = () => {
                 <div className='mt-6 flex items-center justify-center'>
                     <Pagination 
                         defaultCurrent={page} 
-                        total={50} 
+                        total={jobs?.total} 
                         onChange={handlePageChange}
                     />
                 </div>

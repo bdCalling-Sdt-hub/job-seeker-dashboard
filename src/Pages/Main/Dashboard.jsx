@@ -35,6 +35,7 @@ const Dashboard = () => {
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
         })
+        localStorage.setItem("user", JSON.stringify(response?.data?.data));
         localStorage.setItem("userInfo", JSON.stringify(response?.data?.data?.recruiter[0]));
     }
     getApi();
@@ -281,7 +282,7 @@ useEffect(()=>{
             <Link to={`${userType === "RECRUITER" ? "/employer-profile" : "/settings/profile"}`}>
               <div className="w-[171px] h-[42px] bg-[#ffffff] rounded-[5px] flex items-center gap-3 p-[10px]">
                 <img 
-                  src={ image ? `${ImgURL}${image}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLotvhr2isTRMEzzT30Cj0ly77jFThGXr0ng&usqp=CAU" }   
+                  src={ image ? `${ImgURL}/${image}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLotvhr2isTRMEzzT30Cj0ly77jFThGXr0ng&usqp=CAU" }   
                   style={{
                     width: "30px", 
                     height: "30px", 

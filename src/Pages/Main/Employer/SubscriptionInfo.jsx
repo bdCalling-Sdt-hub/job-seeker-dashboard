@@ -106,8 +106,7 @@ const data = [
 ];
 
 const SubscriptionInfo = () => {
-    const [details, setDetails] = useState({});
-    
+    const userInfo= JSON.parse(localStorage.getItem("user"));
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
     const handlePageChange = (page) => {
@@ -117,9 +116,7 @@ const SubscriptionInfo = () => {
         window.history.pushState(null, "", `?${params.toString()}`);
     }
     const { id } = useParams();
-
     const [recuiter, setRecuiter] = useState();
-    console.log(recuiter)
     const [job, setJob] = useState()
     const [subscription, setSubscription] = useState();
     const [category, setCategory] = useState();
@@ -157,7 +154,7 @@ const SubscriptionInfo = () => {
                                 height: "230px", 
                                 borderRadius: "8px"
                             }} 
-                            src={ recuiter?.logo ? `${ImgURL}/${recuiter?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
+                            src={ userInfo?.image ? `${ImgURL}/${userInfo?.image}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
                             alt="" 
                         />
                         <div className='w-full grid grid-cols-1 gap-7 text-[#565656]'>
@@ -170,7 +167,7 @@ const SubscriptionInfo = () => {
                             <div className='flex items-center justify-between'>
                                 <p className='w-[25%]'>Email</p>
                                 <div className='w-[5%]'>:</div>
-                                <p className='w-[70%]'>{recuiter?.email}</p>
+                                <p className='w-[70%]'>{userInfo?.email}</p>
                             </div>
 
                             <div className='flex items-center justify-between'>
@@ -304,24 +301,6 @@ const SubscriptionInfo = () => {
                         size="middle"
                         value={search}
                     />
-
-                    <div 
-                        className='
-                            bg-white 
-                            w-[120px] 
-                            rounded-md
-                            border 
-                            border-[#E9E9E9] 
-                            flex 
-                            items-center 
-                            justify-between 
-                            px-3  cursor-pointer
-                            py-[5px] 
-                            text-[#8B8B8B]
-                        '
-                    >
-                         Filter <LuListFilter />
-                    </div>
 
                 </div>
                 {/* subscription table list */}

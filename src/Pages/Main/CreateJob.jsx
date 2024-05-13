@@ -32,7 +32,6 @@ const CreateJob = () => {
     }
 
     const [category, setCategory] = useState([]);
-    console.log(category)
     useEffect(()=>{
         async function getApi(){
             const response = await baseURL.get(`/show-category`, {
@@ -324,17 +323,6 @@ const CreateJob = () => {
                                         borderRadius: "90px",
                                         background: "#F1F4F9"
                                     }}
-                                    /* style={{
-                                        width:"100%",
-                                        border: "none",
-                                        height: "40px",
-                                        padding: "18px 15px",
-                                        background: "#F1F4F9",
-                                        borderRadius: "90px",
-                                        outline: "none",
-                                        color: "#949494",
-                                        fontSize: "14px"
-                                    }} */
                                 />
                             </Form.Item>
                         </div>
