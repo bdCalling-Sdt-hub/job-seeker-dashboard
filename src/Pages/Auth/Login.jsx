@@ -7,7 +7,6 @@ const Login = () => {
   const [checked, setChecked] = useState();
 
   const onFinish = async(values) => {
-    console.log("Received values of form: ", values);
     await baseURL.post("/login", {email: values.email, password: values.password})
     .then((response)=>{
       if(response.status === 200){
@@ -33,7 +32,6 @@ const Login = () => {
           timer: 1500
         })
       }
-      console.log(error)
     })
 
   };

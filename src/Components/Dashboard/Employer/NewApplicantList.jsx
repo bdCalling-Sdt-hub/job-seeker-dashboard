@@ -19,7 +19,7 @@ const NewApplicantList = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
-            setData (response?.data.data[11].data)
+            setData (response?.data?.data?.data)
         }
         getApi();
     }, []);

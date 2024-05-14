@@ -223,7 +223,7 @@ const CandidateShortProfile = () => {
                             </div>
                             
                             <Link 
-                                to={"/candidate-profile/1"} 
+                                to={`/candidate-profile/${application?.id}`} 
                                 className='bg-[#436FB6] absolute bottom-6 left-6 w-fit text-[14px] rounded-full text-white px-3 py-2 hover:text-white'
                             >
                                 Candidate Profile
