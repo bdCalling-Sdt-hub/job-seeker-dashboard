@@ -5,9 +5,8 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   const user = JSON.parse(localStorage.getItem("user"))
-  const token = JSON.parse(localStorage.getItem("token"))
 
-  if (token &&  user.email) {
+  if (user.userType === "ADMIN" ||  user.userType === "RECRUITER") {
     return children;
   }
 
