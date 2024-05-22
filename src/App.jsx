@@ -40,8 +40,16 @@ import CandidateShortProfile from "./Pages/Main/CandidateShortProfile";
 import UploadedCVViewer from "./Pages/Main/UploadedCVViewer";
 import JobSeekerCV from "./Pages/Main/JobSeekerCV";
 import Category from "./Pages/Main/Admin/Category";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+import ManualSubscription from "./Pages/Main/Admin/ManualSubscription";
 
+const stripePromise = loadStripe('pk_test_51MJynOHzN4rqAg27o1nDk5hQeHaX8cuaBkInxAzGMEnEqee4QMyeztVLqyeuAhzgK9ZRdwPAF8uWFrRX2Qj8iuQ9005XC9m0sA');
 function App() {
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: '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',
+  };
   return (
     <>
       <div className="maincontainer">
@@ -50,9 +58,15 @@ function App() {
             <Route exact path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute> }>
               <Route path="/" element={<DashboardHome />} />
               <Route path="/notification" element={<Notification />} />
-              <Route path="/package" element={<Package />} />
-              <Route path="/category" element={<Category />} />
-              <Route path="/edit-package/:name" element={<EditPackage />} />
+              <Route 
+                path="/package" 
+                element={
+                  <Elements stripe={stripePromise} >
+                    <Package />
+                  </Elements>
+                } 
+              />
+              <Route path="/category" element={<Category />} /> 
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/change-password" element={<EmployerChangePassword />} />
               <Route path="/employer-profile" element={< EmployerProfile />} />
@@ -80,6 +94,7 @@ function App() {
               <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
               <Route path="/uploaded-cv/:id" element={<UploadedCVViewer />} />
               <Route path="/job-seeker-cv/:id" element={<JobSeekerCV />} />
+              <Route path="/manul-subscription" element={<ManualSubscription />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

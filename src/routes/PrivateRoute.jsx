@@ -6,7 +6,7 @@ const PrivateRoute = ({ children }) => {
 
   const user = JSON.parse(localStorage.getItem("user"))
 
-  if (user.userType === "ADMIN" ||  user.userType === "RECRUITER") {
+  if (user.userType === "ADMIN" ||  user.userType === "RECRUITER" || user.userType === "SUPER ADMIN") {
     return children;
   }
 

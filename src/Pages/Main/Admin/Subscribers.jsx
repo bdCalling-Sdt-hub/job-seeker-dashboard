@@ -8,88 +8,6 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import baseURL from '../../../../Config';
 import moment from 'moment';
-const data = [
-    {
-        key: "1",
-        companyname: "spark tech",
-        package: "Basic",
-        date: "Dec 30, 2024 5:18",
-        price: "800",
-        status:"Active",
-    },
-    {
-        key: "2",
-        companyname: "spark tech",
-        package: "Essential",
-        date: "Dec 30, 2024 5:18",
-        price: "800",
-        status:"Complete",
-    },
-    {
-        key: "3",
-        companyname: "spark tech",
-        package: "Essential Pro",
-        date: "Dec 30, 2024 5:18",
-        price: "800",
-        status:"Complete",
-    },
-    {
-        key: "4",
-        companyname: "spark tech",
-        package: "Basic",
-        date: "Dec 30, 2024 5:18",
-        price: "800",
-        status:"Active",
-    },
-    {
-        key: "5",
-        companyname: "spark tech",
-        package: "Essential",
-        date: "Dec 30, 2024 5:18",
-        price: "800",
-        status:"Active",
-    },
-    {
-        key: "6",
-        companyname: "spark tech",
-        package: "Basic",
-        date: "Dec 30, 2024 5:18",
-        price: "800",
-        status:"Complete",
-    },
-    {
-        key: "7",
-        companyname: "spark tech",
-        package: "Essential Pro",
-        date: "Dec 30, 2024 5:18",
-        price: "800",
-        status:"Active",
-    },
-    {
-        key: "8",
-        companyname: "spark tech",
-        package: "Basic",
-        date: "Dec 30, 2024 5:18",
-        status:"Active",
-        price: "800",
-    },
-    {
-        key: "9",
-        companyname: "spark tech",
-        package: "Essential Pro",
-        date: "Dec 30, 2024 5:18",
-        status:"Active",
-        price: "800",
-    },
-    {
-        key: "10",
-        companyname: "spark tech",
-        package: "Basic",
-        date: "Dec 30, 2024 5:18",
-        status:"Active",
-        price: "800",
-    },
-];
 
 const Subscribers = () => {
     const [account, setAccount] = useState(new URLSearchParams(window.location.search).get('account') || "Daily");
@@ -256,7 +174,7 @@ const Subscribers = () => {
                 <div className='mt-5 flex items-center justify-center'>
                     <Pagination 
                         defaultCurrent={page} 
-                        total={data?.length} 
+                        total={subscriber?.length} 
                         onChange={handlePageChange}
                     />
                 </div>

@@ -127,7 +127,7 @@ const EmployerDetails = () => {
 
     const handleApproved=(id)=>{
         Swal.fire({
-            title: "Are you sure To Block this Employer?",
+            title: "Are you sure To Approve this Employer?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -320,7 +320,7 @@ const EmployerDetails = () => {
                             :
                             <button onClick={()=>handleblock(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] capitalize rounded-[90px] '>
                                 {
-                                    employer?.company_details?.status === "blocked" ? "unblock" : employer?.company_details?.status
+                                    employer?.company_details?.status === "approved" ? "Block" : employer?.company_details?.status
                                 }
                             </button>
                         }

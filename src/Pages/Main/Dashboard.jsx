@@ -90,6 +90,11 @@ useEffect(()=>{
       path: "/subscription",
       icon: <AiOutlineDollarCircle size={24} />,
     },
+    {
+      title: "Manul Subscription",
+      path: "/manul-subscription",
+      icon: <AiOutlineDollarCircle size={24} />,
+    },
 
     {
       title: "Job Post",
@@ -188,9 +193,10 @@ useEffect(()=>{
                 ${ userType === "SUPER ADMIN"  && item.path === "/subscription" ? "hidden" : "block" }
                 ${ userType === "ADMIN" && item.path === "/employer-profile" ? "hidden" : "block" }
                 ${ userType === "ADMIN"  && item.path === "/subscription" ? "hidden" : "block" }
-                ${ userType === "ADMIN" && item.path === "/make-admin" ? "hidden" : "block" }
                 ${ userType === "ADMIN" && item.path === "/new-applicant" ? "hidden" : "block" }
+                ${ userType === "ADMIN" && item.path === "/make-admin" ? "hidden" : "block" }
                 ${ userType === "RECRUITER" && item.path === "/make-admin" ? "hidden" : "block" }
+                ${ userType === "RECRUITER" && item.path === "/manul-subscription" ? "hidden" : "block" }
                 ${ userType === "RECRUITER" && item.path === "/settings" ? "hidden" : "block" }
                 ${ userType === "RECRUITER" && item.path === "/employer-list" ? "hidden" : "block" }
                 ${ userType === "RECRUITER" && item.path === "/subscribers" ? "hidden" : "block" }

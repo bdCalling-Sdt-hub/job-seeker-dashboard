@@ -37,7 +37,6 @@ const EmployerContacts = () => {
                 }
             })
             setMessage (response?.data?.data?.data)
-            console.log (response?.data?.data?.data)
         }
         getApi();
     }, [search]);
@@ -82,7 +81,7 @@ const EmployerContacts = () => {
                         + Compose
                     </button>
 
-                    <p className='text-base font-normal text-[#494949]'>My Emails</p>
+                    <p className='text-base font-normal text-[#494949]'>Send Message</p>
 
                     <div
                         onClick={()=>handleTab("inbox")}
@@ -185,7 +184,7 @@ const EmployerContacts = () => {
                         </div>
                         :
                         <div className='p-6'>
-                            <h1 className='mb-2 text-2xl text-center'>Send Email To Admin</h1>
+                            <h1 className='mb-2 text-2xl text-center'>Send Message To Admin</h1>
 
                             <Form onFinish={handleSubmit}>
                                 <Form.Item

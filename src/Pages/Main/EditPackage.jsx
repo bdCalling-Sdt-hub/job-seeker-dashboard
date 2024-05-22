@@ -4,7 +4,7 @@ import { Form, Input, Button } from 'antd';
 import {  PlusOutlined } from '@ant-design/icons';
 import baseURL from '../../../Config';
 import { LuMinusCircle } from "react-icons/lu";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 
 const EditPackage = () => {
     const [packages, setPackages] = useState([]);
@@ -48,7 +48,8 @@ const EditPackage = () => {
         amount : selectedData.amount,
         notice : "quam vitae laoreet non nibh consectetur eu ac in Sed volutpat Nunc dignissim, eget tortor. tincidunt dui Nullam tincidunt In odio dui. Donec commodo vitae dui est. amet, commodo odio In Ut Donec Donec In ex orci nisl. eget Morbi sit ex at ",
         duration : selectedData.duration,
-        feature: selectedData.feature
+        feature: selectedData.feature,
+        post_limit: selectedData?.post_limit
     }
     return (
         <div className='bg-white p-6 rounded-lg'>
@@ -101,7 +102,7 @@ const EditPackage = () => {
             
             <Form initialValues={initialFormValues} onFinish={handleSubmit}>
                 <div className='grid grid-cols-3 gap-6 mt-[53px]'>
-                    <div className='bg-[#ECF1F8] rounded-[5px] p-6 h-[400px]'>
+                    <div className='bg-[#ECF1F8] rounded-[5px] p-6 h-[470px]'>
                         <h1 className='text-[#565656]'>Primary Data:</h1>
                         <div className='grid grid-cols-1 gap-4 mt-4'>
                             <div>
@@ -169,6 +170,26 @@ const EditPackage = () => {
                             <div>
                                 <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Package Validation</label>
                                 <Form.Item name="duration" style={{marginBottom: "0"}}>
+                                    <Input
+                                        placeholder=''
+                                        style={{
+                                            width:"100%",
+                                            border: "none",
+                                            height: "30px",
+                                            padding: "18px 15px",
+                                            background: "white",
+                                            borderRadius: "8px",
+                                            outline: "none",
+                                            color: "#949494",
+                                            fontSize: "14px"
+                                        }}
+                                    />
+                                </Form.Item>
+                            </div>
+
+                            <div>
+                                <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Job Limit</label>
+                                <Form.Item name="post_limit" style={{marginBottom: "0"}}>
                                     <Input
                                         placeholder=''
                                         style={{

@@ -10,18 +10,30 @@ const Login = () => {
     await baseURL.post("/login", {email: values.email, password: values.password})
     .then((response)=>{
       if(response.status === 200){
-        localStorage.setItem("token", JSON.stringify(response.data.access_token));
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Logged In Successfully",
-          showConfirmButton: false,
-          timer: 1500
-        }).then(() => {
-          navigate("/");
-        });
+        if(response.data.user.userType === "USER"){
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Unauthorised Access",
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }else{
+          localStorage.setItem("token", JSON.stringify(response.data.access_token));
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Logged In Successfully",
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
+            navigate("/");
+          });
+        }
       }
+
+
     }).catch((error)=>{
       if(error.response.status === 402){
         Swal.fire({
