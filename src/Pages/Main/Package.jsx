@@ -28,7 +28,6 @@ const Package = () => {
     const navigate = useNavigate();
     const stripe = useStripe();
     const elements = useElements();
-    const client_secret = "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"
 
     const handlePackageChange = (value) => {
         setSelectedPackage(value);

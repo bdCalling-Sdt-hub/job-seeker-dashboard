@@ -44,12 +44,8 @@ import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 import ManualSubscription from "./Pages/Main/Admin/ManualSubscription";
 
-const stripePromise = loadStripe('pk_test_51MJynOHzN4rqAg27o1nDk5hQeHaX8cuaBkInxAzGMEnEqee4QMyeztVLqyeuAhzgK9ZRdwPAF8uWFrRX2Qj8iuQ9005XC9m0sA');
+const stripePromise = loadStripe(process.env.REACT_APP_API_STRIPE_PUBLISH_KEY);
 function App() {
-  const options = {
-    // passing the client secret obtained from the server
-    clientSecret: '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',
-  };
   return (
     <>
       <div className="maincontainer">
