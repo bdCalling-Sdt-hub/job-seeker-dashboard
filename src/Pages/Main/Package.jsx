@@ -29,6 +29,8 @@ const Package = () => {
     const stripe = useStripe();
     const elements = useElements();
 
+
+    
     const handlePackageChange = (value) => {
         setSelectedPackage(value);
         const params = new URLSearchParams(window.location.search);
