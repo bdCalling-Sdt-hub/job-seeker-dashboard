@@ -11,9 +11,6 @@ const ManualSubscription = () => {
     const [subscription, setSubscription] = useState([]);
     const [refresh, setRefresh] = useState("");
     const [value, setValue] = useState("");
-    console.log(value)
-
-
     if(refresh){
         setTimeout(()=>{
             setRefresh("")
