@@ -75,7 +75,6 @@ const Settings = () => {
             }
         })
         .catch((error)=>{
-            console.log(error)
             if(error.response.data.message){
                 setCurPassError(error.response.data.message);
             }else{
@@ -101,7 +100,6 @@ const Settings = () => {
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
                 }
             });
-            console.log(response)
             localStorage.setItem("user", JSON.stringify(response?.data?.user))
         }
         getAPi();

@@ -9,42 +9,9 @@ const ChangePassword = () => {
     const [curPassError, setCurPassError] = useState("");
 
 
-    const handleChangePassword= (values)=>{
-        console.log("received", values)
-        if(values?.currentPass === values.newPass){ 
-            setNewPassError("New password cannot be the same as old password")
-        }
-        else{  
-            setNewPassError("")
-        }
-        
-        if(values?.confirmPass !== values.newPass){ 
-            setConPassError("New Password and Confirm Password Doesn't Matched")
-        }else{ 
-            setConPassError("")
-        }
-
-        console.log("Data")
-        // const response = await baseURL.post(`/update-pass`, values, {
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
-        //     }
-        // })
-        // console.log(response)
-        // if(response.status === 200){
-        //     Swal.fire({
-        //         position: "center",
-        //         icon: "success",
-        //         title: "Password Changed Successfully",
-        //         showConfirmButton: false,
-        //         timer: 1500
-        //     });
-        // }
-    }
+   
 
     const onFinish = (values) => {
-        console.log('Success:', values);
       };
 
     return (

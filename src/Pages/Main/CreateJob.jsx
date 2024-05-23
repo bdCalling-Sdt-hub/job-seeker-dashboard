@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 const CreateJob = () => {
 
     const handleOnFinis=async(values)=>{
-        console.log("post", values)
         const type = (values?.key_words)?.split(",");
         await baseURL.post(`/create-job`, {...values, key_word: JSON.stringify(type)}, {
             headers: {
@@ -26,7 +25,6 @@ const CreateJob = () => {
                 })
             }
         }).catch((error)=>{
-            console.log(error)
         })
 
     }

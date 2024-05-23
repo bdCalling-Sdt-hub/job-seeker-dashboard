@@ -18,7 +18,6 @@ const CompanyDetails = () => {
                   authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
                 }
               });
-            console.log(response.data.data);
             setEmployer(response?.data?.data);
         }
         getAPi();

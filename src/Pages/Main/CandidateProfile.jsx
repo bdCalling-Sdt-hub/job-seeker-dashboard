@@ -25,7 +25,6 @@ const CandidateProfile = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
-            console.log(response?.data?.Cv[0])
             setEducation(response?.data?.Cv[0]?.education)
             setExpirence(response?.data?.Cv[0]?.experience)
             setApplicant (response?.data?.Cv[0]);

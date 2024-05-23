@@ -126,40 +126,6 @@ const EmployerDetails = () => {
         });
     }
 
-    const handleApproved=(id)=>{
-        Swal.fire({
-            title: "Are you sure To Approve this Employer?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No"
-
-        }).then(async(result) => {
-            if (result.isConfirmed) {
-                await baseURL.get(`/approve-job-post=${id}`,{
-                    headers: {
-                      "Content-Type": "application/json",
-                      authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-                    }
-                }).then((response)=>{
-                    console.log(response)
-                    if(response.status ===200){
-                        Swal.fire({
-                            title: "Approved!",
-                            text: response?.data?.message,
-                            icon: "success",
-                            showConfirmButton: false,
-                            timer: 1500,
-                        });
-                    }
-                })
-                
-            }
-        });
-    }
-
     const onFinish = async(values) => {
         const value = {
             user_id : employer.company_details.user_id,
@@ -173,7 +139,7 @@ const EmployerDetails = () => {
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
         }).then((response)=>{
-            if(response.status ===200){
+            if(response.status === 200){
                 Swal.fire({
                     title: "Reported!",
                     text: response?.data?.message,
@@ -313,17 +279,9 @@ const EmployerDetails = () => {
                     <div className='flex items-center gap-6'>
                         <button onClick={()=>setOpenModal(true)} className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
 
-                        {
-                            employer?.company_details?.status === "pending" || employer?.company_details?.status === "bloked" 
-                            ?
-                            <button onClick={()=>handleApproved(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] capitalize rounded-[90px] '>Approved</button>
-                            :
-                            <button onClick={()=>handleblock(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] capitalize rounded-[90px] '>
-                                {
-                                    employer?.company_details?.status === "approved" ? "Block" : employer?.company_details?.status
-                                }
-                            </button>
-                        }
+                        <button onClick={()=>handleblock(employer?.company_details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] capitalize rounded-[90px] '>
+                            block
+                        </button>
                     </div>
                 </div>
 
@@ -343,7 +301,7 @@ const EmployerDetails = () => {
                         </tr>                        
                         {
                             (subscriptions?.data?.slice(0, 9))?.map((item, index)=>
-                                < >
+                                <React.Fragment key={index}>
                                     <div style={{marginTop: '8px'}}></div>
                                     <tr  className="bg-[#ECF1F8] text-[#949494] custom-table-row">
                                         <td>{index + 1}</td>
@@ -366,7 +324,7 @@ const EmployerDetails = () => {
                                             </Link>
                                         </td>
                                     </tr>
-                                </>
+                                </React.Fragment>
                             )
                         }
                     </table>

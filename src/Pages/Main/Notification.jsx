@@ -67,7 +67,6 @@ const Notification = () => {
           setData( response?.data?.Notifications);
         }else{
           setData( response?.data?.data?.data);
-          console.log(response?.data?.data?.data)
         }
       }
       getAPi();

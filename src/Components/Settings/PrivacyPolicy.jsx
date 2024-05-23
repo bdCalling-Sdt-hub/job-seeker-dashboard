@@ -17,7 +17,7 @@ const PrivacyPolicy = () => {
     }
 
     useEffect(()=>{
-        setContent(data?.description)
+        setContent(data)
     }, [data]);
 
 
@@ -29,7 +29,7 @@ const PrivacyPolicy = () => {
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
           });
-          setData(response?.data?.data);
+          setData(response?.data?.data[0]?.description);
         }
         getAPi();
     }, [ refresh !== "" ]);

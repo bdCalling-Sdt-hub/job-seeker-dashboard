@@ -17,7 +17,7 @@ const TermsConditions = () => {
     }
 
     useEffect(()=>{
-        setContent(data?.description)
+        setContent(data)
     }, [data]);
 
 
@@ -29,7 +29,7 @@ const TermsConditions = () => {
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
           });
-          setData(response?.data?.data);
+          setData(response?.data?.data[0]?.description);
         }
         getAPi();
     }, [ refresh !== "" ]);
@@ -41,7 +41,6 @@ const TermsConditions = () => {
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
         }).then((response)=>{
-            console.log(response)
             if(response.status === 200){
                 Swal.fire({
                     position: "center",

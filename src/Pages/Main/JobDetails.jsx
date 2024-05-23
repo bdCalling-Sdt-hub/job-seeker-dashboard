@@ -15,7 +15,6 @@ const JobDetails = () => {
     const [company, setCompany] = useState({});
     const [userInfo, setuserInfo] = useState({});
     const [open, setOpen] = useState(false)
-    console.log(userInfo)
 
     useEffect(()=>{
         async function getAPi(){
@@ -62,7 +61,6 @@ const JobDetails = () => {
             subject: values.subject,
             message: values.message
         }
-        console.log(value)
         await baseURL.post(`/report-employer`, value, {
             headers: {
                 "Content-Type": "application/json",

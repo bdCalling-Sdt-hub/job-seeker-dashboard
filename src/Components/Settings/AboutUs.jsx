@@ -17,7 +17,7 @@ const AboutUs = () => {
     }
 
     useEffect(()=>{
-        setContent(data?.description)
+        setContent(data)
     }, [data]);
 
 
@@ -25,11 +25,11 @@ const AboutUs = () => {
         async function getAPi(){
           const response = await baseURL.get(`/about-us`,{
             headers: {
-              "Content-Type": "application/json",
-              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
           });
-          setData(response?.data?.data);
+          setData(response?.data?.data[0]?.description);
         }
         getAPi();
     }, [ refresh !== "" ]);
@@ -41,7 +41,6 @@ const AboutUs = () => {
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
         }).then((response)=>{
-            console.log(response)
             if(response.status === 200){
                 Swal.fire({
                     position: "center",

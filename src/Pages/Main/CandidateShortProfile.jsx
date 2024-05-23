@@ -21,9 +21,6 @@ const CandidateShortProfile = () => {
     const [open, setOpen] = useState(false)
     const [tab, setTab] = useState("");
     const [refresh, setRefresh] = useState("")
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
-    };
 
     if(refresh){
         setTimeout(()=>{
@@ -40,7 +37,6 @@ const CandidateShortProfile = () => {
                 }
             })
             setApplicant (response?.data.Cv[0]);
-            console.log(response)
             setJob(response?.data?.joblist)
             setApplication(response?.data?.apply_details)
         }
@@ -48,8 +44,6 @@ const CandidateShortProfile = () => {
     }, [id, refresh !== ""]);
 
     const handleSubmit=async(values)=>{
-        console.log(values)
-        console.log(applicant?.email)
         await baseURL.post(`/send/mail`, {...values, email: applicant?.email }, {
             headers: {
                 "Content-Type": "application/json",

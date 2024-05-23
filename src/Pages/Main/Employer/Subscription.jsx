@@ -29,7 +29,6 @@ const Subscription = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
-            console.log(response?.data?.data)
             setSubscription(response?.data?.data);
         }
         getApi();

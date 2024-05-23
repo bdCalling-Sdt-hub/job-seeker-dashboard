@@ -55,7 +55,6 @@ const Package = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("clicked")
     
         if (!stripe || !elements) {
           return;
@@ -71,7 +70,6 @@ const Package = () => {
         
     
         if (result.error) {
-          console.log(result.error.message);
         } else {
           // Your customer will be redirected to your `return_url`. For some payment
           // methods like iDEAL, your customer will be redirected to an intermediate

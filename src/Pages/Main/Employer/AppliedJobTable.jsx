@@ -43,7 +43,6 @@ const AppliedJobTable = () => {
 
             setData (response?.data.data)
             setPaginate(response?.data?.pagination)
-            console.log(response?.data)
         }
         getApi();
     }, []);

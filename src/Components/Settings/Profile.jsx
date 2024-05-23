@@ -7,7 +7,7 @@ import ImgConfig from '../../../ImgConfig';
 
 const Profile = () => {
     const profile = JSON.parse(localStorage.getItem("user"));
-    const [image, setImage] = useState(profile?.image ? `${ImgConfig}${profile?.image}` :"https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?size=626&ext=jpg");
+    const [image, setImage] = useState(profile?.image ? `${ImgConfig}/${profile?.image}` :"https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?size=626&ext=jpg");
     const [imgURL, setImgURL] = useState(image);
     
     const handleUpdate=async(values)=>{
@@ -26,6 +26,7 @@ const Profile = () => {
         }).then((response)=>{
             localStorage.setItem("user", JSON.stringify(response?.data?.data))
             if(response.status === 200){
+                window.location.reload()
                 Swal.fire({
                     position: "center",
                     title: "Successfully!",

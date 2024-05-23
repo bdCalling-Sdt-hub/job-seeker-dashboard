@@ -22,7 +22,6 @@ const DashboardHome = () => {
             }
           });
           setSummery(response?.data);
-          console.log(response.data)
         }
         getAPi();
     }, []);

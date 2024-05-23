@@ -37,7 +37,6 @@ const ManualSubscription = () => {
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
           });
-          console.log(response)
           setSubscription(response?.data?.data?.data);
           setPagination(response?.data?.data)
         }
@@ -62,7 +61,6 @@ const ManualSubscription = () => {
                       authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
                     }
                 }).then((response)=>{
-                    console.log(response)
                     if(response.status ===200){
                         Swal.fire({
                             title: "Approved!",

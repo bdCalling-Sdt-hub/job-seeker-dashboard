@@ -74,7 +74,6 @@ const SubscriberDetails = () => {
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
           });
-          console.log(response?.data?.data)
           setCompanyDetails(response?.data?.data?.company_details);
           setPackageDetails(response?.data?.data?.subscription?.data[0]?.package)
           setJobs(response?.data?.data?.subscription?.data[0]?.job_posts)
