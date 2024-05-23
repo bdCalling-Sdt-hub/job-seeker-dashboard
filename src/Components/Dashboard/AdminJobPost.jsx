@@ -123,9 +123,9 @@ const AdminJobPost = () => {
                         </tr>                        
                         {
                             job?.data?.map((item, index)=>
-                                <>
-                                    <div key={index} style={{marginTop: '8px'}}></div>
-                                    <tr key={index} className="bg-[#ECF1F8] text-[#949494] custom-table-row">
+                                <React.Fragment key={index}>
+                                    <div  style={{marginTop: '8px'}}></div>
+                                    <tr  className="bg-[#ECF1F8] text-[#949494] custom-table-row">
                                         <td>{index + 1 }</td>
                                         <td>{item?.job_title}</td>
                                         <td>{item?.vacancy}</td>
@@ -149,7 +149,7 @@ const AdminJobPost = () => {
                                             </Link>
                                         </td>
                                     </tr>
-                                </>
+                                </React.Fragment>
                             )
                         }
                     </table>

@@ -14,8 +14,6 @@ const SubscriptionDetails = () => {
     const { id } = useParams();
     const [packageDetails, setPackageDetails] = useState({});
     const [jobs, setJobs] = useState();
-
-    console.log(jobs);
     
 
     useEffect(()=>{
@@ -35,7 +33,7 @@ const SubscriptionDetails = () => {
         <>
             
             <div style={{marginBottom : "20px"}}>
-                <BackButton link="/employer-details" />
+                <BackButton link={`/employer-details/${id}`} />
             </div>
             
             <div className='bg-white p-6 rounded-lg border'>

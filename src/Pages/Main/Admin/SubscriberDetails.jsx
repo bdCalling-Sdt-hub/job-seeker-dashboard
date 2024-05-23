@@ -96,7 +96,7 @@ const SubscriberDetails = () => {
                     <div className='w-[60%] bg-[#ECF1F8] h-[279px] rounded-lg p-6 flex gap-6'>
                         <img 
                             style={{width: "257px", height: "230px", borderRadius: "8px"}} 
-                            src={ companyDetails?.logo ? `${ImgURL}/${companyDetails?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
+                            src={ companyDetails?.user?.image ? `${ImgURL}/${companyDetails?.user?.image}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
                             alt=""
                         />
                         <div className='w-full grid grid-cols-1 gap-7 text-[#565656]'>

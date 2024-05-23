@@ -56,6 +56,7 @@ const Subscribers = () => {
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
           });
+          console.log(response?.data?.data)
           setSubscriber(response?.data?.data);
         }
         getAPi();
@@ -150,11 +151,12 @@ const Subscribers = () => {
                                         <td>
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] flex items-center justify-center
-                                                    ${item?.package?.status === "Active" && "bg-[#B0ECB2] text-[#009B06]"}
-                                                    ${item?.package?.status === "Completed" && "bg-[#FEE3B8] text-[#C98415]"}
+                                                    ${item?.subscription?.manual_status === "approved" && "bg-[#B0ECB2] text-[#009B06]"}
+                                                    ${item?.subscription?.manual_status === "pending" && "bg-[#C5D2E8] text-[#365992]"}
+                                                    ${item?.subscription?.manual_status === "Completed" && "bg-[#FEE3B8] text-[#C98415]"}
                                                 `}
                                             >
-                                                {item?.subscription?.status }
+                                                {item?.subscription?.manual_status}
                                             </p>
                                         </td>
                                         <td>

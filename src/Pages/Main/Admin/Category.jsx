@@ -159,8 +159,7 @@ const Category = () => {
                                     '
                                 >
                                     <img 
-                                        className='w-[80px]' 
-                                        style={{margin: "0 auto"}}  
+                                        style={{margin: "0 auto", width: 100, height: 100, objectFit: "cover"}}  
                                         src={`${ImgConfig}/${item?.category_image}`} 
                                         alt="" 
                                     />

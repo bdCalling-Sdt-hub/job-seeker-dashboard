@@ -3,24 +3,35 @@ import BackButton from '../../../Components/BackButton'
 import baseURL from '../../../../Config';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import Swal from 'sweetalert2';
-import { Modal } from 'antd';
+import { Input, Modal, Pagination } from 'antd';
 import { IoClose } from "react-icons/io5";
 import ImgURL from '../../../../ImgConfig';
+import { FiSearch } from 'react-icons/fi';
 
 const ManualSubscription = () => {
     const [subscription, setSubscription] = useState([]);
     const [refresh, setRefresh] = useState("");
     const [value, setValue] = useState("");
+    const [keyword, setKeyword] = useState("");
+    const [pagination, setPagination] = useState({})
     if(refresh){
         setTimeout(()=>{
             setRefresh("")
         }, 1500)
     }
 
+    const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
+    const handlePageChange = (page) => {
+        setPage(page);
+        const params = new URLSearchParams(window.location.search);
+        params.set('page', page);
+        window.history.pushState(null, "", `?${params.toString()}`);
+    }
+
 
     useEffect(()=>{
         async function getAPi(){
-          const response = await baseURL.get(`/manual-subscription-request`,{
+          const response = await baseURL.get(`/manual-subscription-request?name=${keyword}&page=${page}`,{
             headers: {
               "Content-Type": "application/json",
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
@@ -28,9 +39,10 @@ const ManualSubscription = () => {
           });
           console.log(response)
           setSubscription(response?.data?.data?.data);
+          setPagination(response?.data?.data)
         }
         getAPi();
-    }, [refresh !=="" ]);
+    }, [keyword, page, refresh !=="" ]);
 
 
     const handleApproved=async(id)=>{
@@ -75,7 +87,23 @@ const ManualSubscription = () => {
             </div>
 
             <div className='bg-white p-6 rounded-[5px]'>
-                <h1 className='text-[20px] font-semibold text-[#2F2F2F] mb-6'>Manual Subscription</h1>
+                <div className='flex items-center justify-between  mb-6'>
+                    <h1 className='text-[20px] font-semibold text-[#2F2F2F]'>Manual Subscription</h1>
+                    <Input
+                        onChange={(e) => setKeyword(e.target.value)}
+                        placeholder="Search Company"
+                        prefix={<FiSearch size={14} color="#868FA0" />}
+                        suffix={<IoClose onClick={() => setKeyword("")} style={{ cursor: "pointer" }} size={14} color="#2B2A2A" />}
+                        style={{
+                            width: 350,
+                            height: 48,
+                            fontSize: "14px"
+                        }}
+                        size="middle"
+                        value={keyword}
+                    />
+                </div>
+                
 
                 {/* subscription */}
                 <div>
@@ -125,7 +153,14 @@ const ManualSubscription = () => {
                         }
                     </table>
                 </div>
-                
+                <div className='mt-6 flex items-center justify-center'>
+                    <Pagination 
+                        defaultCurrent={page} 
+                        total={pagination?.total} 
+                        onChange={handlePageChange}
+                    />
+                </div>
+
                 <Modal
                     centered 
                     open={value}

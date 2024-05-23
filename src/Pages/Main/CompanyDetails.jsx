@@ -4,6 +4,7 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { TiSocialLinkedinCircular } from "react-icons/ti";  
 import { useParams } from 'react-router-dom';
 import baseURL from '../../../Config';
+import ImgURL from '../../../ImgConfig';
 
 const CompanyDetails = () => {
     const { id } = useParams();
@@ -36,7 +37,7 @@ const CompanyDetails = () => {
                         <div className='bg-[#ECF1F8] rounded-lg flex items-center justify-center'>
                             <img 
                                 style={{width: "300px", height: "200px", margin: "auto", borderRadius: "8px"}} 
-                                src={ employer?.company_details?.logo ? `${ImgURL}/${employer?.company_details?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
+                                src={ employer?.company_details?.user?.image ? `${ImgURL}/${employer?.company_details?.user?.image}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
                                 alt="" 
                             />
                         </div>
@@ -98,7 +99,7 @@ const CompanyDetails = () => {
                                 
                                 {
                                     (employer?.company_details?.company_service)?.split(",")?.map((service, index)=>
-                                        <p className='text-[14px] w-fit px-3 py-[3px] rounded-[100px] border border-[#436FB6]  font-normal text-[#436FB6]'>{service}</p>
+                                        <p key={index} className='text-[14px] w-fit px-3 py-[3px] rounded-[100px] border border-[#436FB6]  font-normal text-[#436FB6]'>{service}</p>
                                     )
                                 }
                             </div>

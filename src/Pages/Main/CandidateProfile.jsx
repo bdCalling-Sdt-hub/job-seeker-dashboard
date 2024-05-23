@@ -3,6 +3,7 @@ import BackButton from '../../Components/BackButton'
 import { useParams } from 'react-router-dom'
 import baseURL from '../../../Config';
 import ImgURL from '../../../ImgConfig';
+import { Spin } from 'antd';
 
 const CandidateProfile = () => {
     const { id } = useParams();
@@ -24,14 +25,14 @@ const CandidateProfile = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
-            console.log(response?.data?.Cv[0]?.education)
+            console.log(response?.data?.Cv[0])
             setEducation(response?.data?.Cv[0]?.education)
             setExpirence(response?.data?.Cv[0]?.experience)
             setApplicant (response?.data?.Cv[0]);
             setCandidate(response?.data?.Cv[0]?.candidate)
         }
         getApi();
-    }, [id]);
+    }, []);
 
     return (
         <>
@@ -42,7 +43,7 @@ const CandidateProfile = () => {
             <div className='bg-white p-6 rounded-lg border'>
                 <h1 className='text-[20px] text-[#172740] font-medium mb-6'>Candidate Profile</h1>
 
-                <div className={`${user.status === "recruited" ? "bg-[#E6F9E6]" : "bg-[#ECF1F8] "}  w-full flex p-6 rounded-lg mb-6`}>
+                <div className={`${user.status === "recruited" ? "bg-[#E6F9E6]" : "bg-[#ECF1F8] "}  w-full flex gap-10 p-6 rounded-lg mb-6`}>
                     <div className='w-[20%]'>
                         <img 
                             style={{
@@ -113,10 +114,11 @@ const CandidateProfile = () => {
 
                         <div className='grid grid-cols-1 gap-4'>
 
-                            {/* {
+                            {
+                                education?.length > 0? 
                                 education?.map((item, index)=>{
                                     return (
-                                        <React.Fragment>
+                                        <React.Fragment key={index}>
                                             <div className='flex items-center justify-between'>
                                                 <p className='w-[30%]'>Level of Education</p>
                                                 <div className='w-[5%]'>:</div>
@@ -161,7 +163,11 @@ const CandidateProfile = () => {
                                         </React.Fragment>
                                     )
                                 })
-                            } */}
+                                :
+                                <div className='flex items-center justify-center'>
+                                    <Spin />
+                                </div>
+                            }
                         </div>
                     </div>
                     
@@ -169,6 +175,7 @@ const CandidateProfile = () => {
                         <p className='text-[20px] text-[#565656] font-normal mb-6'>Work Experience</p>
                         <div className='grid grid-cols-1 gap-4'>
                             {
+                                expirence?.length > 0? 
                                 expirence?.map((item, index)=> {
                                     return (
                                         <React.Fragment key={index}>
@@ -206,6 +213,10 @@ const CandidateProfile = () => {
                                         </React.Fragment>
                                     )
                                 })
+                                :
+                                <div className='flex items-center justify-center'>
+                                    <Spin />
+                                </div>
                             }
                         </div>
                     </div>

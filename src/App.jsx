@@ -44,7 +44,8 @@ import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 import ManualSubscription from "./Pages/Main/Admin/ManualSubscription";
 
-const stripePromise = loadStripe(process.env.REACT_APP_API_STRIPE_PUBLISH_KEY);
+const stripePromise = loadStripe("pk_test_51MJynOHzN4rqAg27o1nDk5hQeHaX8cuaBkInxAzGMEnEqee4QMyeztVLqyeuAhzgK9ZRdwPAF8uWFrRX2Qj8iuQ9005XC9m0sA");
+// const stripePromise = loadStripe(process.env.REACT_APP_API_STRIPE_PUBLISH_KEY);
 function App() {
   return (
     <>
@@ -54,6 +55,7 @@ function App() {
             <Route exact path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute> }>
               <Route path="/" element={<DashboardHome />} />
               <Route path="/notification" element={<Notification />} />
+              <Route path="/edit-package/:name" element={<EditPackage />} />
               <Route 
                 path="/package" 
                 element={
@@ -62,6 +64,7 @@ function App() {
                   </Elements>
                 } 
               />
+
               <Route path="/category" element={<Category />} /> 
               <Route path="/make-admin" element={<MakeAdmin />} />
               <Route path="/change-password" element={<EmployerChangePassword />} />

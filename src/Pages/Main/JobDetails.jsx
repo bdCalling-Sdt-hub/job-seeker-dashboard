@@ -7,13 +7,15 @@ import baseURL from '../../../Config';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import ImgURL from '../../../ImgConfig';
+import { Button, Form, Input, Modal, Spin } from 'antd';
 
 const JobDetails = () => {
     const { id } = useParams();
     const [details, setDetails] = useState({});
     const [company, setCompany] = useState({});
-    const [userInfo, setuserInfo] = useState({})
-
+    const [userInfo, setuserInfo] = useState({});
+    const [open, setOpen] = useState(false)
+    console.log(userInfo)
 
     useEffect(()=>{
         async function getAPi(){
@@ -25,6 +27,7 @@ const JobDetails = () => {
             });
             setuserInfo(response?.data?.data[0].user)
             setDetails(response?.data?.data[0]);
+            
             setCompany(response?.data?.data[0]?.recruiter)
         }
         getAPi();
@@ -52,6 +55,33 @@ const JobDetails = () => {
             }
         });
     }
+
+    const onFinish = async(values) => {
+        const value = {
+            user_id : userInfo?.id,
+            subject: values.subject,
+            message: values.message
+        }
+        console.log(value)
+        await baseURL.post(`/report-employer`, value, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+        }).then((response)=>{
+            if(response.status ===200){
+                Swal.fire({
+                    title: "Reported!",
+                    text: response?.data?.message,
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                }).then((response)=>{
+                    setOpen(false)
+                })
+            }
+        })
+    };
     return (
         <>
             <div style={{ marginBottom: "16px" }}>
@@ -160,6 +190,7 @@ const JobDetails = () => {
                             <div className='w-[10%]'>:</div>
                             <div className='w-[50%] h-full flex items-center flex-wrap gap-2'>
                                 {
+                                    company?.company_service?.length > 0? 
                                     (company?.company_service)?.split(",")?.map((service, index)=>
                                         <p 
                                             key={index} 
@@ -178,6 +209,11 @@ const JobDetails = () => {
                                             {service}
                                         </p>
                                     )
+                                    :
+                                    
+                                    <div className='flex items-center justify-center'>
+                                        <Spin />
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -208,8 +244,10 @@ const JobDetails = () => {
                             <div>
                                 <p className='mb-2 text-[#6F6F6F] font-semibold'>Education : </p>
                                 <ul >
+
                                     {
-                                        details?.education?.map((service, index)=>
+                                        details?.education?.length  ? 
+                                        details?.education?.split("/n")?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -223,6 +261,10 @@ const JobDetails = () => {
                                                 {service}
                                             </li>
                                         )
+                                        :
+                                        <div className='flex items-center justify-center'>
+                                            <Spin />
+                                        </div>
                                     }
                                 </ul>
                             </div>
@@ -231,7 +273,8 @@ const JobDetails = () => {
                                 <p className='mb-2 text-[#6F6F6F] font-semibold'>Responsibilities  : </p>
                                 <ul >
                                     {
-                                        details?.responsibilities?.map((service, index)=>
+                                        details?.responsibilities ? 
+                                        details?.responsibilities?.split("/n")?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -246,6 +289,10 @@ const JobDetails = () => {
                                             {service}
                                             </li>
                                         )
+                                        :
+                                        <div className='flex items-center justify-center'>
+                                            <Spin />
+                                        </div>
                                     }
                                 </ul>
                             </div>
@@ -259,7 +306,8 @@ const JobDetails = () => {
                                 <p className='mb-2 text-[#6F6F6F] font-semibold'>Compensation & Other Benefits  : </p>
                                 <ul >
                                     {
-                                        details?.compensation_other_benifits?.map((service, index)=>
+                                        details?.compensation_other_benifits?.length ? 
+                                        details?.compensation_other_benifits?.split("/n")?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -273,6 +321,10 @@ const JobDetails = () => {
                                                 {service}
                                             </li>
                                         )
+                                        :
+                                        <div className='flex items-center justify-center'>
+                                            <Spin />
+                                        </div>
                                     }
                                 </ul>
                             </div>
@@ -281,7 +333,8 @@ const JobDetails = () => {
                                 <p className='mb-2 text-[#6F6F6F] font-semibold'>Additional Requirements  : </p>
                                 <ul >
                                     {
-                                        details?.additional_requirement?.map((service, index)=>
+                                        details?.additional_requirement ?
+                                        details?.additional_requirement?.split("/n")?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -295,6 +348,10 @@ const JobDetails = () => {
                                                 {service}
                                             </li>
                                         )
+                                        :
+                                        <div className='flex items-center justify-center'>
+                                            <Spin/>
+                                        </div>
                                     }
                                 </ul>
                             </div>
@@ -328,7 +385,7 @@ const JobDetails = () => {
                     <div className='bg-[#ECF1F8] w-full  h-[96px] p-6 rounded-lg flex items-center justify-between mt-6'>
                         <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                         <div className='flex items-center gap-6'>
-                            <button  className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
+                            <button onClick={()=>setOpen(true)} className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
                             <button onClick={()=>handleApprove(details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] capitalize'>{details?.status}</button>
                         </div>
                     </div>
@@ -336,6 +393,126 @@ const JobDetails = () => {
                     null
                 }
             </div>
+            <Modal
+                    centered 
+                    title="Report Employer" 
+                    open={open}
+                    onCancel={()=>setOpen(false)}
+                    footer={false}
+                >
+                    <div className='mt-6'>
+                        <Form
+                            initialValues={{email: details?.user?.email}}
+                            onFinish={onFinish}
+                            className='grid grid-cols-1 gap-6'
+                        >
+
+                            <div>
+                                <label htmlFor="email" style={{display: "block", marginBottom: "8px" }}>Employer Email </label>
+                                <Form.Item
+                                    style={{marginBottom: 0}}
+                                    name="email"
+                                >
+                                    <Input
+                                        readOnly
+                                        style={{
+                                            border: "none",
+                                            height: "48px",
+                                            background: "#F1F4F9",
+                                            borderRadius: "90px",
+                                            padding: "0 16px",
+                                            color: "#A6A6A6",
+                                            fontSize: "14px",
+                                            fontWeight: 400,
+                                            outline: "none"
+                                        }}
+
+                                    />
+                                </Form.Item>
+                            </div>
+
+                            <div>
+                                <label htmlFor="email" style={{display: "block", marginBottom: "8px" }}>Subject</label>
+                                <Form.Item
+                                    style={{marginBottom: 0}}
+                                    name="subject"
+                                    rules={[
+                                        {
+                                        required: true,
+                                        message: "Please Input Report Subject!",
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        placeholder='Enter Report Subject'
+                                        style={{
+                                            border: "none",
+                                            height: "48px",
+                                            background: "#F1F4F9",
+                                            borderRadius: "90px",
+                                            padding: "0 16px",
+                                            color: "#A6A6A6",
+                                            fontSize: "14px",
+                                            fontWeight: 400,
+                                            outline: "none"
+                                        }}
+
+                                    />
+                                </Form.Item>
+                            </div>
+
+                            <div>
+                                <label style={{display: "block", marginBottom: "8px" }} htmlFor="password">Message</label>
+                                <Form.Item
+                                    style={{marginBottom: 0}}
+                                    name="message"
+                                    rules={[
+                                        {
+                                        required: true,
+                                        message: "Please input Message!",
+                                        },
+                                    ]}
+                                >
+                                <Input.TextArea
+                                    type="text"
+                                    placeholder="Enter  Message"
+                                    style={{
+                                        background: "#F1F4F9",
+                                        height: "200px",
+                                        border: "none",
+                                        borderRadius: "8px",
+                                        padding: "10px",
+                                        color: "#A6A6A6",
+                                        resize: "none",
+                                        fontSize: "14px",
+                                        fontWeight: 400,
+                                        outline: "none"
+                                    }}
+                                />
+                                </Form.Item>
+                            </div>
+
+                            <Form.Item
+                                style={{marginBottom: 0}}
+                            >
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    block
+                                    style={{
+                                        height: "48px",
+                                        fontWeight: "400px",
+                                        fontSize: "18px",
+                                        background: "#436FB6",
+                                        borderRadius: "90px"
+                                    }}
+                                >
+                                    Send
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                </Modal>
         </>
     )
 }

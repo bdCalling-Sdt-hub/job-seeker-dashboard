@@ -10,6 +10,7 @@ import { Link, useParams } from 'react-router-dom';
 import { IoIosArrowRoundForward } from "react-icons/io";
 import baseURL from '../../../Config';
 import moment from 'moment';
+import ImgURL from '../../../ImgConfig';
 
 const data = [
     {
@@ -208,7 +209,6 @@ const EmployerDetails = () => {
                 }
             });
             setEmployer(response?.data?.data);
-            console.log(response?.data?.data)
             setSubscriptions(response?.data?.data.subscription)
         }
         getAPi();
@@ -231,7 +231,7 @@ const EmployerDetails = () => {
                                 height: "230px",
                                 borderRadius: "8px"
                             }} 
-                            src={ employer?.company_details?.logo ? `${ImgURL}/${employer?.company_details?.logo}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
+                            src={ employer?.company_details?.user?.image ? `${ImgURL}/${employer?.company_details?.user?.image}` : "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg" }
                             alt="Employer Logo" 
                         />
                         <div className='w-full grid grid-cols-1 gap-7 text-[#565656]'>

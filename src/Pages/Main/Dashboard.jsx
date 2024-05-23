@@ -43,16 +43,17 @@ const Dashboard = () => {
 
 useEffect(()=>{
   async function getAPi(){
-    const response = await baseURL.get(userType === "ADMIN" ?  `/admin-notification` : "/show-message-admin",{
+    const response = await baseURL.get(userType === "ADMIN" || userType === "SUPER ADMIN" ?  `/admin-notification` : "/show-message-admin",{
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
       }
     });
-    if(userType === "ADMIN"){
+    if(userType === "ADMIN" || userType === "SUPER ADMIN"){
       setNotifications(response?.data?.Notifications)
     }else{
       setNotifications(response?.data?.data?.data);
+      console.log(response?.data?.data?.data)
     }
   }
   getAPi();
@@ -191,6 +192,7 @@ useEffect(()=>{
                 className={`
                 ${ userType === "SUPER ADMIN" && item.path === "/employer-profile" ? "hidden" : "block" }
                 ${ userType === "SUPER ADMIN"  && item.path === "/subscription" ? "hidden" : "block" }
+                ${ userType === "SUPER ADMIN" && item.path === "/new-applicant" ? "hidden" : "block" }
                 ${ userType === "ADMIN" && item.path === "/employer-profile" ? "hidden" : "block" }
                 ${ userType === "ADMIN"  && item.path === "/subscription" ? "hidden" : "block" }
                 ${ userType === "ADMIN" && item.path === "/new-applicant" ? "hidden" : "block" }
@@ -233,9 +235,6 @@ useEffect(()=>{
                     >
                       <div style={{height: "24px",}}>{item.icon}</div>
                       <div style={{fontSize: "14px", textAlign: "center", height: "fit-content"}}>{item.title}</div>
-                      {
-                        item.path === "/contacts" ? <div className="w-[30px] h-5 flex items-center justify-center border border-[#565656] rounded-[4px] text-[11px]">40+</div> : null
-                      }  
                     </div>
                 </li>
               </Link>

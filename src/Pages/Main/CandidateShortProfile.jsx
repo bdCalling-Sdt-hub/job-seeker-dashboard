@@ -40,6 +40,7 @@ const CandidateShortProfile = () => {
                 }
             })
             setApplicant (response?.data.Cv[0]);
+            console.log(response)
             setJob(response?.data?.joblist)
             setApplication(response?.data?.apply_details)
         }
@@ -47,7 +48,8 @@ const CandidateShortProfile = () => {
     }, [id, refresh !== ""]);
 
     const handleSubmit=async(values)=>{
-
+        console.log(values)
+        console.log(applicant?.email)
         await baseURL.post(`/send/mail`, {...values, email: applicant?.email }, {
             headers: {
                 "Content-Type": "application/json",
@@ -237,9 +239,9 @@ const CandidateShortProfile = () => {
                 <div className='grid grid-cols-12 gap-6 mb-6'>
                     <div className='col-span-4 bg-[#ECF1F8] rounded-lg '>
                         <div className='w-full h-[96px] gap-6 flex items-center justify-center'>
-                            <Link to={"/job-seeker-cv/2"}>
+                            {/* <Link to={"/job-seeker-cv/2"}>
                                 <button className='w-fit px-4 py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]  flex items-center gap-2'><CiEdit size={16} />  Job Seeker CV</button>
-                            </Link>
+                            </Link> */}
                             <Link to={"/uploaded-cv/2"}>
                                 <button className='w-fit px-4 py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]  flex items-center gap-2'><MdOutlineUpload size={16} />  Uploaded CV</button>
                             </Link>
@@ -493,7 +495,7 @@ const CandidateShortProfile = () => {
                                     outline: "none"
                                 }}
                             >
-                                <BsSendArrowUp size={14} color='white' /> Email & Notification
+                                <BsSendArrowUp size={14} color='white' /> Email
                             </Button>
                         </Form.Item>
                     </Form>

@@ -63,7 +63,7 @@ const MakeAdmin = () => {
             if(response.status === 200){
                 Swal.fire({
                     position: "center",
-                    title: "Deleted!",
+                    title: "Admin Created Successfully",
                     text: response.data.message,
                     icon: "success",
                     timer: 1500,

@@ -15,16 +15,16 @@ const Notification = () => {
           title: "S.No",
           dataIndex: "key",
           key: "key",
-          render: (_,record) => (
-            <p>{record?.id}</p>
+          render: (_,record, index) => (
+            <p>{index + 1}</p>
           ),
         },
         {
-          title: "Subject",
-          dataIndex: "subject",
-          key: "subject",
+          title: "Name",
+          dataIndex: "name",
+          key: "name",
           render: (_,record) => (
-            <p>{record?.subject}</p>
+            <p>{ user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN" ? record?.data?.name : record?.user?.fullName }</p>
           ),
         },
         {
@@ -32,7 +32,7 @@ const Notification = () => {
           dataIndex: "Message",
           key: "Message",
           render: (_,record) => (
-            <p>{record?.message}</p>
+            <p>{ user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN" ? record?.data?.message : record?.message }</p>
           ),
         },
         {
@@ -63,10 +63,11 @@ const Notification = () => {
             authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
           }
         });
-        if(user?.userType === "ADMIN"){
+        if(user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN"){
           setData( response?.data?.Notifications);
         }else{
           setData( response?.data?.data?.data);
+          console.log(response?.data?.data?.data)
         }
       }
       getAPi();

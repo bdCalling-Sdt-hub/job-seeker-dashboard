@@ -9,10 +9,6 @@ import Swal from 'sweetalert2';
 
 const settingsItem = [
     {
-        title: "Notification",
-        path: "notifications",
-    },
-    {
         title: "Profile",
         path: "profile",
     },
