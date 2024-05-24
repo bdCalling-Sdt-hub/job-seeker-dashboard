@@ -49,12 +49,13 @@ const AdminJobPost = () => {
 
     useEffect(()=>{
         async function getAPi(){
-            const response = await baseURL.get(`/job-list?search=${search}&status=${filter === "all" ? "" : filter }`, {
+            const response = await baseURL.get(`/job-list`, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             });
+            console.log(response?.data?.data)
             setJob(response?.data?.data);
         }
         getAPi();

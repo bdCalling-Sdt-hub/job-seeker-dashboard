@@ -18,16 +18,17 @@ const JobDetails = () => {
 
     useEffect(()=>{
         async function getAPi(){
-            const response = await baseURL.get(`/single-job-list?id=${id}`, {
+            const response = await baseURL.get(`/job-details?job_id=${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             });
-            setuserInfo(response?.data?.data[0].user)
-            setDetails(response?.data?.data[0]);
+            console.log(response?.data.data)
+            setuserInfo(response?.data?.data.user)
+            setDetails(response?.data?.data);
             
-            setCompany(response?.data?.data[0]?.recruiter)
+            setCompany(response?.data?.data?.recruiter)
         }
         getAPi();
     }, [ id ]);
@@ -377,9 +378,7 @@ const JobDetails = () => {
                     </div>
                 </div>
                 
-                {
-                    user.userType === "ADMIN"
-                    ?
+                
                     <div className='bg-[#ECF1F8] w-full  h-[96px] p-6 rounded-lg flex items-center justify-between mt-6'>
                         <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                         <div className='flex items-center gap-6'>
@@ -387,9 +386,6 @@ const JobDetails = () => {
                             <button onClick={()=>handleApprove(details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] capitalize'>{details?.status}</button>
                         </div>
                     </div>
-                    :
-                    null
-                }
             </div>
             <Modal
                     centered 
