@@ -46,13 +46,17 @@ const CandidateShortProfile = () => {
 
     const handleSubmit=async(values)=>{
         const data = {
-            applicant_name: applicant?.fullName,
+            fullName: applicant?.fullName,
             email : applicant?.email,
             jobName : job?.job_title,
             address : values?.address,
             date : values?.date,
+            time : values?.time,
+            message: values?.message,
             zoom_link: values?.zoom_link 
         }
+
+        console.log(data)
         await baseURL.post(`/send/mail`, {...data }, {
             headers: {
                 "Content-Type": "application/json",
