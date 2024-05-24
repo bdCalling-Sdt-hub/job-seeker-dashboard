@@ -97,9 +97,15 @@ const CandidateShortProfile = () => {
                         "Content-Type": "application/json",
                         authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                     }
-                }).then((response)=>{
+                }).then(async(response)=>{
                     
                     if(response.status === 200){
+                        await baseURL.post(`/send/mail`, {email: applicant?.email }, {
+                            headers: {
+                                "Content-Type": "application/json",
+                                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                            }
+                        })
                         setRefresh("true")
                         Swal.fire({
                             title: "Success!",
