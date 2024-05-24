@@ -37,15 +37,23 @@ const CandidateShortProfile = () => {
                 }
             })
             setApplicant (response?.data.Cv[0]);
-            console.log(response?.data?.Cv[0])
             setJob(response?.data?.joblist)
             setApplication(response?.data?.apply_details)
+            console.log(response?.data?.apply_details)
         }
         getApi();
     }, [id, refresh !== ""]);
 
     const handleSubmit=async(values)=>{
-        await baseURL.post(`/send/mail`, {...values, email: applicant?.email }, {
+        const data = {
+            applicant_name: applicant?.fullName,
+            email : applicant?.email,
+            jobName : job?.job_title,
+            address : values?.address,
+            date : values?.date,
+            zoom_link: values?.zoom_link 
+        }
+        await baseURL.post(`/send/mail`, {...data }, {
             headers: {
                 "Content-Type": "application/json",
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -94,7 +102,7 @@ const CandidateShortProfile = () => {
                     if(response.status === 200){
                         setRefresh("true")
                         Swal.fire({
-                            title: "Deleted!",
+                            title: "Success!",
                             text: "Rejected This Candidate",
                             icon: "success",
                             timer: 1500,
@@ -237,9 +245,10 @@ const CandidateShortProfile = () => {
                             {/* <Link to={"/job-seeker-cv/2"}>
                                 <button className='w-fit px-4 py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]  flex items-center gap-2'><CiEdit size={16} />  Job Seeker CV</button>
                             </Link> */}
-                            <Link to={"/uploaded-cv/2"}>
+                            <a href={`${ImgURL}/${application?.cv}`} target='_blank'>
+
                                 <button className='w-fit px-4 py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]  flex items-center gap-2'><MdOutlineUpload size={16} />  Uploaded CV</button>
-                            </Link>
+                            </a>
                         </div>
                     </div>
                     <div className='col-span-8 bg-[#ECF1F8] w-full  h-[96px] p-6 rounded-lg '>
@@ -437,6 +446,36 @@ const CandidateShortProfile = () => {
                                 />
                             </Form.Item>
                         </div>
+
+                        <div className='col-span-12'>
+                            <label  style={{display: "block", marginBottom: "13px" }}> Address </label>
+                            <Form.Item
+                                style={{marginBottom: 0}}
+                                name="address"
+                                rules={[
+                                    {
+                                    required: true,
+                                    message: "Please input Address",
+                                    },
+                                ]}
+                            >
+                                <Input
+                                    placeholder="Enter Adress"
+                                    style={{
+                                        border: "none",
+                                        height: 48,
+                                        background: "#F1F4F9",
+                                        borderRadius: "12px",
+                                        padding: "10px 16px",
+                                        color: "#A6A6A6",
+                                        fontSize: "14px",
+                                        resize: "none",
+                                        fontWeight: 400,
+                                        outline: "none"
+                                    }}
+                                />
+                            </Form.Item>
+                        </div>
                         
                         <div className='col-span-12'>
                             <label htmlFor="email" style={{display: "block", marginBottom: "13px" }}> Message </label>
@@ -469,6 +508,8 @@ const CandidateShortProfile = () => {
                                 />
                             </Form.Item>
                         </div>
+
+                        
                         
                         <Form.Item style={{marginBottom: 0}}>
                             <Button

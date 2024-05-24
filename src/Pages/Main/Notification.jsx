@@ -24,7 +24,7 @@ const Notification = () => {
           dataIndex: "name",
           key: "name",
           render: (_,record) => (
-            <p>{ user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN" ? record?.data?.name : record?.user?.fullName }</p>
+            <p>{ user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN" ? record?.data?.name : record?.data?.name }</p>
           ),
         },
         {
@@ -32,7 +32,7 @@ const Notification = () => {
           dataIndex: "Message",
           key: "Message",
           render: (_,record) => (
-            <p>{ user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN" ? record?.data?.message : record?.message }</p>
+            <p>{ user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN" ? record?.data?.message : record?.data?.message }</p>
           ),
         },
         {
@@ -57,16 +57,25 @@ const Notification = () => {
 
     useEffect(()=>{
       async function getAPi(){
-        const response = await baseURL.get( user?.userType === "ADMIN" ?  `/admin-notification` : "/show-message-admin" ,{
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-          }
-        });
-        if(user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN"){
-          setData( response?.data?.Notifications);
+        
+        if(user?.userType === "RECRUITER"){
+          let response;
+          response = await baseURL.get( `/notification` ,{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+          });
+          setData(response?.data?.notifications);
         }else{
-          setData( response?.data?.data?.data);
+          let response;
+          response = await baseURL.get( `/admin-notification` ,{
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+            }
+          });
+          setData( response?.data?.Notifications);
         }
       }
       getAPi();

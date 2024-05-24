@@ -42,6 +42,7 @@ const NewApplicantTable = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             })
+            console.log(response)
             setData (response?.data?.data?.data);
             setPaginate(response?.data?.data)
         }

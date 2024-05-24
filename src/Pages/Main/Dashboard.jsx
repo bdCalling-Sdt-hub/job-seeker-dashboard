@@ -41,24 +41,30 @@ const Dashboard = () => {
     getApi();
 }, []);
 
-useEffect(()=>{
-  if( userType === "RECRUITER"){
+  useEffect(()=>{
     async function getAPi(){
-      const response = await baseURL.get(userType === "ADMIN" || userType === "SUPER ADMIN" ?  `/admin-notification` : "/show-message-admin",{
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-        }
-      });
-      if(userType === "ADMIN" || userType === "SUPER ADMIN"){
-        setNotifications(response?.data?.Notifications)
+      if(userType === "RECRUITER"){
+        let response;
+        response = await baseURL.get( `/notification` ,{
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+          }
+        });
+        setNotifications(response?.data?.notifications);
       }else{
-        setNotifications(response?.data?.data?.data);
+        let response;
+        response = await baseURL.get( `/admin-notification` ,{
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+          }
+        });
+        setNotifications( response?.data?.Notifications);
       }
     }
     getAPi();
-  }
-}, []);
+  }, []);
 
   const handleLogOut=()=>{
     navigate('/login');
