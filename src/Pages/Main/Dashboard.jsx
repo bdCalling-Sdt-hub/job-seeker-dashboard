@@ -1,7 +1,7 @@
 import { Layout,  Badge, } from "antd";
 import React, { useEffect, useState }  from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/findworker.png";
 import { HiLogout, HiOutlineMail } from "react-icons/hi";
 import { LuUser } from "react-icons/lu";
 import { TbUserPlus } from "react-icons/tb";
@@ -164,7 +164,7 @@ const Dashboard = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "70px",
+            marginTop: "40px",
             marginBottom:"50px"
             
           }}
@@ -173,7 +173,7 @@ const Dashboard = () => {
             <img
               src={Logo}
               height="40px"
-              width="180px"
+              width="120px"
             />
           </Link>
         </div>
