@@ -47,7 +47,7 @@ const DashboardHome = () => {
         },
         {
           name: "Total Cost",
-          count: "$" + summary?.total_cust ,
+          count: "$" + summary?.total_cust ? summary?.total_cust : "null" ,
           icon: <TbDatabaseDollar color="#5664FD" size={32} />,
           bgColor: "#DDE0FF"
         },

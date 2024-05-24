@@ -37,6 +37,7 @@ const CandidateShortProfile = () => {
                 }
             })
             setApplicant (response?.data.Cv[0]);
+            console.log(response?.data?.Cv[0])
             setJob(response?.data?.joblist)
             setApplication(response?.data?.apply_details)
         }

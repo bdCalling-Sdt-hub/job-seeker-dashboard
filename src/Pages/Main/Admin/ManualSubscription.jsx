@@ -37,6 +37,7 @@ const ManualSubscription = () => {
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
             }
           });
+          console.log(response?.data?.data)
           setSubscription(response?.data?.data?.data);
           setPagination(response?.data?.data)
         }
@@ -123,7 +124,7 @@ const ManualSubscription = () => {
                                 <div  style={{marginTop: '8px'}}></div>
                                 <tr  className="bg-[#ECF1F8] custom-table-row" >
                                     <td>{index + 1}</td>
-                                    <td>{item?.user?.recruiter[0]?.company_name}</td>
+                                    <td>{item?.user?.fullName}</td>
                                     <td>{item?.package?.package_name}</td>
                                     <td>{item?.payment_type}</td>
                                     <td>
@@ -173,14 +174,14 @@ const ManualSubscription = () => {
                     <div className='mt-3'>
                         <h1 className='mb-2 text-[20px] font-semibold'>Company Info</h1>
                         <img 
-                            src={`${ImgURL}/${value?.user?.image}`} 
+                            src={` ${ value?.user?.image  ?  `${ImgURL}/${value?.user?.image}` : "https://res.cloudinary.com/ddqovbzxy/image/upload/v1716534148/zlwuskn57poaozhnet08.png" }  `} 
                             style={{width: 150, height: 150, borderRadius: 8, margin: "0 auto 10px auto"}} 
                             alt="" 
                         />
-                        <p className='flex items-center justify-between'>Company Name: {" "} <span className='font-semibold'>{value?.user?.recruiter[0].company_name} </span> </p>
+                        <p className='flex items-center justify-between'>Company Name: {" "} <span className='font-semibold'>{value?.user?.fullName} </span> </p>
                         <p className='flex items-center justify-between'>Company Email: {" "} <span className='font-semibold'>{value?.user?.email} </span></p>
-                        <p className='flex items-center justify-between'>Company Web Site: {" "} <span className='font-semibold'>{value?.user?.recruiter[0].website_url} </span></p>
-                        <p className='flex items-center justify-between'>Company Establishment: {" "}  <span className='font-semibold'>{value?.user?.recruiter[0].year_of_establishment}</span></p>
+                        <p className='flex items-center justify-between'>Company Web Site: {" "} <span className='font-semibold'>{value?.user?.recruiter[0]?.website_url} </span></p>
+                        <p className='flex items-center justify-between'>Company Establishment: {" "}  <span className='font-semibold'>{value?.user?.recruiter[0]?.year_of_establishment}</span></p>
 
                         <hr className='my-4' />
                         <h1 className='mb-2 text-[20px] font-semibold'>Package Info</h1>
