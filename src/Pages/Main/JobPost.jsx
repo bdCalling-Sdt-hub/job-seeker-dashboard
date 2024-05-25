@@ -13,11 +13,11 @@ const JobPost = () => {
 
             <div>
                 {
-                    userType === "ADMIN" || userType === "SUPER ADMIN"
+                    userType === "RECRUITER"
                     ?
-                    <AdminJobPost/>
-                    :
                     <EmployerJobPost/>
+                    :
+                    <AdminJobPost/>
                 }
             </div>
         </>

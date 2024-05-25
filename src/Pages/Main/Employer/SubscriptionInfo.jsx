@@ -2,108 +2,12 @@ import React, { useEffect, useState } from 'react'
 import BackButton from '../../../Components/BackButton';
 import { FaCircleCheck } from 'react-icons/fa6'
 import { Input, Pagination } from 'antd'
-import { LuListFilter } from 'react-icons/lu'
 import { FiSearch } from 'react-icons/fi'
 import { IoClose } from 'react-icons/io5'
 import baseURL from '../../../../Config';
 import { useParams } from 'react-router-dom';
 import ImgURL from '../../../../ImgConfig';
 import moment from 'moment';
-
-
-const data = [
-    {
-        key: "1",
-        designation: "Web Developers",
-        vacancy: "6",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Bara Apple",
-        total_day: "3 days",
-        status:"Active",
-    },
-    {
-        key: "2",
-        designation: "Designer",
-        vacancy: "3",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Khoaya Apple",
-        total_day: "20 days",
-        status:"Active",
-    },
-    {
-        key: "3",
-        designation: "Motion",
-        vacancy: "5",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Chota Apple",
-        total_day: "10 days",
-        status:"Active",
-    },
-    {
-        key: "4",
-        designation: "Executive",
-        vacancy: "10",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Pocha Apple",
-        total_day: "9 days",
-        status:"Expired",
-    },
-    {
-        key: "5",
-        designation: "Web Developers",
-        vacancy: "6",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Bara Apple",
-        total_day: "7 days",
-        status:"Active",
-    },
-    {
-        key: "6",
-        designation: "Designer",
-        vacancy: "3",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Khoaya Apple",
-        total_day: "6 days",
-        status:"Expired",
-    },
-    {
-        key: "7",
-        designation: "Motion",
-        vacancy: "5",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Chota Apple",
-        total_day: "5 days",
-        status:"Expired",
-    },
-    {
-        key: "8",
-        designation: "Executive",
-        vacancy: "10",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Pocha Apple",
-        total_day: "30 days",
-        status:"Active",
-    }
-    ,
-    {
-        key: "9",
-        designation: "Motion",
-        vacancy: "5",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Chota Apple",
-        total_day: "13 days",
-        status:"Active",
-    }
-];
 
 const SubscriptionInfo = () => {
     const userInfo= JSON.parse(localStorage.getItem("user"));
@@ -120,7 +24,9 @@ const SubscriptionInfo = () => {
     const [job, setJob] = useState()
     const [subscription, setSubscription] = useState();
     const [category, setCategory] = useState();
-    const [paginate, setPaginate] = useState({})
+    const [paginate, setPaginate] = useState({});
+
+
     useEffect(()=>{
         async function getApi(){
             const response = await baseURL.get(`/subscription/details/${id}`, {
@@ -329,7 +235,7 @@ const SubscriptionInfo = () => {
                                             <p 
                                                 className={` w-[88px] h-[27px] rounded-[100px] text-[13px] capitalize flex items-center justify-center
                                                     ${item?.status === "published" && "bg-[#B0ECB2] text-[#009B06]"}
-                                                    ${item?.status === "Expired" && "bg-[#F8B5B0] text-[#E81100]"}
+                                                    ${item?.status === "pending" && "bg-[#C5D2E8] text-[#365992]"}
                                                 `}
                                             >
                                                 {item?.status}

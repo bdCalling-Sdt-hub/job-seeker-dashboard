@@ -11,6 +11,7 @@ import { Button, Form, Input, Modal, Spin } from 'antd';
 
 const JobDetails = () => {
     const { id } = useParams();
+    const { userType } = JSON.parse(localStorage.getItem("user"));
     const [details, setDetails] = useState({});
     const [company, setCompany] = useState({});
     const [userInfo, setuserInfo] = useState({});
@@ -24,15 +25,12 @@ const JobDetails = () => {
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                 }
             });
-            console.log(response?.data.data)
             setuserInfo(response?.data?.data.user)
             setDetails(response?.data?.data);
-            
             setCompany(response?.data?.data?.recruiter)
         }
         getAPi();
     }, [ id ]);
-    const user = JSON.parse(localStorage.getItem("user"))
 
 
 
@@ -246,7 +244,7 @@ const JobDetails = () => {
 
                                     {
                                         details?.education?.length  ? 
-                                        details?.education?.split("/n")?.map((service, index)=>
+                                        details?.education?.split(",")?.map((service, index)=>
                                             <li 
                                                 key={index} 
                                                 className='
@@ -273,21 +271,23 @@ const JobDetails = () => {
                                 <ul >
                                     {
                                         details?.responsibilities ? 
-                                        details?.responsibilities?.split("/n")?.map((service, index)=>
-                                            <li 
-                                                key={index} 
-                                                className='
-                                                    list-disc 
-                                                    text-[14px] 
-                                                    font-normal
-                                                    ml-6
-                                                    mb-1 
-                                                    text-[#565656]
-                                                '
-                                            >
-                                            {service}
-                                            </li>
-                                        )
+                                        details?.responsibilities?.split(",")?.map((service, index)=>{
+                                            return (
+                                                <li 
+                                                    key={index} 
+                                                    className='
+                                                        list-disc 
+                                                        text-[14px] 
+                                                        font-normal
+                                                        ml-6
+                                                        mb-1 
+                                                        text-[#565656]
+                                                    '
+                                                >
+                                                    {service}
+                                                </li>
+                                            )
+                                        })
                                         :
                                         <div className='flex items-center justify-center'>
                                             <Spin />
@@ -296,9 +296,33 @@ const JobDetails = () => {
                                 </ul>
                             </div>
                             
-                            <div className='flex items-center gap-4'>
-                                <p className=' text-[#6F6F6F] font-semibold'>Experience  : </p>
-                                <p>{details?.experience}</p>
+                            <div className='gap-4'>
+                                <p className=' text-[#6F6F6F] font-semibold mb-2'>Experience  : </p>
+                                    <ul >
+                                        {
+                                            details?.experience?.length ? 
+                                            details?.experience?.split(",")?.map((service, index)=>{
+                                                return(
+                                                    <li 
+                                                        key={index} 
+                                                        className='
+                                                            list-disc 
+                                                            text-[14px] 
+                                                            font-normal
+                                                            ml-6 mb-1 
+                                                            text-[#565656]
+                                                        '
+                                                    >
+                                                        {service}
+                                                    </li>
+                                                )
+                                            })
+                                            :
+                                            <div className='flex items-center justify-center'>
+                                                <Spin />
+                                            </div>
+                                        }
+                                    </ul>
                             </div>
                             
                             <div>
@@ -306,20 +330,22 @@ const JobDetails = () => {
                                 <ul >
                                     {
                                         details?.compensation_other_benifits?.length ? 
-                                        details?.compensation_other_benifits?.split("/n")?.map((service, index)=>
-                                            <li 
-                                                key={index} 
-                                                className='
-                                                    list-disc 
-                                                    text-[14px] 
-                                                    font-normal
-                                                    ml-6 mb-1 
-                                                    text-[#565656]
-                                                '
-                                            >
-                                                {service}
-                                            </li>
-                                        )
+                                        details?.compensation_other_benifits?.split(",")?.map((service, index)=>{
+                                            return(
+                                                <li 
+                                                    key={index} 
+                                                    className='
+                                                        list-disc 
+                                                        text-[14px] 
+                                                        font-normal
+                                                        ml-6 mb-1 
+                                                        text-[#565656]
+                                                    '
+                                                >
+                                                    {service}
+                                                </li>
+                                            )
+                                        })
                                         :
                                         <div className='flex items-center justify-center'>
                                             <Spin />
@@ -333,20 +359,21 @@ const JobDetails = () => {
                                 <ul >
                                     {
                                         details?.additional_requirement ?
-                                        details?.additional_requirement?.split("/n")?.map((service, index)=>
-                                            <li 
-                                                key={index} 
-                                                className='
-                                                    list-disc 
-                                                    text-[14px] 
-                                                    font-normal
-                                                    ml-6 mb-1 
-                                                    text-[#565656]
-                                                '
-                                            >
-                                                {service}
-                                            </li>
-                                        )
+                                        details?.additional_requirement?.split(",")?.map((service, index)=>{
+                                            return (
+                                                <li 
+                                                    key={index} 
+                                                    className='
+                                                        list-disc 
+                                                        text-[14px] 
+                                                        font-normal
+                                                        ml-6 mb-1 
+                                                        text-[#565656]
+                                                    '
+                                                >
+                                                    {service}
+                                                </li>
+                                        )})
                                         :
                                         <div className='flex items-center justify-center'>
                                             <Spin/>
@@ -378,15 +405,22 @@ const JobDetails = () => {
                     </div>
                 </div>
                 
-                
+                {
+                    userType === "RECRUITER"
+                    ?
+                    null
+                    :
                     <div className='bg-[#ECF1F8] w-full  h-[96px] p-6 rounded-lg flex items-center justify-between mt-6'>
                         <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                         <div className='flex items-center gap-6'>
                             <button onClick={()=>setOpen(true)} className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px] '>Report</button>
-                            <button onClick={()=>handleApprove(details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] capitalize'>{details?.status}</button>
+                            <button onClick={()=>handleApprove(details?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px] capitalize'>Published</button>
                         </div>
                     </div>
+                }
             </div>
+
+
             <Modal
                     centered 
                     title="Report Employer" 
@@ -506,7 +540,7 @@ const JobDetails = () => {
                             </Form.Item>
                         </Form>
                     </div>
-                </Modal>
+            </Modal>
         </>
     )
 }

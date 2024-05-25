@@ -4,14 +4,14 @@ import { Link, useParams } from 'react-router-dom';
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineUpload } from "react-icons/md";
 import onsite from "../../assets/on site.png"
-import { Button, Form, Input } from 'antd';
+import { DatePicker, TimePicker, Button, Form, Input, Modal, Spin } from 'antd';
 import { BsSendArrowUp } from "react-icons/bs";
 import { WiTime7 } from "react-icons/wi";
-import { DatePicker, TimePicker  } from "antd";
 import Swal from 'sweetalert2';
 import logo from "../../assets/logo.png"
 import baseURL from '../../../Config';
 import ImgURL from '../../../ImgConfig';
+import moment from 'moment';
 
 const CandidateShortProfile = () => {
     const { id } = useParams();
@@ -19,9 +19,10 @@ const CandidateShortProfile = () => {
     const [job, setJob] = useState();
     const [application, setApplication] = useState()
     const [open, setOpen] = useState(false)
+    const [openModal, setOpenModal] = useState(false)
     const [tab, setTab] = useState("");
     const [refresh, setRefresh] = useState("")
-
+    const [message, setMessage] = useState("")
     if(refresh){
         setTimeout(()=>{
             setRefresh("")
@@ -39,7 +40,7 @@ const CandidateShortProfile = () => {
             setApplicant (response?.data.Cv[0]);
             setJob(response?.data?.joblist)
             setApplication(response?.data?.apply_details)
-            console.log(response?.data?.apply_details)
+            console.log(response?.data)
         }
         getApi();
     }, [id, refresh !== ""]);
@@ -48,15 +49,14 @@ const CandidateShortProfile = () => {
         const data = {
             fullName: applicant?.fullName,
             email : applicant?.email,
-            jobName : job?.job_title,
+            jobTitle : job?.job_title,
             address : values?.address,
-            date : values?.date,
-            time : values?.time,
+            date : moment(values?.date).format('L'),
+            time : moment(values?.time ).format('LT'),
             message: values?.message,
             zoom_link: values?.zoom_link 
         }
 
-        console.log(data)
         await baseURL.post(`/send/mail`, {...data }, {
             headers: {
                 "Content-Type": "application/json",
@@ -76,53 +76,47 @@ const CandidateShortProfile = () => {
                 });
             }
             
-        })        
+        })      
     }
     
-    const handleReject=async(id)=>{
+    const handleReject=async(values)=>{
         const data= {
-            id: id,
+            id: application?.id,
             status: "reject"
         }
+        await baseURL.post(`/apply/status`, data, {
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+            }
+        }).then(async(response)=>{
+            if(response.status === 200){
+                const formData = new FormData();
+                formData.append("fullName", applicant?.fullName)
+                formData.append("email", applicant?.email)
+                formData.append("jobTitle", job?.job_title)
+                formData.append("message", values.message)
 
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            showCancelText: "No",
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes"
-        }).then(async(result) => {
-            if (result.isConfirmed) {
-                await baseURL.post(`/apply/status`, data, {
+                await baseURL.post(`/send/mail`, formData , {
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "multipart/form-data",
                         authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
                     }
-                }).then(async(response)=>{
-                    
-                    if(response.status === 200){
-                        await baseURL.post(`/send/mail`, {email: applicant?.email }, {
-                            headers: {
-                                "Content-Type": "application/json",
-                                authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
-                            }
-                        })
-                        setRefresh("true")
-                        Swal.fire({
-                            title: "Success!",
-                            text: "Rejected This Candidate",
-                            icon: "success",
-                            timer: 1500,
-                            showConfirmButton: false,
-                        });
-                    }
-                }); 
+                }).then((response)=>{
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Rejected This Candidate",
+                        icon: "success",
+                        timer: 1500,
+                        showConfirmButton: false,
+                    }).then((response)=>{
+                        setOpenModal(false)
+                        setMessage("")
+                    })
+                })
                 
             }
-        });      
+        });     
     }
 
     const handleRecuited = async(id)=>{
@@ -161,50 +155,52 @@ const CandidateShortProfile = () => {
                 <h1 className='text-[20px] text-[#172740] font-medium mb-6'>Candidate Introduction</h1>
 
                 <div className='grid grid-cols-12 gap-6'>
-                    <div className="col-span-7 flex items-center gap-6 bg-[#ECF1F8] p-6 rounded-lg">
-                        <div className='w-[30%]'>
-                            <img 
-                                style={{
-                                    width: "260px", 
-                                    height: "230px",
-                                    borderRadius: "8px",
-                                }} 
-                                src={applicant?.image ? `${ImgURL}/${applicant?.image}` :      "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg"                            } 
-                                
-                                alt="" 
-                            />
-                        </div>
+                    <div className="col-span-7  bg-[#ECF1F8] p-6 rounded-lg">
+                        <div className='flex items-center gap-6'>
+                            <div className='w-[30%]'>
+                                <img 
+                                    style={{
+                                        width: "260px", 
+                                        height: "230px",
+                                        borderRadius: "8px",
+                                    }} 
+                                    src={applicant?.image ? `${ImgURL}/${applicant?.image}` :      "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars-TN-1.jpg"                            } 
+                                    
+                                    alt="" 
+                                />
+                            </div>
 
-                        <div className='w-[70%]  '>
-                            <div className='grid grid-cols-1 gap-4'>
-                                <div className='flex  items-center justify-between'>
-                                    <p className='w-[30%]'>Name</p>
-                                    <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'> {applicant?.fullName} </p>
-                                </div>
-                                
-                                <div className='flex items-center justify-between'>
-                                    <p className='w-[30%]'>Application NO</p>
-                                    <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>{applicant?.id} </p>
-                                </div>
-                                
-                                <div className='flex items-center justify-between'>
-                                    <p className='w-[30%]'>Email</p>
-                                    <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>{applicant?.email} </p>
-                                </div>
-                                
-                                <div className='flex items-center justify-between'>
-                                    <p className='w-[30%]'>Phone</p>
-                                    <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>{applicant?.mobile ? applicant?.mobile : "Not Found"} </p>
-                                </div>
-                                
-                                <div className='flex items-center justify-between'>
-                                    <p className='w-[30%]'>Present Address</p>
-                                    <div className='w-[5%]'>:</div>
-                                    <p className='w-[65%] text-[#6F6F6F]'>{applicant?.address ? applicant?.address : "Not Found"} </p>
+                            <div className='w-[70%]  '>
+                                <div className='grid grid-cols-1 gap-4'>
+                                    <div className='flex  items-center justify-between'>
+                                        <p className='w-[30%]'>Name</p>
+                                        <div className='w-[5%]'>:</div>
+                                        <p className='w-[65%] text-[#6F6F6F]'> {applicant?.fullName} </p>
+                                    </div>
+                                    
+                                    <div className='flex items-center justify-between'>
+                                        <p className='w-[30%]'>Application NO</p>
+                                        <div className='w-[5%]'>:</div>
+                                        <p className='w-[65%] text-[#6F6F6F]'>{applicant?.id} </p>
+                                    </div>
+                                    
+                                    <div className='flex items-center justify-between'>
+                                        <p className='w-[30%]'>Email</p>
+                                        <div className='w-[5%]'>:</div>
+                                        <p className='w-[65%] text-[#6F6F6F]'>{applicant?.email} </p>
+                                    </div>
+                                    
+                                    <div className='flex items-center justify-between'>
+                                        <p className='w-[30%]'>Phone</p>
+                                        <div className='w-[5%]'>:</div>
+                                        <p className='w-[65%] text-[#6F6F6F]'>{applicant?.mobile ? applicant?.mobile : "Not Found"} </p>
+                                    </div>
+                                    
+                                    <div className='flex items-center justify-between'>
+                                        <p className='w-[30%]'>Present Address</p>
+                                        <div className='w-[5%]'>:</div>
+                                        <p className='w-[65%] text-[#6F6F6F]'>{applicant?.address ? applicant?.address : "Not Found"} </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -219,16 +215,63 @@ const CandidateShortProfile = () => {
                                 <p className='w-[65%] text-[#6F6F6F]'> {job?.job_title} </p>
                             </div>
                             
-                            <div className='flex items-center justify-between'>
+                            <div className='flex gap-2'>
                                 <p className='w-[30%]'>Experience</p>
                                 <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'> {job?.experience}  </p>
+                                <ul className='w-[65%] text-[#6F6F6F]'>
+                                        {
+                                            job?.experience? 
+                                            job?.experience?.split(",")?.map((service, index)=>{
+                                                return(
+                                                    <li 
+                                                        key={index} 
+                                                        className='
+                                                            list-disc 
+                                                            text-[14px] 
+                                                            font-normal
+                                                            ml-6 mb-1 
+                                                            text-[#565656]
+                                                        '
+                                                    >
+                                                        {service}
+                                                    </li>
+                                                )
+                                            })
+                                            :
+                                            <div className='flex items-center justify-center'>
+                                                <Spin />
+                                            </div>
+                                        }
+                                    </ul>
                             </div>
                             
                             <div className='flex items-center justify-between'>
                                 <p className='w-[30%]'>Education</p>
                                 <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>{job?.education} </p>
+                                <ul className='w-[65%] text-[#6F6F6F]'>
+
+                                    {
+                                        job?.education  ? 
+                                        job?.education?.split(",")?.map((service, index)=>
+                                            <li 
+                                                key={index} 
+                                                className='
+                                                    list-disc 
+                                                    text-[14px] 
+                                                    font-normal
+                                                    ml-6 mb-1 
+                                                    text-[#565656]
+                                                '
+                                            >
+                                                {service}
+                                            </li>
+                                        )
+                                        :
+                                        <div className='flex items-center justify-center'>
+                                            <Spin />
+                                        </div>
+                                    }
+                                </ul>
                             </div>
                             
                             <div className='flex items-center justify-between'>
@@ -239,7 +282,7 @@ const CandidateShortProfile = () => {
                             
                             <Link 
                                 to={`/candidate-profile/${application?.id}`} 
-                                className='bg-[#436FB6] absolute bottom-6 left-6 w-fit text-[14px] rounded-full text-white px-3 py-2 hover:text-white'
+                                className='bg-[#436FB6]  w-fit text-[14px] rounded-full text-white px-3 py-2 hover:text-white'
                             >
                                 Candidate Profile
                             </Link>
@@ -265,7 +308,7 @@ const CandidateShortProfile = () => {
                         <div className='flex items-center justify-between'>
                             <p className='w-[476px] text-[14px] text-[#6F6F6F] font-normal'>Hello, this Employer is  starting a new profile . If this accounts have problem ,You can report this id.</p>
                             <div className='flex items-center gap-6'>
-                                <button onClick={()=>handleReject(application?.id)}  className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]'> Reject</button>
+                                <button onClick={()=>setOpenModal(true)}  className='w-[120px] py-2 border border-[#436FB6] text-[#436FB6] rounded-[90px]'> Reject</button>
                                 <button  onClick={()=>handleRecuited(application?.id)} className='w-[120px] text-white py-2 bg-[#436FB6] rounded-[90px]'>{ application?.status === "select" ? "Recruited" : "Selected" }</button>
                             </div>
                         </div>
@@ -547,6 +590,74 @@ const CandidateShortProfile = () => {
                     </Form>
                 }
                 
+                <Modal
+
+                    centered
+                    open={openModal} 
+                    onOk={false} 
+                    onCancel={false}
+                    footer={false}
+                    closeIcon={false}
+                >
+
+                    <div>
+                        <h1 className='font-semibold mb-4 text-lg text-center'>Are Your Sure to Reject this Candidate?</h1>
+                        <Form onFinish={handleReject} layout='vertical'>
+                            <Form.Item
+                                name={"message"}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please Enter The Message!"
+                                    }
+                                ]}
+                                label="Enter Message"
+                            >
+                                <Input.TextArea
+                                    style={{
+                                        border: "1px solid #555555",
+                                        width: "100%",
+                                        height: 150,
+                                        resize: "none",
+                                        outline: "none",
+                                        padding: 10,
+                                        borderRadius: 8
+                                    }}
+                                />
+                            </Form.Item>
+
+                            <div className='w-[400px] flex items-center justify-center gap-6 mx-auto'>
+                                <Form.Item
+                                    style={{marginBottom: 0, width: "fit-content"}}
+                                >
+                                    <Button
+                                        htmlType='submit'
+                                        style={{
+                                            width: 150,
+                                            height:48,
+                                            border: "none",
+                                            outline: "none",
+                                            borderRadius: 8,
+                                            background: "#436FB6",
+                                            color: "white"
+                                        }}
+
+                                    >
+                                        Yes
+                                    </Button>
+                                </Form.Item>
+                                <button onClick={()=>setOpenModal(false)} className='bg-red-300 w-[150px] h-[48px] rounded text-red-600'>No</button>
+                            </div>
+                        </Form>
+
+                        {/* <div className='w-full'>
+                            <div className='w-[400px] flex items-center justify-center gap-6 mx-auto'>
+                                <button onClick={()=>handleReject(application?.id)} className='bg-[#436FB6] w-[150px] h-[48px] rounded text-white'>Yes</button>
+                                <button onClick={()=>setOpenModal(false)} className='bg-red-300 w-[150px] h-[48px] rounded text-red-600'>No</button>
+                            </div>
+                        </div> */}
+                    </div>
+                </Modal>
             </div>
         </>
     )

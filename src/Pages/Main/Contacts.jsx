@@ -8,11 +8,11 @@ const Contacts = () => {
     return (
         <>
             {
-                userType === "ADMIN" || userType === "SUPER ADMIN"
+                userType === "RECRUITER"
                 ?
-                <AdminContacts/>
-                :
                 <EmployerContacts/>
+                :
+                <AdminContacts/>
             }
         </>
     )

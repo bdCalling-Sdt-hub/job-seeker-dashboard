@@ -9,6 +9,7 @@ const CreateJob = () => {
 
     const handleOnFinis=async(values)=>{
         const type = (values?.key_words)?.split(",");
+        console.log(values?.key_words);
         await baseURL.post(`/create-job`, {...values, key_word: JSON.stringify(type)}, {
             headers: {
                 "Content-Type": "application/json",
@@ -25,6 +26,14 @@ const CreateJob = () => {
                 })
             }
         }).catch((error)=>{
+            console.log(error)
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Something is Wrong",
+                showConfirmButton: false,
+                timer: 1500
+            })
         })
 
     }

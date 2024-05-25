@@ -59,40 +59,20 @@ const NewApplicantTable = () => {
             <div className="bg-white rounded-lg p-5">
                 <p className='text-[20px] font-medium  text-[#565656]'>Job Candidate list</p>
                 
-                <div className='flex items-center justify-between my-4'>
-                    <div className='w-[450px] h-[40px] rounded-lg'>
-                        <Input
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Search Company"
-                            prefix={<FiSearch size={14} color="#868FA0" />}
-                            suffix={<IoClose onClick={() => setSearch("")} style={{ cursor: "pointer" }} size={14} color="#2B2A2A" />}
-                            style={{
-                            width: "100%",
-                            height: "100%",
-                            fontSize: "14px"
-                            }}
-                            size="middle"
-                            value={search}
-                        />
-                    </div>
-
-                    <div 
-                        className='
-                            bg-white 
-                            w-[120px] 
-                            rounded-[6px] 
-                            border 
-                            border-[#E9E9E9] 
-                            flex 
-                            items-center 
-                            justify-between 
-                            px-3 
-                            py-[5px] 
-                            text-[#8B8B8B]
-                        '
-                    >
-                        Filter <LuListFilter />
-                    </div>
+                <div className='w-[450px] h-[40px] rounded-lg my-4'>
+                    <Input
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Search Company"
+                        prefix={<FiSearch size={14} color="#868FA0" />}
+                        suffix={<IoClose onClick={() => setSearch("")} style={{ cursor: "pointer" }} size={14} color="#2B2A2A" />}
+                        style={{
+                        width: "100%",
+                        height: "100%",
+                        fontSize: "14px"
+                        }}
+                        size="middle"
+                        value={search}
+                    />
                 </div>
 
 
@@ -110,7 +90,7 @@ const NewApplicantTable = () => {
 
                     {
                         data?.map((item, index)=>
-                            <>
+                            <React.Fragment key={index}>
                                 <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
                                     <td>{item?.id}</td>
                                     <td>{item?.id}</td>
@@ -135,7 +115,7 @@ const NewApplicantTable = () => {
                                         </Link>
                                     </td>
                                 </tr>
-                            </>
+                            </React.Fragment>
                         )
                     }
                 </table>

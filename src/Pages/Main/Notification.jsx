@@ -24,7 +24,7 @@ const Notification = () => {
           dataIndex: "name",
           key: "name",
           render: (_,record) => (
-            <p>{ user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN" ? record?.data?.name : record?.data?.name }</p>
+            <p>{ record?.data?.name }</p>
           ),
         },
         {
@@ -32,15 +32,15 @@ const Notification = () => {
           dataIndex: "Message",
           key: "Message",
           render: (_,record) => (
-            <p>{ user?.userType === "ADMIN" || user?.userType === "SUPER ADMIN" ? record?.data?.message : record?.data?.message }</p>
+            <p>{ record?.data?.message }</p>
           ),
         },
         {
           title: "Time-Date",
-          dataIndex: "date",
-          key: "date",
+          dataIndex: "time",
+          key: "time",
           render: (_,record) => (
-            <p>{moment(record?.created_at).startOf('day').fromNow()}</p>
+            <p>{moment(record?.data?.time).startOf('hour').fromNow()}</p>
           ),
         }
   ];
@@ -60,7 +60,7 @@ const Notification = () => {
         
         if(user?.userType === "RECRUITER"){
           let response;
-          response = await baseURL.get( `/notification` ,{
+          response = await baseURL.get(`/notification` ,{
             headers: {
               "Content-Type": "application/json",
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
@@ -98,7 +98,6 @@ const Notification = () => {
                     columns={columns} 
                     dataSource={data} 
                     pagination={{
-                      pageSize: 8,
                       defaultCurrent: parseInt(page),
                       onChange: handlePageChange
                     }}

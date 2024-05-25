@@ -22,8 +22,9 @@ const EmployerProfile = () => {
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
             }
         })
-        localStorage.setItem("userInfo", JSON.stringify(response.data.data));
         if(response.status === 200){
+            localStorage.setItem("userInfo", JSON.stringify(response.data.data));
+            window.location.reload();
             Swal.fire({
                 position: "center",
                 icon: "success",

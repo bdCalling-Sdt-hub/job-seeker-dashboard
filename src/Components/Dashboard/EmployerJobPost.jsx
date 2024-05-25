@@ -2,105 +2,11 @@ import { Input, Pagination } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
-import { LuListFilter } from 'react-icons/lu';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import baseURL from '../../../Config';
 import moment from 'moment';
 
-const data = [
-    {
-        key: "1",
-        designation: "Web Developers",
-        vacancy: "6",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Bara Apple",
-        total_day: "3 days",
-        status:"Pending",
-    },
-    {
-        key: "2",
-        designation: "Designer",
-        vacancy: "3",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Khoaya Apple",
-        total_day: "20 days",
-        status:"Pending",
-    },
-    {
-        key: "3",
-        designation: "Motion",
-        vacancy: "5",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Chota Apple",
-        total_day: "10 days",
-        status:"Published",
-    },
-    {
-        key: "4",
-        designation: "Executive",
-        vacancy: "10",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Pocha Apple",
-        total_day: "9 days",
-        status:"Expired",
-    },
-    {
-        key: "5",
-        designation: "Web Developers",
-        vacancy: "6",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Bara Apple",
-        total_day: "7 days",
-        status:"Published",
-    },
-    {
-        key: "6",
-        designation: "Designer",
-        vacancy: "3",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Khoaya Apple",
-        total_day: "6 days",
-        status:"Expired",
-    },
-    {
-        key: "7",
-        designation: "Motion",
-        vacancy: "5",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Chota Apple",
-        total_day: "5 days",
-        status:"Expired",
-    },
-    {
-        key: "8",
-        designation: "Executive",
-        vacancy: "10",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Pocha Apple",
-        total_day: "30 days",
-        status:"Pending",
-    }
-    ,
-    {
-        key: "9",
-        designation: "Motion",
-        vacancy: "5",
-        start_date: "Dec 30, 2024 5:18",
-        end_date: "Dec 30, 2024 5:18",
-        company_name: "Chota Apple",
-        total_day: "13 days",
-        status:"Pending",
-    }
-];
 
 const EmployerJobPost = () => {
     const [jobs, setJobs] = useState()

@@ -1,24 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import BackButton from '../../../Components/BackButton'
-import { Input, Pagination } from 'antd';
-import { FiSearch } from 'react-icons/fi';
-import { IoClose } from 'react-icons/io5';
-import { LuListFilter } from 'react-icons/lu';
+import BackButton from '../../../Components/BackButton';
 import { Link } from 'react-router-dom';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import baseURL from '../../../../Config';
 import moment from 'moment';
 
 const Subscription = () => {
-    const [subscription, setSubscription] = useState()
-    const [search, setSearch] = useState("");
-    const [page, setPage] = useState(new URLSearchParams(window.location.search).get('page') || 1);
-    const handlePageChange = (page) => {
-        setPage(page);
-        const params = new URLSearchParams(window.location.search);
-        params.set('page', page);
-        window.history.pushState(null, "", `?${params.toString()}`);
-    }
+    const [subscription, setSubscription] = useState();
 
 
     useEffect(()=>{
@@ -41,46 +29,6 @@ const Subscription = () => {
 
             <div className='bg-white p-6 rounded-lg'>
                 <h1 className='text-[20px] text-[#172740] font-medium mb-6'>All Job Subscriptions</h1>
-
-                {/* search and filter section */}
-                <div className='flex items-center justify-between mb-[14px]'>
-                    <Input
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search Company"
-                        prefix={<FiSearch size={14} color="#868FA0" />}
-                        suffix={<IoClose onClick={() => setSearch("")} style={{ cursor: "pointer", display: search ? "block" : "none" }} size={14} color="#868FA0" />}
-                        style={{
-                            width: "450px",
-                            height:"40px",
-                            padding: "10px 15px",
-                            fontSize: "14px",
-                            fontWeight: 400,
-                            borderRadius: "6px",
-                            color: "#A1A9B8",
-                        }}
-                        size="middle"
-                        value={search}
-                    />
-
-                    <div 
-                        className='
-                            bg-white 
-                            w-[120px] 
-                            rounded-md
-                            border 
-                            border-[#E9E9E9] 
-                            flex 
-                            items-center 
-                            justify-between 
-                            px-3  cursor-pointer
-                            py-[5px] 
-                            text-[#8B8B8B]
-                        '
-                    >
-                        Filter <LuListFilter />
-                    </div>
-
-                </div>
 
 
                 {/* subscription table list */}
@@ -124,15 +72,6 @@ const Subscription = () => {
                             )
                         }
                     </table>
-                </div>
-
-                {/* pagination */}
-                <div className='mt-6 flex items-center justify-center'>
-                    <Pagination 
-                        defaultCurrent={page} 
-                        total={50} 
-                        onChange={handlePageChange}
-                    />
                 </div>
             </div>
         </>

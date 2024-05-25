@@ -93,24 +93,14 @@ const EmployerContacts = () => {
                             marginTop: "14px",
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: "space-between",
+                            gap: 8,
                             color: tab === "inbox" ? "#436FB6" : "#6F6F6F",
                             padding: "0 16px",
                             cursor: "pointer"
                         }}
                     >
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "8px",
-                                color: tab === "inbox" ? "#436FB6" : "#6F6F6F",
-                            }}
-                        >
-                            <HiOutlineMail size={17} />
-                            <p>Inbox</p>
-                        </div>
-                        1253
+                        <HiOutlineMail size={17} />
+                        <p>Inbox</p>
                     </div>
 
                     
@@ -127,7 +117,10 @@ const EmployerContacts = () => {
                     }}
                 >
 
-                    <div className='flex items-end justify-end'>
+                    <div 
+                        className='items-end justify-end' 
+                        style={{display: tab === "inbox" ? "flex" : "none"}}
+                    >
                         <div style={{ padding: "24px 24px 10px 24px" }}>
                             <Input
                                 onChange={(e)=>setSearch(e.target.value)}
@@ -170,7 +163,7 @@ const EmployerContacts = () => {
 
                             {/* pagination */}
                             <div style={{
-                                display: "flex",
+                                display:  message.length > 0 ? "flex" : "none",
                                 alignItems: "center",
                                 justifyContent: 'center',
                                 marginTop: "24px"
@@ -186,7 +179,7 @@ const EmployerContacts = () => {
                         <div className='p-6'>
                             <h1 className='mb-2 text-2xl text-center'>Send Message To Admin</h1>
 
-                            <Form onFinish={handleSubmit}>
+                            <Form onFinish={handleSubmit} layout='vertical'>
                                 <Form.Item
                                     label="Subject"
                                     name={"subject"}
@@ -273,7 +266,7 @@ const EmployerContacts = () => {
                                             <FaFileImage htmlFor="img" size={20} color='#9D9D9D' />
                                         </label>
 
-                                        <Form.Item>
+                                        <Form.Item style={{marginBottom: 0}}>
                                             <Button
                                                 htmlType='submit'
                                                 style={{

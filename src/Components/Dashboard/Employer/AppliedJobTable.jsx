@@ -40,16 +40,16 @@ const AppliedJobTable = () => {
         
                 {
                     (data?.slice(0, 4))?.map((item, index)=>
-                        <>
-                            <div key={index} style={{marginTop: '8px'}}></div>
-                            <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
+                        <React.Fragment key={index}>
+                            <div style={{marginTop: '8px'}}></div>
+                            <tr className="bg-[#ECF1F8] custom-table-row" >
                                 <td>{item?.id}</td>
                                 <td>{item?.job_title}</td>
                                 <td>{item?.vacancy}</td>
                                 <td className='bg-[#F7F0E2]'>{item?.applied_count}</td>
                                 <td>{moment(item?.application_last_date).format("L")}</td>
                             </tr>
-                        </>
+                        </React.Fragment>
                     )
                 }
             </table>

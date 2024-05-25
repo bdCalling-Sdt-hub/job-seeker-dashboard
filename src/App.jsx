@@ -13,11 +13,8 @@ import Package from "./Pages/Main/Package";
 import EditPackage from "./Pages/Main/EditPackage";
 import MakeAdmin from "./Pages/Main/MakeAdmin";
 import ForgotPassword from "./Pages/Auth/ForgotPassword";
-import SellerDetails from "./Pages/Main/SellerDetails";
 import Contacts from "./Pages/Main/Contacts";
-import SellerProductList from "./Pages/Main/SellerProductList";
 import EmployerList from "./Pages/Main/EmployerList";
-import TopSellerList from "./Pages/Main/TopSellerList";
 import Settings from "./Pages/Main/Settings";
 import Subscribers from "./Pages/Main/Admin/Subscribers";
 import SubscriberDetails from "./Pages/Main/Admin/SubscriberDetails";
@@ -37,7 +34,6 @@ import EmployerProfile from "./Pages/Main/Employer/EmployerProfile";
 import EmployerChangePassword from "./Pages/Main/Employer/EmployerChangePassword";
 import CandidateProfile from "./Pages/Main/CandidateProfile";
 import CandidateShortProfile from "./Pages/Main/CandidateShortProfile";
-import UploadedCVViewer from "./Pages/Main/UploadedCVViewer";
 import JobSeekerCV from "./Pages/Main/JobSeekerCV";
 import Category from "./Pages/Main/Admin/Category";
 import {Elements} from '@stripe/react-stripe-js';
@@ -71,10 +67,7 @@ function App() {
               <Route path="/employer-profile" element={< EmployerProfile />} />
               <Route path="/employer-list" element={<EmployerList  />} />
               <Route path="/employer-details/:id" element={<EmployerDetails  />} />
-              <Route path="/seller-details/:id" element={<SellerDetails />} />
-              <Route path="/seller-product-list" element={<SellerProductList />} />
               <Route path="/contacts" element={<Contacts />} />
-              <Route path="/top-seller-list" element={<TopSellerList />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/settings/:settingType" element={<SettingsDetails />} />
               <Route path="/subscribers" element={<Subscribers/>} />
@@ -91,7 +84,6 @@ function App() {
               <Route path="/new-applicant" element={<NewApplicantTable />} />
               <Route path="/candidate-short-profile/:id" element={<CandidateShortProfile />} />
               <Route path="/candidate-profile/:id" element={<CandidateProfile />} />
-              <Route path="/uploaded-cv/:id" element={<UploadedCVViewer />} />
               <Route path="/job-seeker-cv/:id" element={<JobSeekerCV />} />
               <Route path="/manul-subscription" element={<ManualSubscription />} />
             </Route>

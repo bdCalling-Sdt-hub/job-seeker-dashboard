@@ -46,9 +46,9 @@ const NewApplicantList = () => {
 
                 {
                     (data?.slice(0, 4))?.map((item, index)=>
-                        <>
-                            <div key={index} style={{marginTop: '8px'}}></div>
-                            <tr key={index} className="bg-[#ECF1F8] custom-table-row" >
+                        <React.Fragment key={index}>
+                            <div style={{marginTop: '8px'}}></div>
+                            <tr className="bg-[#ECF1F8] custom-table-row" >
                                 <td>{item?.id}</td>
                                 <td>{item?.id}</td>
                                 <td>{item?.user?.fullName}</td>
@@ -72,7 +72,7 @@ const NewApplicantList = () => {
                                     </Link>
                                 </td>
                             </tr>
-                        </>
+                        </React.Fragment>
                     )
                 }
             </table>

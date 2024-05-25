@@ -16,6 +16,8 @@ const CandidateProfile = () => {
     const [candidate, setCandidate] = useState();
     const [expirence, setExpirence] = useState({});
     const [education, setEducation] = useState({});
+    const [training, setTraining] = useState();
+    const [skills, setSkills] = useState();
 
     useEffect(()=>{
         async function getApi(){
@@ -27,6 +29,8 @@ const CandidateProfile = () => {
             })
             setEducation(response?.data?.Cv[0]?.education)
             setExpirence(response?.data?.Cv[0]?.experience)
+            setTraining(response?.data?.Cv[0]?.training)
+            setSkills(response?.data?.Cv[0]?.skill)
             setApplicant (response?.data?.Cv[0]);
             setCandidate(response?.data?.Cv[0]?.candidate)
         }
@@ -36,7 +40,7 @@ const CandidateProfile = () => {
     return (
         <>
             <div style={{marginBottom : "20px"}}>
-                <BackButton link="/candidate-short-profile/2" />
+                <BackButton link={`/candidate-short-profile/${id}`} />
             </div>
 
             <div className='bg-white p-6 rounded-lg border'>
@@ -164,7 +168,7 @@ const CandidateProfile = () => {
                                 })
                                 :
                                 <div className='flex items-center justify-center'>
-                                    <Spin />
+                                    No Data Added Yet !
                                 </div>
                             }
                         </div>
@@ -214,7 +218,7 @@ const CandidateProfile = () => {
                                 })
                                 :
                                 <div className='flex items-center justify-center'>
-                                    <Spin />
+                                    No Data Added Yet !
                                 </div>
                             }
                         </div>
@@ -224,52 +228,61 @@ const CandidateProfile = () => {
                         <p className='text-[20px] text-[#565656] font-normal mb-6'>Training Summary</p>
 
                         <div className='grid grid-cols-1 gap-4'>
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Training Title </p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>Redux</p>
-                            </div>
+
+                            {
+                                training?.length > 0 ?
+                                training?.map((item, index)=> {
+                                    return (
+                                        <React.Fragment key={index}>
+
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Training Title </p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>{item?.training_title}</p>
+                                            </div>
                             
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Training Topic</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>Thinking of Redux Way</p>
-                            </div>
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Training Topic</p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>{item?.training_topic}</p>
+                                            </div>
+                                            
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Institute Name</p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>{item?.institute_name}</p>
+                                            </div>
+                                            
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Location</p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>{item?.location}</p>
+                                            </div>
+                                            
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Duration</p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>{item?.duration}</p>
+                                            </div>
+                                            
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Training Time</p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>{item?.date_from} - {item?.date_to}</p>
+                                            </div>
                             
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Institute Name</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>Learn With Sumit</p>
-                            </div>
-                            
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Location</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>Online</p>
-                            </div>
-                            
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Duration</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>4 Months</p>
-                            </div>
-                            
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Training Time</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>feb 2, 2022 - aug 2,2022</p>
-                            </div>
-                            
-                            <div className='flex justify-between'>
-                                <p className='w-[30%]'>Description</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-                                    It has survived not only five centuries, but also the leap into electronic typesetting,
-                                </p>
-                            </div>
+                                            <div className='flex justify-between'>
+                                                <p className='w-[30%]'>Description</p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>{item?.institute_name}</p>
+                                            </div>
+                                        </React.Fragment>
+                                    )})
+                                :
+                                <div className='flex items-center justify-center'>
+                                    No Data Added Yet !
+                                </div>
+                            } 
                         </div>
                     </div>
                     
@@ -277,23 +290,38 @@ const CandidateProfile = () => {
                         <p className='text-[20px] text-[#565656] font-normal mb-6'>Skills/ Activities</p>
 
                         <div className='grid grid-cols-1 gap-4'>
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Skill </p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>UX , Ui, video Editing, Graphic Design</p>
-                            </div>
+                            {
+                                skills?.length > 0 ?
+                                skills?.map((item, index)=>{
+                                    return(
+                                        <React.Fragment key={index}>
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Skill </p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>UX , Ui, video Editing, Graphic Design</p>
+                                            </div>
+                                            
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Extra Curricular Activities </p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>Blood Donation</p>
+                                            </div>
+                                            
+                                            <div className='flex items-center justify-between'>
+                                                <p className='w-[30%]'>Hobbies</p>
+                                                <div className='w-[5%]'>:</div>
+                                                <p className='w-[65%] text-[#6F6F6F]'>Gaming</p>
+                                            </div>
+                                        </React.Fragment>
+                                    )
+                                })
+                                :
+                                <div className='flex items-center justify-center'>
+                                    No Data Added Yet !
+                                </div>
+
+                            }
                             
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Extra Curricular Activities </p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>Blood Donation</p>
-                            </div>
-                            
-                            <div className='flex items-center justify-between'>
-                                <p className='w-[30%]'>Hobbies</p>
-                                <div className='w-[5%]'>:</div>
-                                <p className='w-[65%] text-[#6F6F6F]'>Gaming</p>
-                            </div>
                         </div>
                     </div>
                 </div>
