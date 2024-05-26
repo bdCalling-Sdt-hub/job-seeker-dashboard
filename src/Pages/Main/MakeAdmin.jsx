@@ -22,7 +22,6 @@ const MakeAdmin = () => {
             title: "Are you sure to delete this User?",
             icon: "warning",
             width: 550,
-            showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             showCancelButton: "No",
