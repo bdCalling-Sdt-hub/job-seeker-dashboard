@@ -6,11 +6,11 @@ const DashboardHome = () => {
     return (
         <div>
             {
-                userType === "ADMIN" || userType === "SUPER ADMIN" 
+                userType === "RECRUITER"
                 ?
-                <DashboardHomeAdmin/>
-                :
                 <DashboardHomeEmployer/>
+                :
+                <DashboardHomeAdmin/>
             }
         </div>
     )

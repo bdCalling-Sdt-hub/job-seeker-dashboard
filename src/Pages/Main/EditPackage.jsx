@@ -25,7 +25,7 @@ const EditPackage = () => {
     }, []);
 
     const handleSubmit=async(values)=>{
-        await baseURL.post(`/update-package`, {...values, id: selectedData.id, candidate_limit: 10, post_limit: 2}, {
+        await baseURL.post(`/update-package`, {...values, id: selectedData.id, candidate_limit: 10}, {
             headers: {
               "Content-Type": "application/json",
               authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,

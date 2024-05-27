@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import BackButton from '../../Components/BackButton'
-import { Button, Form, Input } from 'antd'
+import { Button, DatePicker, Form, Input } from 'antd'
 import baseURL from '../../../Config'
 import { Select } from 'antd';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 
 const CreateJob = () => {
 
     const handleOnFinis=async(values)=>{
         const type = (values?.key_words)?.split(",");
-        console.log(values?.key_words);
-        await baseURL.post(`/create-job`, {...values, key_word: JSON.stringify(type)}, {
+
+        await baseURL.post(`/create-job`, {...values, key_word: JSON.stringify(type), dadLine: moment(values.dadLines).format('YYYY-MM-DD') }, {
             headers: {
                 "Content-Type": "application/json",
                 authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -149,7 +150,7 @@ const CreateJob = () => {
                         
                         <div>
                             <label style={{display: "block", marginBottom: "8px"}} htmlFor="">Appling Last Date</label>
-                            <Form.Item name="dadLine" style={{marginBottom: "0"}}
+                            <Form.Item name="dadLines" style={{marginBottom: "0"}}
                                 rules={[
                                     {
                                         required: true,
@@ -157,18 +158,15 @@ const CreateJob = () => {
                                     }
                                 ]}
                             >
-                                <Input
-                                    placeholder='Enter Application Last Date'
+                                <DatePicker 
                                     style={{
-                                        width:"100%",
-                                        border: "none",
-                                        height: "40px",
-                                        padding: "18px 15px",
+                                        width: "100%",
+                                        height: "48px",
                                         background: "#F1F4F9",
+                                        border: "none",
                                         borderRadius: "90px",
-                                        outline: "none",
-                                        color: "#949494",
-                                        fontSize: "14px"
+                                        padding: "0 16px",
+                                        cursor: "pointer"
                                     }}
                                 />
                             </Form.Item>
