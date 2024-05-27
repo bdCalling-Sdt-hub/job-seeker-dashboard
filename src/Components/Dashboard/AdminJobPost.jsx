@@ -49,7 +49,7 @@ const AdminJobPost = () => {
 
     useEffect(()=>{
         async function getAPi(){
-            const response = await baseURL.get(`/job-list`, {
+            const response = await baseURL.get(`/job-list?page=${page}`, {
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`
@@ -59,7 +59,7 @@ const AdminJobPost = () => {
             setJob(response?.data?.data);
         }
         getAPi();
-    }, [search, filter]);
+    }, [search, filter, page]);
     return (
         <>
             <div className='bg-white p-6 rounded-lg relative'>
